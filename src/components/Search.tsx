@@ -2,7 +2,7 @@
 
 import { FormEventHandler, useState } from "react";
 
-function Search() {
+export default function Search() {
   const [search, setSearch] = useState<string>("");
 
   const inputEventHandler: FormEventHandler<HTMLInputElement> = (e) =>
@@ -25,12 +25,12 @@ function Search() {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col items-center bg-neutral-800 rounded-lg shadow-xl px-8 py-12 gap-6">
-        <img src="fveto.svg" alt="F-Veto Logo" />
+        <img src="images/faceitveto.svg" alt="F-Veto Logo" />
         <div className="flex flex-col gap-2 min-w-max">
           <p className="text-gray-200 text-lg">Search for a player</p>
           <input
             type="text"
-            className="bg-neutral-700 px-4 py-1 rounded-lg w-80"
+            className="bg-neutral-700 px-4 py-1 rounded-lg w-96"
             placeholder="Nickname"
             id="search"
             onInput={inputEventHandler}
@@ -47,5 +47,3 @@ function Search() {
     </div>
   );
 }
-
-export default Search;

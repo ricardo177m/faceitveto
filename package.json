@@ -1,5 +1,5 @@
 {
-  "name": "f-veto",
+  "name": "faceitveto",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,6 +27,8 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "prettier": "2.8.7",
     "vitest": "^0.30.1"
   }
 }

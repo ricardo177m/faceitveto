@@ -17,11 +17,6 @@ export default function Search() {
     console.log(search);
   };
 
-  const goBtnStyle =
-    search.length == 0
-      ? "text-gray-400 bg-neutral-700"
-      : "text-white bg-orange-600 hover:bg-orange-700";
-
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col items-center bg-neutral-800 rounded-lg shadow-xl px-8 py-12 gap-6">
@@ -37,8 +32,9 @@ export default function Search() {
             onKeyUp={inputKeyUpHandler}
           />
           <button
-            className={`w-auto p-1 rounded-lg font-bold transition-all ${goBtnStyle}`}
+            className="w-auto p-1 rounded-lg font-bold transition-colors text-white bg-orange-600 hover:bg-orange-700 disabled:text-gray-400 disabled:bg-neutral-700"
             onClick={goBtnHandler}
+            disabled={search.length == 0}
           >
             Go
           </button>

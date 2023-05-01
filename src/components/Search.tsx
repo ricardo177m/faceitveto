@@ -20,7 +20,7 @@ export default function Search() {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col items-center bg-neutral-800 rounded-lg shadow-xl px-8 py-12 gap-6">
-        <img src="images/faceitveto.svg" alt="F-Veto Logo" />
+        <img src="/images/faceitveto.svg" alt="F-Veto Logo" />
         <div className="flex flex-col gap-2 min-w-max">
           <p className="text-gray-200 text-lg">Search for a player</p>
           <input

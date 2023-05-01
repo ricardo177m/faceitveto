@@ -18,7 +18,8 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
 
   const buildFaction = (faction: Faction) => ({
     name: faction.name,
-    avatar: faction.avatar,
+    avatar:
+      faction.avatar === null ? "/assets/default_avatar.svg" : faction.avatar,
     winProbability: faction.stats.winProbability,
     captain: faction.leader,
     players: faction.roster.map((player) => {
@@ -27,7 +28,8 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
       return {
         id: player.id,
         nickname: player.nickname,
-        avatar: player.avatar,
+        avatar:
+          player.avatar === null ? "/assets/default_avatar.svg" : player.avatar,
         gameId: player.gameId,
         memberships: player.memberships,
         elo: player.elo,

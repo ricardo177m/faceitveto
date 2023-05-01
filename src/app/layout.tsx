@@ -1,6 +1,13 @@
+import { Inter } from "next/font/google";
+
+import TopBar from "@/components/ui/TopBar";
 import { siteConfig } from "@/config/site";
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
+
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: siteConfig.title,
@@ -17,7 +24,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" />
       </head>
-      <body className="bg-neutral-900 text-white">{children}</body>
+      <body className={`bg-dark-300 text-white ${inter.className}`}>
+        <TopBar />
+        {children}
+      </body>
       <Analytics />
     </html>
   );

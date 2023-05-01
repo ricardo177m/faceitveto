@@ -1,4 +1,4 @@
-import Maps from "@/components/Maps";
+import TeamMaps from "@/components/Maps";
 import MatchHeader from "@/components/MatchHeader";
 import { fetchMatch } from "@/lib/match";
 
@@ -14,8 +14,10 @@ export default async function MatchPage({ params: { id } }: MatchPageProps) {
   return (
     <div>
       <MatchHeader match={curatedMatch} />
-      {curatedMatch.finishedAt ? <p>Finished</p> : <p>Ongoing</p>}
-      <Maps />
+      <div className="mx-4 my-4 pt-4 space-y-4 overflow-x-auto pb-4">
+        <TeamMaps team={curatedMatch.teams.faction1} maps={curatedMatch.maps} />
+        <TeamMaps team={curatedMatch.teams.faction2} maps={curatedMatch.maps} />
+      </div>
     </div>
   );
 }

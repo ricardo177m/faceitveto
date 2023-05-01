@@ -23,7 +23,7 @@ type CuratedMap = {
 
 type CuratedFaction = {
   name: string;
-  avatar?: string;
+  avatar: string;
   winProbability: number;
   captain: string;
   players: CuratedPlayer[];
@@ -32,7 +32,7 @@ type CuratedFaction = {
 type CuratedPlayer = {
   id: string;
   nickname: string;
-  avatar?: string;
+  avatar: string;
   gameId: string;
   memberships: string[];
   elo: number;

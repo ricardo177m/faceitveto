@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
 
@@ -22,8 +21,9 @@ export default function MapsPlayerRow({
       className="h-16 bg-dark-500 border-t-2 border-dark-300 rounded-md"
     >
       <td className="inline-flex items-center gap-4 w-56 h-16 pl-4 overflow-hidden text-ellipsis">
-        <Image
+        <ImageWithFallback
           src={player.avatar}
+          fallbackSrc="/assets/default-avatar.svg"
           alt="Player avatar"
           width="36"
           height="36"

@@ -1,20 +1,46 @@
 "use client";
 
-import { FormEventHandler, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
+import { Player } from "@/types/player";
+import { FormEventHandler, useRef, useState } from "react";
+import { ImSpinner8 } from "react-icons/im";
 
 export default function Search() {
-  const [search, setSearch] = useState<string>("");
+  const router = useRouter();
 
-  const inputEventHandler: FormEventHandler<HTMLInputElement> = (e) =>
-    setSearch(e.currentTarget.value);
+  const [search, setSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const inputEventHandler: FormEventHandler<HTMLInputElement> = () =>
+    setSearch(searchInputRef.current?.value as string);
 
   const inputKeyUpHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") goBtnHandler();
   };
 
-  const goBtnHandler = () => {
-    if (search.length == 0) return;
-    console.log(search);
+  const goBtnHandler = async () => {
+    if (search.length == 0 || loading) return;
+    setLoading(true);
+
+    try {
+      const player: Player = await fetchPlayerByNickname(search);
+      const state = await fetchPlayerState(player.id);
+
+      if (state !== null) {
+        router.push(`/match/${state}`);
+        setError(null);
+      } else setError("player is not in a match");
+    } catch (error) {
+      if (error instanceof Error) setError(error.message);
+    } finally {
+      setLoading(false);
+      searchInputRef.current?.focus();
+    }
   };
 
   return (
@@ -30,14 +56,24 @@ export default function Search() {
             id="search"
             onInput={inputEventHandler}
             onKeyUp={inputKeyUpHandler}
+            ref={searchInputRef}
           />
           <button
-            className="w-auto p-1 rounded-lg font-bold transition-colors text-white bg-orange-600 hover:bg-orange-700 disabled:text-gray-400 disabled:bg-dark-600"
+            className="w-auto flex justify-center p-1 rounded-lg font-bold transition-colors text-white bg-orange-600 hover:bg-orange-700 disabled:text-gray-400 disabled:bg-dark-600"
             onClick={goBtnHandler}
             disabled={search.length == 0}
           >
-            Go
+            {loading ? (
+              <span>
+                <ImSpinner8 className="animate-spin h-6" />
+              </span>
+            ) : (
+              <span>Go</span>
+            )}
           </button>
+          {error !== null && !loading ? (
+            <p className="text-center text-red-600 font-bold">Error: {error}</p>
+          ) : null}
         </div>
       </div>
     </div>

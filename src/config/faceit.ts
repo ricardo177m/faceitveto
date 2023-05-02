@@ -15,4 +15,5 @@ export const faceitConfig = {
   search: "https://api.faceit.com/search/v1",
   matchStatsCfg: "https://api.faceit.com/stats/v1/stats/configuration/csgo",
   userList: "https://api.faceit.com/user-summary/v1/list",
+  state: "https://api.faceit.com/match/v1/matches/groupByState",
 };

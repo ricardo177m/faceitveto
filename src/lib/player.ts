@@ -11,14 +11,31 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
 }
 
 export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
-  const response = await fetch(faceitConfig.player(nickname));
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`
+  );
+
   const data = await response.json();
 
-  return data.payload as Player;
+  if (response.status !== 200) throw new Error(data.error);
+
+  return data;
 }
 
-export async function fetchPlayerStats(playerId: string): Promise<any> {
-  // ! change any
+export async function fetchPlayerState(
+  playerId: string
+): Promise<string | null> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/state/${playerId}`
+  );
+  const data = await response.json();
+
+  return data.state;
+}
+
+export async function fetchPlayerStats(
+  playerId: string
+): Promise<CuratedPlayerStats> {
   const url = new URL(faceitConfig.matches(playerId));
   url.searchParams.append("limit", "100");
 

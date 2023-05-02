@@ -50,11 +50,13 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
     region: match.region,
     matchRanking: match.entityCustom.effectiveRanking,
     state: match.state,
-    maps: match.voting.map.entities.map(mapFilter),
-    mapPicks: match.voting.map.pick.map((map) => {
-      const find = match.maps.find((m) => m.guid === map);
-      if (find) return mapFilter(find);
-    }) as CuratedMap[],
+    maps: match.matchCustom.tree.map.values.value.map(mapFilter),
+    mapPicks: match.hasOwnProperty("voting")
+      ? (match.voting?.map.pick.map((map) => {
+          const find = match.maps.find((m) => m.guid === map);
+          if (find) return mapFilter(find);
+        }) as CuratedMap[])
+      : undefined,
     teams: {
       faction1: buildFaction(match.teams.faction1),
       faction2: buildFaction(match.teams.faction2),

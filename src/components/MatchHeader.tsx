@@ -1,5 +1,5 @@
-import Image from "next/image";
-
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { siteConfig } from "@/config/site";
 import { CuratedMatch } from "@/types/curated-match";
 
 interface MatchHeaderProps {
@@ -15,20 +15,33 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
         <span>{match.teams.faction2.name}</span>
       </div>
       <div className="flex flex-row items-center gap-12 py-4 text-2xl">
-        {match.finishedAt ? (
+        {match.mapPicks !== undefined ? (
           <div className="inline-flex items-center gap-4">
-            <Image
-              src={`/assets/map-icons/${match.mapPicks[0].id}.svg`}
+            <ImageWithFallback
+              src={`/assets/map-icons/${match.mapPicks?.[0].id}.svg`}
+              fallbackSrc="/assets/map-icons/unknown.svg"
               width="40"
               height="40"
               alt="Map logo"
             />
-            <span>{match.mapPicks[0].name}</span>
+            <span>{match.mapPicks?.[0].name}</span>
           </div>
         ) : null}
         <div className="inline-flex items-center gap-4">
-          <span className="w-3 h-3 rounded-full bg-gray-600 /*blinking*/"></span>
-          <p>Finished</p>
+          <span
+            className={`w-3 h-3 rounded-full ${
+              ["VOTING", "CONFIGURING"].includes(match.state.toString())
+                ? "bg-yellow-400"
+                : ["READY", "ONGOING"].includes(match.state.toString())
+                ? "bg-green-500"
+                : "bg-gray-600"
+            } ${
+              ["FINISHED", "CANCELED"].includes(match.state.toString())
+                ? ""
+                : "blinking"
+            }`}
+          ></span>
+          <p className="capitalize">{match.state.toString().toLowerCase()}</p>
         </div>
       </div>
       <div className="text-sm pb-2">

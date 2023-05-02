@@ -2,9 +2,9 @@ export type CuratedMatch = {
   id: string;
   region: string;
   matchRanking: number;
-  state: string;
+  state: States;
   maps: CuratedMap[];
-  mapPicks: CuratedMap[];
+  mapPicks?: CuratedMap[];
   teams: {
     faction1: CuratedFaction;
     faction2: CuratedFaction;
@@ -14,6 +14,16 @@ export type CuratedMatch = {
   startedAt?: string;
   finishedAt?: string;
 };
+
+export enum States {
+  CHECK_IN,
+  VOTING,
+  CONFIGURING,
+  READY,
+  ONGOING,
+  CANCELED,
+  FINISHED,
+}
 
 type CuratedMap = {
   name: string;

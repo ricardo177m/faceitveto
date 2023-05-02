@@ -15,13 +15,13 @@ export interface Match {
   fbiManagement: boolean;
   adminTool: boolean;
   checkIn: CheckIn;
-  state: string;
+  state: States;
   status: string;
-  states: string[];
+  states: States[];
   teams: Factions<Faction>;
   spectators: any[];
   matchCustom: MatchCustom;
-  voting: Voting;
+  voting?: Voting;
   maps: Element[];
   locations: Element[];
   summaryResults?: SummaryResults;
@@ -35,6 +35,16 @@ export interface Match {
   createdAt: string;
   lastModified: string;
   parties: Party[];
+}
+
+enum States {
+  CHECK_IN,
+  VOTING,
+  CONFIGURING,
+  READY,
+  ONGOING,
+  CANCELED,
+  FINISHED,
 }
 
 export interface CheckIn {

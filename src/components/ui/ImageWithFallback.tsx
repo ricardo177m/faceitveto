@@ -21,7 +21,8 @@ const ImageWithFallback = (props: ImageWithFallbackProps) => {
       }}
       onLoadingComplete={(result) => {
         // broken image
-        if (result.naturalWidth === 0) setImgSrc(fallbackSrc);
+        // ! firefox doesn't seem to like this
+        // if (result.naturalWidth === 0) setImgSrc(fallbackSrc);
       }}
     />
   );

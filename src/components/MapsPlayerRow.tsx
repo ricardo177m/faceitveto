@@ -1,4 +1,5 @@
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { siteConfig } from "@/config/site";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
 import { FaCrown } from "react-icons/fa";
@@ -23,7 +24,12 @@ export default function MapsPlayerRow({
       key={player.id}
       className="h-16 bg-dark-500 border-t-2 border-dark-300 rounded-md"
     >
-      <td className="inline-flex items-center gap-4 w-56 h-16 pl-4 overflow-hidden text-ellipsis">
+      <td
+        className="inline-flex items-center gap-4 w-56 h-16 pl-4 overflow-hidden text-ellipsis border-l-2"
+        style={{
+          borderLeftColor: siteConfig.premadeColors[player.partyId] ?? "gray",
+        }}
+      >
         <ImageWithFallback
           src={player.avatar}
           fallbackSrc="/assets/default-avatar.svg"

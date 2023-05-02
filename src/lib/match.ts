@@ -20,7 +20,8 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
     name: faction.name,
     avatar:
       faction.avatar === null ? "/assets/default-avatar.svg" : faction.avatar,
-    winProbability: faction.stats.winProbability,
+    winProbability:
+      faction.stats !== undefined ? faction.stats.winProbability : undefined,
     captain: faction.leader,
     players: faction.roster.map((player) => {
       let partyId = partyIds.indexOf(player.partyId);

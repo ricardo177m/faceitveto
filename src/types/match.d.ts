@@ -39,6 +39,7 @@ export interface Match {
 
 enum States {
   CHECK_IN,
+  CAPTAIN_PICK,
   VOTING,
   CONFIGURING,
   READY,
@@ -324,12 +325,12 @@ export interface FactionResult {
 
 export interface Faction {
   id: string;
-  type: string;
+  type?: string;
   name: string;
   avatar: string;
   leader: string;
   roster: RosterPlayer[];
-  stats: Stats;
+  stats?: Stats;
   substituted: boolean;
 }
 

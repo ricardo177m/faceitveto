@@ -17,6 +17,7 @@ export type CuratedMatch = {
 
 export enum States {
   CHECK_IN,
+  CAPTAIN_PICK,
   VOTING,
   CONFIGURING,
   READY,
@@ -34,7 +35,7 @@ type CuratedMap = {
 type CuratedFaction = {
   name: string;
   avatar: string;
-  winProbability: number;
+  winProbability?: number;
   captain: string;
   players: CuratedPlayer[];
 };

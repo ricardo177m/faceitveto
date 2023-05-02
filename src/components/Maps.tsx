@@ -1,13 +1,16 @@
 import Image from "next/image";
 
+import MapsPlayerRow from "./MapsPlayerRow";
 import { CuratedFaction, CuratedMap } from "@/types/curated-match";
+import { CuratedPlayerStats } from "@/types/curated-player-stats";
 
 interface TeamMapsProps {
   team: CuratedFaction;
   maps: CuratedMap[];
+  playerStats: CuratedPlayerStats[];
 }
 
-export default function TeamMaps({ team, maps }: TeamMapsProps) {
+export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
   return (
     <div className="py-1">
       <table className="table-auto">
@@ -31,38 +34,12 @@ export default function TeamMaps({ team, maps }: TeamMapsProps) {
         </thead>
         <tbody>
           {team.players.map((player) => (
-            <tr
+            <MapsPlayerRow
               key={player.id}
-              className="h-16 bg-dark-500 border-t-2 border-dark-300 rounded-md"
-            >
-              <td className="inline-flex items-center gap-4 w-56 h-16 pl-4 overflow-hidden text-ellipsis">
-                <Image
-                  src={player.avatar}
-                  alt="Player avatar"
-                  width="36"
-                  height="36"
-                  className="rounded-full border border-dark-700"
-                />
-                {player.nickname}
-              </td>
-              <td className="px-4">
-                <img
-                  src={`/assets/faceit-levels/${player.level}.svg`}
-                  alt={`Level ${player.level}`}
-                  className="min-w-[2rem] h-8"
-                />
-              </td>
-              {maps.map((map) => (
-                <td
-                  key={map.id}
-                  className="px-4 min-w-[6.5rem] font-bold text-center"
-                >
-                  <span className="text-green-500 mr-2">10%</span>
-                  {/* text-red-600 */}
-                  <span className="text-neutral-400 text-xs">80</span>
-                </td>
-              ))}
-            </tr>
+              player={player}
+              stats={playerStats.find((p) => p.playerId === player.id)}
+              maps={maps}
+            />
           ))}
         </tbody>
       </table>

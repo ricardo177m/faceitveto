@@ -14,7 +14,7 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
         <span className="mx-2 text-dark-700"> / </span>
         <span>{match.teams.faction2.name}</span>
       </div>
-      <div className="flex flex-row items-center gap-12 py-4 text-2xl">
+      <div className="flex flex-row flex-wrap items-center gap-4 sm:gap-12 py-4 text-2xl">
         {match.mapPicks !== undefined ? (
           <div className="inline-flex items-center gap-4">
             <ImageWithFallback

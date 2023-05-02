@@ -39,6 +39,7 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
               player={player}
               stats={playerStats.find((p) => p.playerId === player.id)}
               maps={maps}
+              captain={team.captain}
             />
           ))}
         </tbody>

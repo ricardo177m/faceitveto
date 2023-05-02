@@ -1,17 +1,20 @@
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
+import { FaCrown } from "react-icons/fa";
 
 interface MapsPlayerRowProps {
   player: CuratedPlayer;
   stats: CuratedPlayerStats | undefined;
   maps: CuratedMap[];
+  captain: string;
 }
 
 export default function MapsPlayerRow({
   player,
   stats,
   maps,
+  captain,
 }: MapsPlayerRowProps) {
   if (!stats) return null;
 
@@ -29,7 +32,12 @@ export default function MapsPlayerRow({
           height="36"
           className="rounded-full border border-dark-700 aspect-square"
         />
-        {player.nickname}
+        <span className="inline-flex items-center gap-2">
+          {player.nickname}
+          {captain === player.id ? (
+            <FaCrown className="text-yellow-500" />
+          ) : null}
+        </span>
       </td>
       <td className="px-4">
         <img

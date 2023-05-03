@@ -25,7 +25,7 @@ export async function GET(
     url.searchParams.append("userId", playerId);
 
     const response = await fetch(url, {
-      next: { revalidate: 10 },
+      cache: "no-cache",
     });
 
     const data: PartialMatchState = await response.json();

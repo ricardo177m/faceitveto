@@ -24,7 +24,10 @@ export async function GET(
     const url = new URL(faceitConfig.state);
     url.searchParams.append("userId", playerId);
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 10 },
+    });
+
     const data: PartialMatchState = await response.json();
 
     const match = Object.values(data.payload)[0];

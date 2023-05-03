@@ -13,7 +13,9 @@ export async function GET(
   { params: { nickname } }: NicknameParams
 ) {
   try {
-    const response = await fetch(faceitConfig.player(nickname));
+    const response = await fetch(faceitConfig.player(nickname), {
+      next: { revalidate: 60 * 60 * 12 },
+    });
     const data = await response.json();
 
     if (data.errors) throw new Error(data.errors[0].message);

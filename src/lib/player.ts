@@ -4,7 +4,9 @@ import { Player } from "@/types/player";
 import { PlayerStats } from "@/types/player-stats";
 
 export async function fetchPlayerById(playerId: string): Promise<Player> {
-  const response = await fetch(faceitConfig.user(playerId));
+  const response = await fetch(faceitConfig.user(playerId), {
+    cache: "force-cache",
+  });
   const data = await response.json();
 
   return data.payload as Player;
@@ -12,7 +14,8 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
 
 export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`
+    `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`,
+    { cache: "force-cache" }
   );
 
   const data = await response.json();
@@ -26,7 +29,8 @@ export async function fetchPlayerState(
   playerId: string
 ): Promise<string | null> {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/state/${playerId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/state/${playerId}`,
+    { cache: "no-cache" }
   );
   const data = await response.json();
 

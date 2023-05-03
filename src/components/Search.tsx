@@ -34,12 +34,11 @@ export default function Search() {
       if (state !== null) {
         router.push(`/match/${state}`);
         setError(null);
-      } else setError("player is not in a match");
+      } else throw new Error("player is not in a match");
     } catch (error) {
       if (error instanceof Error) setError(error.message);
-    } finally {
-      setLoading(false);
       searchInputRef.current?.focus();
+      setLoading(false);
     }
   };
 

@@ -1,5 +1,5 @@
-import TeamMaps from "@/components/Maps";
 import MatchHeader from "@/components/MatchHeader";
+import TeamMaps from "@/components/TeamMaps";
 import { fetchMatch } from "@/lib/match";
 import { fetchPlayerStats } from "@/lib/player";
 

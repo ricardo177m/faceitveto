@@ -14,6 +14,7 @@ module.exports = {
     "^@/lib/(.*)$",
     "^@/styles/(.*)$",
     "^[./]",
+    "[.css]$",
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

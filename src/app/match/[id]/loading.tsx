@@ -5,7 +5,7 @@ export default function MatchPageLoading() {
   return (
     <div>
       <MatchHeaderSkeleton />
-      <div className="mx-4 my-4 pt-4 space-y-4 overflow-x-auto pb-4">
+      <div className="mx-4 mt-3 mb-4 py-4 space-y-4 overflow-x-auto">
         <TeamMapsSkeleton />
         <TeamMapsSkeleton />
       </div>

@@ -1,6 +1,7 @@
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
-import { siteConfig } from "@/config/site";
+import { formatDateTime } from "@/lib/utils";
 import { CuratedMatch } from "@/types/curated-match";
+import { FaCalendarAlt } from "react-icons/fa";
 
 interface MatchHeaderProps {
   match: CuratedMatch;
@@ -47,7 +48,13 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
       <div className="text-sm pb-2">
         <span className="inline-flex items-center gap-2 mx-2">
           <img src="/assets/elo.svg" alt="Elo icon" className="w-4" />
-          {match.matchRanking}
+          <span className="mr-5">{match.matchRanking}</span>
+          {match.finishedAt && (
+            <>
+              <FaCalendarAlt className="text-dark-800" />
+              <span>{formatDateTime(match.finishedAt)}</span>
+            </>
+          )}
         </span>
       </div>
     </div>

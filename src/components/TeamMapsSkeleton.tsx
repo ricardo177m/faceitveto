@@ -19,9 +19,9 @@ export default function TeamMapsSkeleton() {
               .map((_, i) => (
                 <tr
                   key={i}
-                  className="h-16 bg-dark-500 border-t-2 border-dark-300 rounded-md"
+                  className="h-14 bg-dark-500 border-t-2 border-dark-300 rounded-md"
                 >
-                  <td className="inline-flex items-center w-[70rem] gap-4 h-16 px-4 overflow-hidden text-ellipsis">
+                  <td className="inline-flex items-center w-[70rem] gap-4 h-14 px-4 overflow-hidden text-ellipsis">
                     <Skeleton containerClassName="flex-1" className="w-full" />
                   </td>
                 </tr>

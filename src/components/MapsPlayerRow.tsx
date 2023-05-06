@@ -21,10 +21,10 @@ export default function MapsPlayerRow({
   return (
     <tr
       key={player.id}
-      className="h-16 bg-dark-500 border-t-2 border-dark-300 rounded-md"
+      className="h-14 bg-dark-500 border-t-2 border-dark-300 rounded-md"
     >
       <td
-        className="inline-flex items-center gap-4 w-56 h-16 pl-4 overflow-hidden text-ellipsis border-l-2"
+        className="inline-flex items-center gap-4 w-56 h-14 pl-4 overflow-hidden text-ellipsis border-l-2"
         style={{
           borderLeftColor: siteConfig.premadeColors[player.partyId] ?? "gray",
         }}

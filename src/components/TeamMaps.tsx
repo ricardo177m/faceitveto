@@ -7,7 +7,7 @@ import { CuratedPlayerStats } from "@/types/curated-player-stats";
 interface TeamMapsProps {
   team: CuratedFaction;
   maps: CuratedMap[];
-  playerStats: CuratedPlayerStats[];
+  playerStats: CuratedPlayerStats[] | null;
 }
 
 export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
@@ -37,7 +37,11 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
             <MapsPlayerRow
               key={player.id}
               player={player}
-              stats={playerStats.find((p) => p.playerId === player.id)}
+              stats={
+                playerStats === null
+                  ? undefined
+                  : playerStats.find((p) => p.playerId === player.id)
+              }
               maps={maps}
               captain={team.captain}
             />

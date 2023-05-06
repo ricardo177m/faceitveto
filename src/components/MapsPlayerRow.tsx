@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
 import { FaCrown } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
 
 interface MapsPlayerRowProps {
   player: CuratedPlayer;
@@ -17,8 +18,6 @@ export default function MapsPlayerRow({
   maps,
   captain,
 }: MapsPlayerRowProps) {
-  if (!stats) return null;
-
   return (
     <tr
       key={player.id}
@@ -53,6 +52,16 @@ export default function MapsPlayerRow({
         />
       </td>
       {maps.map((map) => {
+        if (!stats)
+          return (
+            <td
+              key={map.id}
+              className="px-4 min-w-[6.5rem] font-bold text-center"
+            >
+              <Skeleton />
+            </td>
+          );
+
         const mapStats = stats.maps[map.id];
 
         if (!mapStats) {

@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 
 import { fetchMatch } from "@/lib/match";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const matchId = searchParams.get("matchId");
+interface MatchParams {
+  params: {
+    id: string;
+  };
+}
 
-  if (!matchId)
-    return NextResponse.json({ error: "matchId is required" }, { status: 400 });
-
+export async function GET(request: Request, { params: { id } }: MatchParams) {
   try {
-    const curatedMatch = await fetchMatch(matchId);
+    const curatedMatch = await fetchMatch(id);
     return NextResponse.json(curatedMatch);
   } catch (error) {
     if (error instanceof Error)

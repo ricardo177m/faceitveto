@@ -37,13 +37,15 @@ export async function fetchPlayerState(
   return data.state;
 }
 
-export async function fetchPlayerStats(
+export async function fetchPlayerStatsApi(
   playerId: string
 ): Promise<CuratedPlayerStats> {
   const url = new URL(faceitConfig.matches(playerId));
-  url.searchParams.append("limit", "100");
+  url.searchParams.append("size", "100");
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    next: { revalidate: 60 * 30 },
+  });
   const data = await response.json();
 
   const payload: PlayerStats[] = data;
@@ -79,4 +81,15 @@ export async function fetchPlayerStats(
   });
 
   return result;
+}
+
+export async function fetchPlayerStats(
+  playerId: string
+): Promise<CuratedPlayerStats> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/player/${playerId}/stats`
+  );
+  const data = await response.json();
+
+  return data;
 }

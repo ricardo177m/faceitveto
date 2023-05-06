@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 
-export default function TeamMaps() {
+export default function TeamMapsSkeleton() {
   return (
     <div className="py-1">
       <table className="table-auto">

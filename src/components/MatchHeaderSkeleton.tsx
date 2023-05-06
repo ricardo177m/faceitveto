@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 
-export default function MatchHeaderLoading() {
+export default function MatchHeaderSkeleton() {
   return (
     <div className="flex flex-col px-4">
       <div className="text-3xl py-2">

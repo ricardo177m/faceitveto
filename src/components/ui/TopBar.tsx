@@ -1,35 +1,25 @@
-"use client";
+import { SignInWithFaceit, SignOut } from "@/components/actions";
+import Logo from "@/components/ui/Logo";
+import { getServerSession } from "next-auth";
 
-import { useRouter } from "next/navigation";
-
-import useIsMobile from "@/hooks/useIsMobile.hook";
-
-export default function TopBar() {
-  const router = useRouter();
-  const isMobile = useIsMobile();
+export default async function TopBar() {
+  const session = await getServerSession();
 
   return (
-    <div className="w-full border-b border-b-dark-600 h-16 px-4 mb-4 flex flex-row gap-4 items-center">
-      {isMobile ? (
-        <img
-          key={"mobile-logo"}
-          onClick={() => router.push("/")}
-          src="/images/icon.svg"
-          alt="FVETO"
-          className="w-8 py-2 mr-1 cursor-pointer"
-        />
-      ) : (
-        <img
-          key={"desktop-logo"}
-          onClick={() => router.push("/")}
-          src="/images/faceitveto.svg"
-          alt="FACEIT VETO"
-          className="w-44 py-4 mr-2 cursor-pointer"
-        />
-      )}
+    <nav className="w-full border-b border-b-dark-600 h-16 px-4 mb-4 flex flex-row gap-4 items-center">
+      <Logo />
       <div>
         <span className="py-1 px-2 rounded-md bg-dark-600 text-sm">Beta</span>
       </div>
-    </div>
+      <div>
+        {session?.user ? (
+          <>
+            <p>{session.user.name}</p> <SignOut />
+          </>
+        ) : (
+          <SignInWithFaceit />
+        )}
+      </div>
+    </nav>
   );
 }

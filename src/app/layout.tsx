@@ -25,6 +25,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" />
       </head>
       <body className={`bg-dark-300 text-white ${inter.className}`}>
+        {/* @ts-expect-error Async Server Component */}
         <TopBar />
         {children}
       </body>

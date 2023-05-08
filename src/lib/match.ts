@@ -43,7 +43,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const mapFilter = (map: Element) => ({
     name: map.name,
     id: map.guid,
-    image: map.image_lg,
+    image: map.image_sm,
   });
 
   const curatedMatch: CuratedMatch = {

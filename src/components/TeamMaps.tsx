@@ -20,7 +20,7 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
             <th className="font-normal text-sm">Level</th>
             {maps.map((map) => (
               <th key={map.id} className="font-normal text-sm relative">
-                <Image
+                <img
                   src={map.image}
                   alt="Map image"
                   width={80}

@@ -1,4 +1,4 @@
-import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { ImageWithFallback } from "./ui/ImageWithFallback";
 import { formatDateTime } from "@/lib/utils";
 import { CuratedMatch } from "@/types/curated-match";
 import { FaCalendarAlt } from "react-icons/fa";

@@ -1,4 +1,4 @@
-import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { ImageWithFallback } from "./ui/ImageWithFallback";
 import { siteConfig } from "@/config/site";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";

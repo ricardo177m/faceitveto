@@ -4,17 +4,20 @@ import { useRouter } from "next/navigation";
 
 import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
 import { Player } from "@/types/player";
-import { FormEventHandler, useRef, useState } from "react";
+import { FormEventHandler, useEffect, useRef, useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
+import { useSession } from "next-auth/react";
 
 export default function Search() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const goBtnRef = useRef<HTMLButtonElement>(null);
 
   const inputEventHandler: FormEventHandler<HTMLInputElement> = () =>
     setSearch(searchInputRef.current?.value as string);
@@ -24,6 +27,8 @@ export default function Search() {
   };
 
   const goBtnHandler = async () => {
+    console.log(search);
+
     if (search.length == 0 || loading) return;
     setLoading(true);
 
@@ -41,6 +46,14 @@ export default function Search() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (session) {
+      searchInputRef.current!.value = session.user?.name as string;
+      setSearch(session.user?.name as string);
+      goBtnRef.current?.focus();
+    }
+  }, [session?.user?.name]);
 
   return (
     <div className="flex items-center justify-center my-32">
@@ -61,6 +74,7 @@ export default function Search() {
             className="w-auto flex justify-center p-1 rounded-lg font-bold transition-colors text-white bg-orange-600 hover:bg-orange-700 disabled:text-gray-400 disabled:bg-dark-600"
             onClick={goBtnHandler}
             disabled={search.length == 0}
+            ref={goBtnRef}
           >
             {loading ? (
               <span>

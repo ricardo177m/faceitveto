@@ -1,31 +1,44 @@
 "use client";
 
-import Image, { ImageProps } from "next/image";
+import React, { useCallback, useEffect, useState } from "react";
 
-import React, { useState } from "react";
-
-interface ImageWithFallbackProps extends ImageProps {
+interface ImageWithFallbackProps
+  extends React.DetailedHTMLProps<
+    React.ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  > {
   fallbackSrc: string;
+  onError?: (event: React.SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
-const ImageWithFallback = (props: ImageWithFallbackProps) => {
-  const { src, fallbackSrc, ...rest } = props;
-  const [imgSrc, setImgSrc] = useState(src);
+export const ImageWithFallback = React.forwardRef(
+  (
+    { onError, fallbackSrc, ...props }: ImageWithFallbackProps,
+    ref: React.Ref<HTMLImageElement>
+  ) => {
+    const [imageLoadFailed, setImageLoadFailed] = useState<boolean>(false);
 
-  return (
-    <Image
-      {...rest}
-      src={imgSrc}
-      onError={() => {
-        setImgSrc(fallbackSrc);
-      }}
-      onLoadingComplete={(result) => {
-        // broken image
-        // ! firefox doesn't seem to like this
-        // if (result.naturalWidth === 0) setImgSrc(fallbackSrc);
-      }}
-    />
-  );
-};
+    const handleError = useCallback(
+      (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        if (imageLoadFailed) return;
+        setImageLoadFailed(true); // to avoid infinite loop
+        if (onError) {
+          onError(e);
+        }
+      },
+      [imageLoadFailed, setImageLoadFailed, onError]
+    );
 
-export default ImageWithFallback;
+    useEffect(() => {
+      setImageLoadFailed(false); // in case `src` is changed
+    }, [props.src]);
+
+    const imageSrc = imageLoadFailed
+      ? fallbackSrc
+      : !props.src
+      ? fallbackSrc
+      : props.src;
+
+    return <img {...props} src={imageSrc} onError={handleError} ref={ref} />;
+  }
+);

@@ -1,4 +1,4 @@
-export default function FaceitIcon({ className }) {
+export default function FaceitIcon({ className: className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 80 80"

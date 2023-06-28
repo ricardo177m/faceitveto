@@ -8,6 +8,7 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
     cache: "force-cache",
   });
   const data = await response.json();
+  if (response.status !== 200) throw new Error(data.error);
 
   return data.payload as Player;
 }
@@ -17,10 +18,8 @@ export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
     `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`,
     { cache: "force-cache" }
   );
-
   const data = await response.json();
-
-  if (response.status !== 200) throw new Error(data.error);
+  // if (response.status !== 200) return null;
 
   return data;
 }

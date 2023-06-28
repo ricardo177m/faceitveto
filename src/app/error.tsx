@@ -18,7 +18,7 @@ export default function MatchPageError({ error, reset }: ErrorProps) {
   return (
     <div className="flex flex-col gap-5 justify-center items-center p-32">
       <h2 className="text-3xl">⚠️ Something went wrong!</h2>
-      <h3 className="text-2xl">{error.message}</h3>
+      {/* <h3 className="text-2xl">{error.message}</h3> */}
       <div className="flex flex-row gap-4">
         <button
           onClick={

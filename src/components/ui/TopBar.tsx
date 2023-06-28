@@ -1,7 +1,7 @@
 import { SignInWithFaceit, SignOut } from "@/components/actions";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import Logo from "@/components/ui/Logo";
 import { getServerSession } from "next-auth";
-import { ImageWithFallback } from "./ImageWithFallback";
 
 export default async function TopBar() {
   const session = await getServerSession();

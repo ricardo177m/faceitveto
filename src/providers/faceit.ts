@@ -11,9 +11,12 @@ export interface FaceitProfile {
   given_name?: string;
   family_name?: string;
   email_verified?: boolean;
+  sub: string;
 }
 
-export default function FACEIT<P extends FaceitProfile>(options: OAuthUserConfig<P>): OAuthConfig<P> {
+export default function FACEIT<P extends FaceitProfile>(
+  options: OAuthUserConfig<P>
+): OAuthConfig<P> {
   return {
     id: "faceit",
     name: "FACEIT",
@@ -32,9 +35,16 @@ export default function FACEIT<P extends FaceitProfile>(options: OAuthUserConfig
         url.searchParams.set("code", code as string);
         url.searchParams.set("grant_type", "authorization_code");
 
-        const headers = new Headers({ Authorization: `Basic ${Buffer.from(`${options.clientId}:${options.clientSecret}`).toString("base64")}` });
+        const headers = new Headers({
+          Authorization: `Basic ${Buffer.from(
+            `${options.clientId}:${options.clientSecret}`
+          ).toString("base64")}`,
+        });
 
-        const response = await fetch(url.toString(), { method: "POST", headers: headers }).then((res) => res.json());
+        const response = await fetch(url.toString(), {
+          method: "POST",
+          headers: headers,
+        }).then((res) => res.json());
 
         return {
           tokens: {

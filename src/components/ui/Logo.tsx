@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import useIsMobile from "@/hooks/useIsMobile.hook";
+import { useIsMobile } from "@/hooks";
 
 export default function Logo() {
   const router = useRouter();

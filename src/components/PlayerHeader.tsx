@@ -15,7 +15,7 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           src={player.cover_image_url}
           fallbackSrc="/assets/default-cover.svg"
           alt="Player Cover Image"
-          className="rounded-md border border-dark-70 object-cover w-full h-48 md:h-56"
+          className="rounded-md border border-dark-700 object-cover w-full h-48 md:h-56"
         />
         <ImageWithFallback
           src={player.avatar}

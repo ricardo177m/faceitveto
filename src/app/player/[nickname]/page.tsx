@@ -1,6 +1,5 @@
 import PlayerHeader from "@/components/PlayerHeader";
 import FaceitIcon from "@/components/faceit";
-import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { fetchPlayerByNickname } from "@/lib/player";
 
 interface PlayerPageProps {
@@ -11,8 +10,6 @@ interface PlayerPageProps {
 
 async function PlayerPage({ params: { nickname } }: PlayerPageProps) {
   const player = await fetchPlayerByNickname(nickname);
-
-  console.log("player " + nickname, player);
 
   if (!player) {
     return (

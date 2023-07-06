@@ -15,8 +15,8 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
 
 export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`,
-    { cache: "force-cache" }
+    `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`
+    // { cache: "force-cache" }
   );
   const data = await response.json();
   // if (response.status !== 200) return null;

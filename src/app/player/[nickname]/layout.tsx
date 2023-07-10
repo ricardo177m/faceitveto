@@ -1,22 +1,27 @@
-import { siteConfig } from "@/config/site";
-import { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Player Page - " + siteConfig.title,
-  description: siteConfig.description,
-};
+import { siteConfig } from "@/config/site";
+
+interface PlayerPageProps {
+  children: React.ReactNode;
+  params: {
+    nickname: string;
+  };
+}
 
 export default function MatchPageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="max-w-6xl mx-auto mt-2">
-      <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
-        {children}
-      </SkeletonTheme>
-    </div>
-  );
+  return <div className="max-w-6xl mx-auto mt-2">{children}</div>;
+}
+
+export function generateMetadata({
+  params: { nickname },
+}: PlayerPageProps): Metadata {
+  return {
+    title: nickname + " - " + siteConfig.title,
+    description: siteConfig.description,
+  };
 }

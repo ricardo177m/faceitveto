@@ -1,5 +1,9 @@
-import { ImageWithFallback } from "./ui/ImageWithFallback";
+import Image from "next/image";
+
+import NextImageWithFallback from "./ui/NextImageWithFallback";
 import { siteConfig } from "@/config/site";
+import defaultAvatar from "@/lib/default-avatar";
+import toBase64 from "@/services/toBase64";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
 import { FaCrown } from "react-icons/fa";
@@ -18,6 +22,8 @@ export default function MapsPlayerRow({
   maps,
   captain,
 }: MapsPlayerRowProps) {
+  const avatar = defaultAvatar();
+
   return (
     <tr
       key={player.id}
@@ -29,12 +35,14 @@ export default function MapsPlayerRow({
           borderLeftColor: siteConfig.premadeColors[player.partyId] ?? "gray",
         }}
       >
-        <ImageWithFallback
+        <NextImageWithFallback
           src={player.avatar}
           fallbackSrc="/assets/default-avatar.svg"
-          alt="Player avatar"
-          width="36"
-          height="36"
+          placeholder="blur"
+          blurDataURL={`data:image/svg+xml;base64,${toBase64(avatar)}`}
+          alt={`${player.nickname}'s avatar`}
+          width={36}
+          height={36}
           className="rounded-full border border-dark-700 aspect-square"
         />
         <span className="inline-flex items-center gap-2">
@@ -45,9 +53,11 @@ export default function MapsPlayerRow({
         </span>
       </td>
       <td className="px-4">
-        <img
+        <Image
           src={`/assets/faceit-levels/${player.level}.svg`}
           alt={`Level ${player.level}`}
+          width={16}
+          height={16}
           className="min-w-[2rem] h-8"
         />
       </td>

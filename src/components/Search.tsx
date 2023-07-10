@@ -1,12 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
 import { Player } from "@/types/player";
+import { useSession } from "next-auth/react";
 import { FormEventHandler, useEffect, useRef, useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
-import { useSession } from "next-auth/react";
 
 export default function Search() {
   const router = useRouter();
@@ -58,7 +59,12 @@ export default function Search() {
   return (
     <div className="flex items-center justify-center my-32">
       <div className="flex flex-col items-center bg-dark-500 rounded-lg shadow-xl px-8 py-12 gap-6">
-        <img src="/images/faceitveto.svg" alt="F-Veto Logo" />
+        <Image
+          src="/images/faceitveto.svg"
+          alt="F-Veto Logo"
+          width={300}
+          height={300}
+        />
         <div className="flex flex-col gap-2 min-w-max">
           <p className="text-gray-200 text-lg">Search for a player</p>
           <input

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import Skeleton from "react-loading-skeleton";
 
 export default function MatchHeaderSkeleton() {
@@ -11,7 +13,13 @@ export default function MatchHeaderSkeleton() {
       </div>
       <div className="text-sm pb-2">
         <span className="inline-flex items-center gap-2 mx-2">
-          <img src="/assets/elo.svg" alt="Elo icon" className="w-4" />
+          <Image
+            src="/assets/elo.svg"
+            alt="Elo icon"
+            className="w-4"
+            width={16}
+            height={16}
+          />
           <Skeleton containerClassName="w-12" />
         </span>
       </div>

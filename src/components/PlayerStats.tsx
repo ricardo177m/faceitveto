@@ -19,7 +19,7 @@ export default async function PlayerStats({ curatedMatch }: PlayerStatsProps) {
   const playerStats = await Promise.all(playerStatsPromises);
 
   return (
-    <div className="mx-4 mt-2 mb-4 py-4 space-y-4 overflow-x-auto">
+    <div className="mx-4 mt-2 mb-4 py-4 space-y-4 overflow-x-auto scrollbar scrollbar-track-transparent scrollbar-thumb-slate-600 scrollbar-thumb-rounded-xl scrollbar-h-1">
       <TeamMaps
         team={curatedMatch.teams.faction1}
         maps={curatedMatch.maps}

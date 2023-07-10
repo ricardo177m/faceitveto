@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { ImageWithFallback } from "./ui/ImageWithFallback";
 import { Player } from "@/types/player";
 
@@ -28,10 +30,12 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
         <h1 className="text-2xl md:text-3xl font-bold text-white">
           {player.nickname}
         </h1>
-        <img
+        <Image
           src={`/assets/faceit-levels/${level}.svg`}
           alt={`Level ${level}`}
           className="min-w-[2rem] h-7 md:h-8"
+          width={16}
+          height={16}
         />
       </div>
     </header>

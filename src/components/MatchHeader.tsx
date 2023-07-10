@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { ImageWithFallback } from "./ui/ImageWithFallback";
 import { formatDateTime } from "@/lib/utils";
 import { CuratedMatch } from "@/types/curated-match";
@@ -47,7 +49,13 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
       </div>
       <div className="text-sm pb-2">
         <span className="inline-flex items-center gap-2 mx-2">
-          <img src="/assets/elo.svg" alt="Elo icon" className="w-4" />
+          <Image
+            src="/assets/elo.svg"
+            alt="Elo icon"
+            className="w-4"
+            width={16}
+            height={16}
+          />
           <span className="mr-5">{match.matchRanking}</span>
           {match.finishedAt && (
             <>

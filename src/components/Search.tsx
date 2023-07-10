@@ -63,7 +63,7 @@ export default function Search() {
           src="/images/faceitveto.svg"
           alt="F-Veto Logo"
           width={300}
-          height={300}
+          height={42}
         />
         <div className="flex flex-col gap-2 min-w-max">
           <p className="text-gray-200 text-lg">Search for a player</p>

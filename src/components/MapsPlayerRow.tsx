@@ -44,6 +44,8 @@ export default function MapsPlayerRow({
           width={36}
           height={36}
           className="rounded-full border border-dark-700 aspect-square"
+          unoptimized={true}
+          loading="lazy"
         />
         <span className="inline-flex items-center gap-2">
           {player.nickname}

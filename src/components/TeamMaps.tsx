@@ -13,7 +13,7 @@ interface TeamMapsProps {
 export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
   return (
     <div className="py-1">
-      <table className="table-auto">
+      <table className="table-auto mx-auto">
         <thead>
           <tr>
             <th className="text-left px-4">{team.name}</th>

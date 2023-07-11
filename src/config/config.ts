@@ -18,6 +18,8 @@ export const config = {
     "#ffffff",
   ],
 
+  lastNumberOfMatches: 100,
+
   cookies: {
     token: `${COOKIE_PREFIX}:token`,
   },

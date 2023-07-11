@@ -12,7 +12,10 @@ import { MdLogout } from "react-icons/md";
 export function SignOut() {
   const pathname = usePathname();
   return (
-    <a href={`/api/auth/logout?redirect=${encodeURIComponent(pathname)}`}>
+    <a
+      href={`/api/auth/logout?redirect=${encodeURIComponent(pathname)}`}
+      className="px-1 py-2 rounded-md transition-colors duration-200 ease-in-out hover:bg-red-600"
+    >
       <MdLogout className="w-6" />
     </a>
   );

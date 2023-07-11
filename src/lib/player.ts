@@ -1,3 +1,4 @@
+import { config } from "@/config/config";
 import { faceitConfig } from "@/config/faceit";
 import { CuratedPlayerStats, IMaps } from "@/types/curated-player-stats";
 import { Player } from "@/types/player";
@@ -37,10 +38,12 @@ export async function fetchPlayerState(
 }
 
 export async function fetchPlayerStatsApi(
-  playerId: string
+  playerId: string,
+  size: number = config.lastNumberOfMatches
 ): Promise<CuratedPlayerStats> {
   const url = new URL(faceitConfig.matches(playerId));
-  url.searchParams.append("size", "100");
+  url.searchParams.append("page", "0");
+  url.searchParams.append("size", size.toString());
 
   const response = await fetch(url, {
     next: { revalidate: 60 * 30 },
@@ -60,7 +63,7 @@ export async function fetchPlayerStatsApi(
 
   payload.forEach((match) => {
     const map: string = match.i1;
-    const isWin = match.i10 == "1";
+    const isWin = match.i10 === "1";
     // const kdr = Number.parseFloat(match.c2);
 
     if (!(map in result.maps)) {
@@ -91,4 +94,22 @@ export async function fetchPlayerStats(
   const data = await response.json();
 
   return data;
+}
+
+export async function fetchPlayerMatchesApi(
+  playerId: string,
+  size: number
+): Promise<PlayerStats[]> {
+  const url = new URL(faceitConfig.matches(playerId));
+  url.searchParams.append("page", "0");
+  url.searchParams.append("size", size.toString());
+
+  const response = await fetch(url, {
+    next: { revalidate: 60 * 5 },
+  });
+  const data = await response.json();
+
+  const payload: PlayerStats[] = data;
+
+  return payload;
 }

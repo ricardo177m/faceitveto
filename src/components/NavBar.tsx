@@ -14,7 +14,7 @@ export default async function NavBar() {
       <div>
         <span className="py-1 px-2 rounded-md bg-dark-600 text-sm">Beta</span>
       </div>
-      <div className="flex flex-row gap-4 items-center ml-auto">
+      <div className="flex flex-row gap-2 items-center ml-auto">
         {session ? (
           <>
             <Link

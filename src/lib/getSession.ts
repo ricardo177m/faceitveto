@@ -3,8 +3,8 @@ const getSession = async () => {
     `${process.env.NEXT_PUBLIC_API_URL}/auth/session`,
     { cache: "no-store" }
   );
-  const data = await response.json();
   if (response.status !== 200) return null;
+  const data = await response.json();
   return data as Session;
 };
 

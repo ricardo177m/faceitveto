@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    serverActions: true,
   },
   images: {
     domains: ["assets.faceit-cdn.net", "distribution.faceit-cdn.net"],

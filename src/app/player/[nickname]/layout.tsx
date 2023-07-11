@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { siteConfig } from "@/config/site";
+import { config } from "@/config/config";
 
 interface PlayerPageProps {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export function generateMetadata({
   params: { nickname },
 }: PlayerPageProps): Metadata {
   return {
-    title: nickname + " - " + siteConfig.title,
-    description: siteConfig.description,
+    title: nickname + " - " + config.title,
+    description: config.description,
   };
 }

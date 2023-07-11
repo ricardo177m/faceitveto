@@ -1,8 +1,6 @@
 import MatchHeader from "@/components/MatchHeader";
 import PlayerStats from "@/components/PlayerStats";
-import TeamMaps from "@/components/TeamMaps";
 import { fetchMatch } from "@/lib/match";
-import { Suspense } from "react";
 
 interface MatchPageProps {
   params: {

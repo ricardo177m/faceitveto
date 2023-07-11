@@ -28,6 +28,7 @@ export default function Logo() {
       className="w-44 py-4 mr-2 cursor-pointer"
       width={300}
       height={300}
+      priority
     />
   );
 }

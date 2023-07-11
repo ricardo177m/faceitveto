@@ -16,4 +16,6 @@ export const faceitConfig = {
   matchStatsCfg: "https://api.faceit.com/stats/v1/stats/configuration/csgo",
   userList: "https://api.faceit.com/user-summary/v1/list",
   state: "https://api.faceit.com/match/v1/matches/groupByState",
+
+  openidConfig: "https://api.faceit.com/auth/v1/openid_configuration",
 };

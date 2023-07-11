@@ -1,8 +1,8 @@
-import { siteConfig } from "@/config/site";
+import { config } from "@/config/config";
 
 export const metadata = {
-  title: "Match - " + siteConfig.title,
-  description: siteConfig.description,
+  title: "Match - " + config.title,
+  description: config.description,
 };
 
 export default function MatchPageLayout({

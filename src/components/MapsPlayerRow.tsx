@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
-import { siteConfig } from "@/config/site";
+import { config } from "@/config/config";
 import defaultAvatar from "@/lib/default-avatar";
 import toBase64 from "@/services/toBase64";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
@@ -32,7 +32,7 @@ export default function MapsPlayerRow({
       <td
         className="inline-flex items-center gap-4 w-56 h-14 pl-4 overflow-hidden text-ellipsis border-l-2"
         style={{
-          borderLeftColor: siteConfig.premadeColors[player.partyId] ?? "gray",
+          borderLeftColor: config.premadeColors[player.partyId] ?? "gray",
         }}
       >
         <NextImageWithFallback

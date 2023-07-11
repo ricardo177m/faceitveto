@@ -1,8 +1,7 @@
 import { Inter } from "next/font/google";
 
 import TopBar from "@/components/ui/TopBar";
-import { siteConfig } from "@/config/site";
-import { NextAuthProvider } from "@/providers/NextAuthProvider";
+import { config } from "@/config/config";
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SkeletonTheme } from "react-loading-skeleton";
@@ -13,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: siteConfig.title,
-  description: siteConfig.description,
+  title: config.title,
+  description: config.description,
 };
 
 export default function RootLayout({
@@ -28,13 +27,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" />
       </head>
       <body className={`bg-dark-300 text-white ${inter.className}`}>
-        <NextAuthProvider>
-          <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
-            {/* @ts-expect-error Async Server Component */}
-            <TopBar />
-            {children}
-          </SkeletonTheme>
-        </NextAuthProvider>
+        <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
+          {/* @ts-expect-error Async Server Component */}
+          <TopBar />
+          {children}
+        </SkeletonTheme>
       </body>
       <Analytics />
     </html>

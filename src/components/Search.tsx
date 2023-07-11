@@ -3,15 +3,14 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import getSession from "@/lib/getSession";
 import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
 import { Player } from "@/types/player";
-import { useSession } from "next-auth/react";
 import { FormEventHandler, useEffect, useRef, useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
 
 export default function Search() {
   const router = useRouter();
-  const { data: session } = useSession();
 
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,13 +47,18 @@ export default function Search() {
     }
   };
 
-  useEffect(() => {
+  const fetchSession = async () => {
+    const session = await getSession();
     if (session) {
-      searchInputRef.current!.value = session.user?.name as string;
-      setSearch(session.user?.name as string);
+      searchInputRef.current!.value = session.nickname;
+      setSearch(session.nickname);
       goBtnRef.current?.focus();
     }
-  }, [session?.user?.name]);
+  };
+
+  useEffect(() => {
+    fetchSession();
+  }, []);
 
   return (
     <div className="flex items-center justify-center my-32">
@@ -64,6 +68,7 @@ export default function Search() {
           alt="F-Veto Logo"
           width={300}
           height={42}
+          priority
         />
         <div className="flex flex-col gap-2 min-w-max">
           <p className="text-gray-200 text-lg">Search for a player</p>

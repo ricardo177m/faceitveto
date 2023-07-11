@@ -1,4 +1,6 @@
-export const siteConfig = {
+const COOKIE_PREFIX = "FACEITVETO";
+
+export const config = {
   title: "FACEIT VETO",
   description:
     "Mind games start early on FACEIT, so a good map pick is always an advantage to the players.",
@@ -15,4 +17,11 @@ export const siteConfig = {
     "#9b00ff",
     "#ffffff",
   ],
+
+  cookies: {
+    token: `${COOKIE_PREFIX}:token`,
+  },
+  localStorage: {
+    code_verifier: `${COOKIE_PREFIX}:code_verifier`,
+  },
 };

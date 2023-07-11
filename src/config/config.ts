@@ -5,6 +5,8 @@ export const config = {
   description:
     "Mind games start early on FACEIT, so a good map pick is always an advantage to the players.",
 
+  lastNumberOfMatches: 100,
+
   premadeColors: [
     "#ff0000",
     "#13D9E9",
@@ -18,7 +20,20 @@ export const config = {
     "#ffffff",
   ],
 
-  lastNumberOfMatches: 100,
+  maps: {
+    de_ancient: "Ancient",
+    de_anubis: "Anubis",
+    de_cache: "Cache",
+    de_cbble: "Cobblestone",
+    de_dust2: "Dust 2",
+    de_inferno: "Inferno",
+    de_mirage: "Mirage",
+    de_nuke: "Nuke",
+    de_overpass: "Overpass",
+    de_train: "Train",
+    de_tuscan: "Tuscan",
+    de_vertigo: "Vertigo",
+  },
 
   cookies: {
     token: `${COOKIE_PREFIX}:token`,

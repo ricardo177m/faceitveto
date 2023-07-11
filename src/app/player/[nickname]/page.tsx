@@ -5,7 +5,7 @@ import PlayerHeader from "@/components/PlayerHeader";
 import PlayerLastMatches from "@/components/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "@/components/PlayerLastMatchesSkeleton";
 import { config } from "@/config/config";
-import { fetchPlayerByNickname } from "@/lib/player";
+import { fetchPlayerByNicknameApi } from "@/lib/player";
 import { Suspense } from "react";
 
 interface PlayerPageProps {
@@ -15,7 +15,7 @@ interface PlayerPageProps {
 }
 
 async function PlayerPage({ params: { nickname } }: PlayerPageProps) {
-  const player = await fetchPlayerByNickname(nickname);
+  const player = await fetchPlayerByNicknameApi(nickname);
 
   if (!player) {
     return (

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import FaceitIcon from "./icons/faceit";
-import { fetchPlayerState } from "@/lib/player";
+import { fetchPlayerStateApi } from "@/lib/player";
 import { Player } from "@/types/player";
 
 interface CurrentMatchLinkProps {
@@ -11,7 +11,7 @@ interface CurrentMatchLinkProps {
 export default async function CurrentMatchLink({
   player,
 }: CurrentMatchLinkProps) {
-  const state = await fetchPlayerState(player.id);
+  const state = await fetchPlayerStateApi(player.id);
 
   if (!state) return null;
 

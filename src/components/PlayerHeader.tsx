@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
+import defaultAvatar from "@/lib/default-avatar";
+import toBase64 from "@/services/toBase64";
 import { Player } from "@/types/player";
 
 interface PlayerHeaderProps {
@@ -24,7 +26,9 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
         <NextImageWithFallback
           src={player.avatar}
           fallbackSrc="/assets/default-avatar.svg"
-          alt="Player avatar"
+          placeholder="blur"
+          blurDataURL={`data:image/svg+xml;base64,${toBase64(defaultAvatar())}`}
+          alt={`${player.nickname}'s avatar`}
           width={256}
           height={256}
           className="rounded-full border border-dark-700 aspect-square ml-6 md:ml-8 w-28 md:w-44 absolute bottom-4 md:bottom-8 transform translate-y-1/2"

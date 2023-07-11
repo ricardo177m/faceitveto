@@ -39,8 +39,6 @@ export default function MapsPlayerRow({
         <NextImageWithFallback
           src={player.avatar}
           fallbackSrc="/assets/default-avatar.svg"
-          placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(avatar)}`}
           alt={`${player.nickname}'s avatar`}
           width={36}
           height={36}

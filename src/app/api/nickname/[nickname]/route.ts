@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { faceitConfig } from "@/config/faceit";
+import { fetchPlayerByNicknameApi } from "@/lib/player";
 
 interface NicknameParams {
   params: {
@@ -13,14 +13,8 @@ export async function GET(
   { params: { nickname } }: NicknameParams
 ) {
   try {
-    const response = await fetch(faceitConfig.player(nickname), {
-      next: { revalidate: 60 * 60 * 12 },
-    });
-    const data = await response.json();
-
-    if (data.errors) throw new Error(data.errors[0].message);
-
-    return NextResponse.json(data.payload);
+    const data = await fetchPlayerByNicknameApi(nickname);
+    return NextResponse.json(data);
   } catch (error) {
     if (error instanceof Error)
       return NextResponse.json({ error: error.message }, { status: 400 });

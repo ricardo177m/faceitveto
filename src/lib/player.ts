@@ -1,6 +1,7 @@
 import { config } from "@/config/config";
 import { faceitConfig } from "@/config/faceit";
 import { CuratedPlayerStats, IMaps } from "@/types/curated-player-stats";
+import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";
 import { PlayerStats } from "@/types/player-stats";
 
@@ -25,6 +26,16 @@ export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
   return data;
 }
 
+export async function fetchPlayerByNicknameApi(
+  nickname: string
+): Promise<Player> {
+  const response = await fetch(faceitConfig.player(nickname), {
+    next: { revalidate: 60 * 60 * 3 },
+  });
+  const data = await response.json();
+  return data.payload;
+}
+
 export async function fetchPlayerState(
   playerId: string
 ): Promise<string | null> {
@@ -35,6 +46,19 @@ export async function fetchPlayerState(
   const data = await response.json();
 
   return data.state;
+}
+
+export async function fetchPlayerStateApi(
+  playerId: string
+): Promise<string | null> {
+  const url = new URL(faceitConfig.state);
+  url.searchParams.append("userId", playerId);
+
+  const response = await fetch(url, { cache: "no-cache" });
+  const data: PartialMatchState = await response.json();
+
+  const match = Object.values(data.payload)[0];
+  return match === undefined ? null : match[0].id;
 }
 
 export async function fetchPlayerStatsApi(

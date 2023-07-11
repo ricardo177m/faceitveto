@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import useSession from "@/hooks/useSession";
+import { useSession } from "@/hooks";
 import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
 import { Player } from "@/types/player";
 import { FormEventHandler, useEffect, useRef, useState } from "react";
@@ -49,7 +49,7 @@ export default function Search() {
   };
 
   useEffect(() => {
-    if (session.user !== null) {
+    if (session.user !== null && searchInputRef.current!.value.length === 0) {
       searchInputRef.current!.value = session.user.nickname;
       setSearch(session.user.nickname);
       goBtnRef.current?.focus();

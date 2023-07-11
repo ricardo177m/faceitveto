@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import FaceitIcon from "@/components/icons/faceit";
 import crypto from "crypto";
@@ -9,11 +10,11 @@ import { ImSpinner8 } from "react-icons/im";
 import { MdLogout } from "react-icons/md";
 
 export function SignOut() {
-  const router = useRouter();
+  const pathname = usePathname();
   return (
-    <button onClick={() => (window.location.href = "/api/auth/logout")}>
+    <a href={`/api/auth/logout?redirect=${encodeURIComponent(pathname)}`}>
       <MdLogout className="w-6" />
-    </button>
+    </a>
   );
 }
 

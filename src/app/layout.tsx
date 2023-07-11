@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 
 import NavBar from "@/components/NavBar";
 import { config } from "@/config/config";
+import { AuthContextProvider } from "@/contexts/AuthContext";
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SkeletonTheme } from "react-loading-skeleton";
@@ -27,11 +28,13 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" />
       </head>
       <body className={`bg-dark-300 text-white ${inter.className}`}>
-        <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
-          {/* @ts-expect-error Async Server Component */}
-          <NavBar />
-          {children}
-        </SkeletonTheme>
+        <AuthContextProvider>
+          <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
+            {/* @ts-expect-error Async Server Component */}
+            <NavBar />
+            {children}
+          </SkeletonTheme>
+        </AuthContextProvider>
       </body>
       <Analytics />
     </html>

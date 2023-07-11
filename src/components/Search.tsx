@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import getSession from "@/lib/getSession";
+import useSession from "@/hooks/useSession";
 import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
 import { Player } from "@/types/player";
 import { FormEventHandler, useEffect, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import { ImSpinner8 } from "react-icons/im";
 
 export default function Search() {
   const router = useRouter();
+  const session = useSession();
 
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,18 +48,13 @@ export default function Search() {
     }
   };
 
-  const fetchSession = async () => {
-    const session = await getSession();
-    if (session) {
-      searchInputRef.current!.value = session.nickname;
-      setSearch(session.nickname);
+  useEffect(() => {
+    if (session.user !== null) {
+      searchInputRef.current!.value = session.user.nickname;
+      setSearch(session.user.nickname);
       goBtnRef.current?.focus();
     }
-  };
-
-  useEffect(() => {
-    fetchSession();
-  }, []);
+  }, [session]);
 
   return (
     <div className="flex items-center justify-center my-32">

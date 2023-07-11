@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 import { config } from "@/config/config";
@@ -47,12 +48,16 @@ export default function MapsPlayerRow({
           unoptimized={true}
           loading="lazy"
         />
-        <span className="inline-flex items-center gap-2">
+        <Link
+          href={`/player/[nickname]`}
+          as={`/player/${player.nickname}`}
+          className="inline-flex items-center gap-2 hover:text-primary transition-colors"
+        >
           {player.nickname}
           {captain === player.id ? (
             <FaCrown className="text-yellow-500" />
           ) : null}
-        </span>
+        </Link>
       </td>
       <td className="px-4">
         <Image

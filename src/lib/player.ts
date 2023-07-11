@@ -29,7 +29,7 @@ export async function fetchPlayerState(
 ): Promise<string | null> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/state/${playerId}`,
-    { cache: "no-cache" }
+    { next: { revalidate: 15 } }
   );
   const data = await response.json();
 

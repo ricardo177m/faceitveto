@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import FaceitIcon from "@/components/faceit";
+import FaceitIcon from "@/components/icons/faceit";
 import crypto from "crypto";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";

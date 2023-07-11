@@ -1,9 +1,11 @@
+import Link from "next/link";
+
+import NextImageWithFallback from "./ui/NextImageWithFallback";
 import { SignInWithFaceit, SignOut } from "@/components/actions";
-import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import Logo from "@/components/ui/Logo";
 import getServerSession from "@/lib/getServerSession";
 
-export default async function TopBar() {
+export default async function NavBar() {
   const session = getServerSession();
 
   return (
@@ -15,9 +17,13 @@ export default async function TopBar() {
       <div className="flex flex-row gap-4 items-center ml-auto">
         {session ? (
           <>
-            <div className="inline-flex items-center gap-2">
-              <ImageWithFallback
-                src={session.avatar}
+            <Link
+              href={`/player/[nickname]`}
+              as={`/player/${session.nickname}`}
+              className="inline-flex items-center gap-2 hover:bg-gray-700 px-2 py-1 rounded-md transition-colors duration-200 ease-in-out"
+            >
+              <NextImageWithFallback
+                src={session.avatar as string}
                 fallbackSrc="/assets/default-avatar.svg"
                 alt="Player avatar"
                 width="32"
@@ -25,7 +31,7 @@ export default async function TopBar() {
                 className="rounded-full border border-dark-700 aspect-square"
               />
               <p>{session.nickname}</p>
-            </div>
+            </Link>
             <SignOut />
           </>
         ) : (

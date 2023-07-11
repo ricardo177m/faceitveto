@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 
-import TopBar from "@/components/ui/TopBar";
+import NavBar from "@/components/NavBar";
 import { config } from "@/config/config";
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`bg-dark-300 text-white ${inter.className}`}>
         <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
           {/* @ts-expect-error Async Server Component */}
-          <TopBar />
+          <NavBar />
           {children}
         </SkeletonTheme>
       </body>

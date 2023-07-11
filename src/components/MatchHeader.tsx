@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ImageWithFallback } from "./ui/ImageWithFallback";
+import NextImageWithFallback from "./ui/NextImageWithFallback";
 import { formatDateTime } from "@/lib/utils";
 import { CuratedMatch } from "@/types/curated-match";
 import { FaCalendarAlt } from "react-icons/fa";
@@ -20,7 +20,7 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
       <div className="flex flex-row flex-wrap items-center gap-4 sm:gap-12 py-4 text-2xl">
         {match.mapPicks !== undefined ? (
           <div className="inline-flex items-center gap-4">
-            <ImageWithFallback
+            <NextImageWithFallback
               src={`/assets/map-icons/${match.mapPicks?.[0].id}.svg`}
               fallbackSrc="/assets/map-icons/unknown.svg"
               width="40"

@@ -4,8 +4,9 @@ import getSession from "@/lib/getSession";
 import { createContext, useEffect, useState } from "react";
 
 export interface AuthContextData {
-  isLogged: boolean;
   user: Session | null;
+  clear: () => void;
+  fetchSession: () => void;
 }
 
 interface AuthContextProviderProps {
@@ -25,12 +26,14 @@ export function AuthContextProvider({
     setUser(user);
   };
 
+  const clear = () => setUser(null);
+
   useEffect(() => {
     fetchSession();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLogged: !!user, user }} {...props}>
+    <AuthContext.Provider value={{ user, clear, fetchSession }} {...props}>
       {children}
     </AuthContext.Provider>
   );

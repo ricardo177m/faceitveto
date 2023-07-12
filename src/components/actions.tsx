@@ -1,23 +1,33 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 
 import FaceitIcon from "@/components/icons/faceit";
+import { useSession } from "@/hooks";
 import crypto from "crypto";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
 import { MdLogout } from "react-icons/md";
 
 export function SignOut() {
-  const pathname = usePathname();
+  const router = useRouter();
+  const session = useSession();
+
+  const signOut = async () => {
+    const res = await fetch("/api/auth/logout");
+    if (res.ok) {
+      session.clear();
+      router.refresh();
+    }
+  };
+
   return (
-    <a
-      href={`/api/auth/logout?redirect=${encodeURIComponent(pathname)}`}
+    <button
+      onClick={() => signOut()}
       className="px-1 py-2 rounded-md transition-colors duration-200 ease-in-out hover:bg-red-600"
     >
       <MdLogout className="w-6" />
-    </a>
+    </button>
   );
 }
 

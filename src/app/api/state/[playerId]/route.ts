@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchPlayerStateApi } from "@/lib/player";
+import { fetchPlayerState } from "@/lib/player";
 
 interface StateParams {
   params: {
@@ -10,7 +10,7 @@ interface StateParams {
 
 export async function GET(_: Request, { params: { playerId } }: StateParams) {
   try {
-    const data = await fetchPlayerStateApi(playerId);
+    const data = await fetchPlayerState(playerId);
     return NextResponse.json({ state: data });
   } catch (error) {
     if (error instanceof Error)
@@ -22,3 +22,5 @@ export async function GET(_: Request, { params: { playerId } }: StateParams) {
       );
   }
 }
+
+export const revalidate = 10;

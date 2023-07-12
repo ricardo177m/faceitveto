@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Player } from "@/types/player";
-import { fetchPlayerMatchesApi } from "@/lib/player";
+import { fetchPlayerMatches } from "@/lib/player";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
@@ -12,7 +12,7 @@ interface PlayerLastMatchesProps {
 export default async function PlayerLastMatches({
   player,
 }: PlayerLastMatchesProps) {
-  const matches = await fetchPlayerMatchesApi(player.id, 5);
+  const matches = await fetchPlayerMatches(player.id, 5);
 
   return (
     <section>

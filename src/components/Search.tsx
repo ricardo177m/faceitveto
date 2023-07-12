@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { ImSpinner8 } from "react-icons/im";
 
 import { Player } from "@/types/player";
-import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
 import { useSession } from "@/hooks";
+import { env } from "@/env.mjs";
 
 export default function Search() {
   const router = useRouter();
@@ -34,8 +34,13 @@ export default function Search() {
     setLoading(true);
 
     try {
-      const player: Player = await fetchPlayerByNickname(search);
-      const state = await fetchPlayerState(player.id);
+      const player: Player = await fetch(
+        `${env.NEXT_PUBLIC_API_URL}/nickname/${search}`
+      ).then((res) => res.json());
+
+      const state: string = await fetch(
+        `${env.NEXT_PUBLIC_API_URL}/state/${player.id}`
+      ).then((res) => res.json());
 
       if (state !== null) {
         router.push(`/match/${state}`);

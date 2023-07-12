@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchPlayerByNicknameApi } from "@/lib/player";
+import { fetchPlayerByNickname } from "@/lib/player";
 
 interface NicknameParams {
   params: {
@@ -13,7 +13,7 @@ export async function GET(
   { params: { nickname } }: NicknameParams
 ) {
   try {
-    const data = await fetchPlayerByNicknameApi(nickname);
+    const data = await fetchPlayerByNickname(nickname);
     return NextResponse.json(data);
   } catch (error) {
     if (error instanceof Error)

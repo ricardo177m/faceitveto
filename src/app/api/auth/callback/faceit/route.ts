@@ -6,7 +6,7 @@ import {
   getAccessToken,
   getOauthEndpoints,
   getUserInfo,
-} from "@/lib/faceitApi";
+} from "@/lib/faceit-oauth";
 import { env } from "@/env.mjs";
 
 export async function GET(request: Request) {

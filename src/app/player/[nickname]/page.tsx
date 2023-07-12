@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { config } from "@/config/config";
-import { fetchPlayerByNicknameApi } from "@/lib/player";
+import { fetchPlayerByNickname } from "@/lib/player";
 import CurrentMatchLink from "@/components/CurrentMatchLink";
 import PlayerHeader from "@/components/PlayerHeader";
 import PlayerLastMatches from "@/components/PlayerLastMatches";
@@ -15,7 +15,7 @@ interface PlayerPageProps {
 }
 
 async function PlayerPage({ params: { nickname } }: PlayerPageProps) {
-  const player = await fetchPlayerByNicknameApi(nickname);
+  const player = await fetchPlayerByNickname(nickname);
 
   if (!player) {
     return (

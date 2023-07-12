@@ -1,7 +1,7 @@
 import { CuratedMatch } from "@/types/curated-match";
 import getServerSession from "@/lib/getServerSession";
 import { isPlayerFaction } from "@/lib/match";
-import { fetchPlayerStatsApi } from "@/lib/player";
+import { fetchPlayerStats } from "@/lib/player";
 import TeamMaps from "@/components/TeamMaps";
 
 interface PlayerStatsProps {
@@ -10,12 +10,8 @@ interface PlayerStatsProps {
 
 export default async function PlayerStats({ curatedMatch }: PlayerStatsProps) {
   const playerStatsPromises = [
-    ...curatedMatch.teams.faction1.players.map((p) =>
-      fetchPlayerStatsApi(p.id)
-    ),
-    ...curatedMatch.teams.faction2.players.map((p) =>
-      fetchPlayerStatsApi(p.id)
-    ),
+    ...curatedMatch.teams.faction1.players.map((p) => fetchPlayerStats(p.id)),
+    ...curatedMatch.teams.faction2.players.map((p) => fetchPlayerStats(p.id)),
   ];
 
   const playerStats = await Promise.all(playerStatsPromises);

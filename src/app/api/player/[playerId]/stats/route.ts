@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchPlayerStatsApi } from "@/lib/player";
+import { fetchPlayerStats } from "@/lib/player";
 
 interface PlayerStatsParams {
   params: {
@@ -12,6 +12,6 @@ export async function GET(
   _: Request,
   { params: { playerId } }: PlayerStatsParams
 ) {
-  const playerStats = await fetchPlayerStatsApi(playerId);
+  const playerStats = await fetchPlayerStats(playerId);
   return NextResponse.json(playerStats);
 }

@@ -8,6 +8,7 @@ import { MdLogout } from "react-icons/md";
 
 import { useSession } from "@/hooks";
 import FaceitIcon from "@/components/icons/faceit";
+import { env } from "@/env.mjs";
 
 export function SignOut() {
   const router = useRouter();
@@ -36,9 +37,9 @@ export function SignInWithFaceit() {
   const router = useRouter();
 
   const signIn = async () => {
-    const clientId = process.env.NEXT_PUBLIC_FACEIT_CLIENT_ID as string;
+    const clientId = env.NEXT_PUBLIC_FACEIT_CLIENT_ID as string;
     const redirectUri = encodeURIComponent(
-      process.env.NEXT_PUBLIC_API_URL + "/api/auth/callback/faceit"
+      env.NEXT_PUBLIC_API_URL + "/api/auth/callback/faceit"
     );
 
     const code_verifier = crypto

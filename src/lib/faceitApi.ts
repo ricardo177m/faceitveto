@@ -1,5 +1,6 @@
 import { faceitConfig } from "@/config/faceit";
 import toBase64 from "@/services/toBase64";
+import { env } from "@/env.mjs";
 
 export async function getOauthEndpoints(): Promise<FaceitOpenIdCfg> {
   const openIdCfg = await fetch(faceitConfig.openidConfig);
@@ -11,8 +12,9 @@ export async function getAccessToken(
   code: string,
   verifier: string
 ): Promise<FaceitToken> {
-  const clientId = process.env.NEXT_PUBLIC_FACEIT_CLIENT_ID;
-  const clientSecret = process.env.FACEIT_CLIENT_SECRET;
+  const clientId = env.NEXT_PUBLIC_FACEIT_CLIENT_ID;
+  const clientSecret = env.FACEIT_CLIENT_SECRET;
+
   const credentials = toBase64(`${clientId}:${clientSecret}`);
 
   const url = `${endpoint}?grant_type=authorization_code&code=${code}&code_verifier=${verifier}`;

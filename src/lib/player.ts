@@ -4,6 +4,7 @@ import { Player } from "@/types/player";
 import { PlayerStats } from "@/types/player-stats";
 import { config } from "@/config/config";
 import { faceitConfig } from "@/config/faceit";
+import { env } from "@/env.mjs";
 
 export async function fetchPlayerById(playerId: string): Promise<Player> {
   const response = await fetch(faceitConfig.user(playerId), {
@@ -17,7 +18,7 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
 
 export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`
+    `${env.NEXT_PUBLIC_API_URL}/nickname/${nickname}`
     // { cache: "force-cache" }
   );
   const data = await response.json();
@@ -39,10 +40,9 @@ export async function fetchPlayerByNicknameApi(
 export async function fetchPlayerState(
   playerId: string
 ): Promise<string | null> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/state/${playerId}`,
-    { next: { revalidate: 15 } }
-  );
+  const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/state/${playerId}`, {
+    next: { revalidate: 15 },
+  });
   const data = await response.json();
 
   return data.state;
@@ -113,7 +113,7 @@ export async function fetchPlayerStats(
   playerId: string
 ): Promise<CuratedPlayerStats> {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/player/${playerId}/stats`
+    `${env.NEXT_PUBLIC_API_URL}/player/${playerId}/stats`
   );
   const data = await response.json();
 

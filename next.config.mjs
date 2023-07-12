@@ -1,8 +1,9 @@
+import "./src/env.mjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     appDir: true,
-    serverActions: true,
   },
   images: {
     domains: ["assets.faceit-cdn.net", "distribution.faceit-cdn.net"],
@@ -13,4 +14,4 @@ const nextConfig = {
   swcMinify: true,
 };
 
-module.exports = nextConfig;
+export default nextConfig;

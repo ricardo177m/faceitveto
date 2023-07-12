@@ -7,11 +7,12 @@ import {
   getOauthEndpoints,
   getUserInfo,
 } from "@/lib/faceitApi";
+import { env } from "@/env.mjs";
 
 export async function GET(request: Request) {
   const code = request.url.match(/code=([^&]*)/);
   const stateStr = request.url.match(/state=([^&]*)/); // state has verifier (workaround)
-  const jwtSecret = process.env.JWT_SECRET as string;
+  const jwtSecret = env.JWT_SECRET as string;
 
   if (!code || !stateStr) return new NextResponse(null, { status: 400 });
   if (!jwtSecret) return new NextResponse(null, { status: 500 });

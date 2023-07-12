@@ -1,9 +1,8 @@
-"use server";
-
 import { cookies } from "next/dist/client/components/headers";
 import jwt from "jsonwebtoken";
 
 import { config } from "@/config/config";
+import { env } from "@/env.mjs";
 
 const getServerSession = () => {
   const cookie = cookies().get(config.cookies.token);
@@ -11,7 +10,7 @@ const getServerSession = () => {
 
   if (!token) return null;
 
-  const jwtSecret = process.env.JWT_SECRET;
+  const jwtSecret = env.JWT_SECRET;
   if (!jwtSecret) return null;
 
   try {

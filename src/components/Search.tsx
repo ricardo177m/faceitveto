@@ -1,13 +1,13 @@
 "use client";
 
+import { FormEventHandler, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-import { useSession } from "@/hooks";
-import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
-import { Player } from "@/types/player";
-import { FormEventHandler, useEffect, useRef, useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
+
+import { Player } from "@/types/player";
+import { fetchPlayerByNickname, fetchPlayerState } from "@/lib/player";
+import { useSession } from "@/hooks";
 
 export default function Search() {
   const router = useRouter();
@@ -57,8 +57,8 @@ export default function Search() {
   }, [session]);
 
   return (
-    <div className="flex items-center justify-center my-32">
-      <div className="flex flex-col items-center bg-dark-500 rounded-lg shadow-xl px-8 py-12 gap-6">
+    <div className="my-32 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-6 rounded-lg bg-dark-500 px-8 py-12 shadow-xl">
         <Image
           src="/images/faceitveto.svg"
           alt="F-Veto Logo"
@@ -66,11 +66,11 @@ export default function Search() {
           height={42}
           priority
         />
-        <div className="flex flex-col gap-2 min-w-max">
-          <p className="text-gray-200 text-lg">Search for a player</p>
+        <div className="flex min-w-max flex-col gap-2">
+          <p className="text-lg text-gray-200">Search for a player</p>
           <input
             type="text"
-            className="bg-dark-600 px-4 py-1 rounded-lg w-96"
+            className="w-96 rounded-lg bg-dark-600 px-4 py-1"
             placeholder="Nickname"
             id="search"
             onInput={inputEventHandler}
@@ -78,21 +78,21 @@ export default function Search() {
             ref={searchInputRef}
           />
           <button
-            className="w-auto flex justify-center p-1 rounded-lg font-bold transition-colors text-white bg-orange-600 hover:bg-orange-700 disabled:text-gray-400 disabled:bg-dark-600"
+            className="flex w-auto justify-center rounded-lg bg-orange-600 p-1 font-bold text-white transition-colors hover:bg-orange-700 disabled:bg-dark-600 disabled:text-gray-400"
             onClick={goBtnHandler}
             disabled={search.length == 0}
             ref={goBtnRef}
           >
             {loading ? (
               <span>
-                <ImSpinner8 className="animate-spin h-6" />
+                <ImSpinner8 className="h-6 animate-spin" />
               </span>
             ) : (
               <span>Go</span>
             )}
           </button>
           {error !== null && !loading ? (
-            <p className="text-center text-red-600 font-bold">Error: {error}</p>
+            <p className="text-center font-bold text-red-600">Error: {error}</p>
           ) : null}
         </div>
       </div>

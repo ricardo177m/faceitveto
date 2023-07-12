@@ -9,7 +9,7 @@ export interface Player {
   friends: string[];
   games: Games;
   gender: string;
-  guest_info: GuestInfo;
+  guest_info: object;
   matching_sound: string;
   memberships: string[];
   nickname: string;
@@ -40,8 +40,6 @@ export interface Csgo {
   tags: string[];
   elo_refreshed_by_user_at: string;
 }
-
-export interface GuestInfo {}
 
 export interface Platforms {
   steam: Steam;

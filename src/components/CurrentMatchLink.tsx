@@ -1,8 +1,9 @@
 import Link from "next/link";
 
-import FaceitIcon from "./icons/faceit";
-import { fetchPlayerStateApi } from "@/lib/player";
 import { Player } from "@/types/player";
+import { fetchPlayerStateApi } from "@/lib/player";
+
+import FaceitIcon from "./icons/faceit";
 
 interface CurrentMatchLinkProps {
   player: Player;
@@ -19,7 +20,7 @@ export default async function CurrentMatchLink({
     <Link
       href={`/match/[id]`}
       as={`/match/${state}`}
-      className="bg-primary inline-flex items-center gap-4 py-4 px-6 rounded-lg cursor-pointer"
+      className="inline-flex cursor-pointer items-center gap-4 rounded-lg bg-primary px-6 py-4"
     >
       <FaceitIcon className="w-6" />
       <h1 className="font-bold">Playing right now!</h1>

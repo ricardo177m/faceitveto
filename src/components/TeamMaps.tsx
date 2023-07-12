@@ -1,8 +1,9 @@
 import Image from "next/image";
 
-import MapsPlayerRow from "./MapsPlayerRow";
 import { CuratedFaction, CuratedMap } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
+
+import MapsPlayerRow from "./MapsPlayerRow";
 
 interface TeamMapsProps {
   team: CuratedFaction;
@@ -13,19 +14,19 @@ interface TeamMapsProps {
 export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
   return (
     <div className="py-1">
-      <table className="table-auto mx-auto">
+      <table className="mx-auto table-auto">
         <thead>
           <tr>
-            <th className="text-left px-4">{team.name}</th>
-            <th className="font-normal text-sm">Level</th>
+            <th className="px-4 text-left">{team.name}</th>
+            <th className="text-sm font-normal">Level</th>
             {maps.map((map) => (
-              <th key={map.id} className="font-normal text-sm relative">
+              <th key={map.id} className="relative text-sm font-normal">
                 <Image
                   src={map.image}
                   alt="Map image"
                   width={80}
                   height={32}
-                  className="absolute -z-10 -top-4 left-3 opacity-60 rounded-md"
+                  className="absolute -top-4 left-3 -z-10 rounded-md opacity-60"
                 />
                 <span className="z-10">{map.name}</span>
               </th>

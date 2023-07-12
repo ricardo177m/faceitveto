@@ -1,6 +1,7 @@
-import { useIsomorphicLayoutEffect } from "@/hooks";
-import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
+import debounce from "lodash/debounce";
+
+import { useIsomorphicLayoutEffect } from "@/hooks";
 
 const useIsMobile = (): boolean => {
   const [isMobile, setIsMobile] = useState(false);

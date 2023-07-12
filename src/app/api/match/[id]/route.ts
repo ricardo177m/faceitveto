@@ -8,7 +8,7 @@ interface MatchParams {
   };
 }
 
-export async function GET(request: Request, { params: { id } }: MatchParams) {
+export async function GET(_: Request, { params: { id } }: MatchParams) {
   try {
     const curatedMatch = await fetchMatch(id);
     return NextResponse.json(curatedMatch);

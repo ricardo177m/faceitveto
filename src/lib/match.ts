@@ -1,8 +1,11 @@
+import {
+  CuratedFaction,
+  CuratedMap,
+  CuratedMatch,
+} from "@/types/curated-match";
+import { Element, Faction, Match } from "@/types/match";
 import { faceitConfig } from "@/config/faceit";
 import { NotFoundError } from "@/lib/exceptions";
-import { CuratedFaction } from "@/types/curated-match";
-import { CuratedMap, CuratedMatch } from "@/types/curated-match";
-import { Element, Faction, Match } from "@/types/match";
 
 export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const response = await fetch(faceitConfig.match(matchId), {
@@ -53,7 +56,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
     matchRanking: match.entityCustom.effectiveRanking,
     state: match.state,
     maps: match.matchCustom.tree.map.values.value.map(mapFilter),
-    mapPicks: match.hasOwnProperty("voting")
+    mapPicks: Object.prototype.hasOwnProperty.call(match, "voting")
       ? (match.voting?.map.pick.map((map) => {
           const find = match.maps.find((m) => m.guid === map);
           if (find) return mapFilter(find);

@@ -8,10 +8,7 @@ interface StateParams {
   };
 }
 
-export async function GET(
-  request: Request,
-  { params: { playerId } }: StateParams
-) {
+export async function GET(_: Request, { params: { playerId } }: StateParams) {
   try {
     const data = await fetchPlayerStateApi(playerId);
     return NextResponse.json({ state: data });

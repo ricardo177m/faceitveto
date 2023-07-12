@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import FaceitIcon from "@/components/icons/faceit";
-import { useSession } from "@/hooks";
 import crypto from "crypto";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ImSpinner8 } from "react-icons/im";
 import { MdLogout } from "react-icons/md";
+
+import { useSession } from "@/hooks";
+import FaceitIcon from "@/components/icons/faceit";
 
 export function SignOut() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export function SignOut() {
   return (
     <button
       onClick={() => signOut()}
-      className="px-1 py-2 rounded-md transition-colors duration-200 ease-in-out hover:bg-red-600"
+      className="rounded-md px-1 py-2 transition-colors duration-200 ease-in-out hover:bg-red-600"
     >
       <MdLogout className="w-6" />
     </button>
@@ -80,12 +80,12 @@ export function SignInWithFaceit() {
         signIn();
         setLoading(true);
       }}
-      className="inline-flex items-center gap-2 px-4 py-1 rounded-lg text-white bg-primary hover:bg-orange-700 disabled:bg-orange-700 transition-colors"
+      className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-1 text-white transition-colors hover:bg-orange-700 disabled:bg-orange-700"
       disabled={loading}
     >
       {loading ? (
         <>
-          <ImSpinner8 className="animate-spin h-6" />
+          <ImSpinner8 className="h-6 animate-spin" />
           Logging in...
         </>
       ) : (

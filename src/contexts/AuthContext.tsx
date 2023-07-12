@@ -1,7 +1,8 @@
 "use client";
 
-import getSession from "@/lib/getSession";
 import { createContext, useEffect, useState } from "react";
+
+import getSession from "@/lib/getSession";
 
 export interface AuthContextData {
   user: Session | null;

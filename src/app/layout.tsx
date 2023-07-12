@@ -1,12 +1,14 @@
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 
-import NavBar from "@/components/NavBar";
 import { config } from "@/config/config";
 import { AuthContextProvider } from "@/contexts/AuthContext";
+import NavBar from "@/components/NavBar";
+
 import "@/styles/globals.css";
-import { Analytics } from "@vercel/analytics/react";
-import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const inter = Inter({
   subsets: ["latin"],

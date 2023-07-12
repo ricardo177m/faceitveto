@@ -19,7 +19,7 @@ export interface Match {
   status: string;
   states: States[];
   teams: Factions<Faction>;
-  spectators: any[];
+  spectators: object[];
   matchCustom: MatchCustom;
   voting?: Voting;
   maps: Element[];
@@ -142,13 +142,11 @@ export interface Tree {
 
 export interface GameConfig {
   data_type: string;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   leaf_node: boolean;
   values: GameConfigValues;
 }
-
-export interface PurpleFlags {}
 
 export interface GameConfigValues {
   value: string;
@@ -232,7 +230,7 @@ export interface Children {
 
 export interface Stream {
   data_type: string;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   leaf_node: boolean;
   values: StreamValues;
@@ -244,7 +242,7 @@ export interface StreamValues {
 
 export interface BotsDifficulty {
   data_type: string;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   leaf_node: boolean;
   values: PurpleValues;
@@ -259,7 +257,7 @@ export interface PurpleValues {
 export interface DeadTalk {
   data_type: string;
   display: Display;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   label: Description;
   leaf_node: boolean;
@@ -269,7 +267,7 @@ export interface DeadTalk {
 
 export interface FreezeTime {
   data_type: string;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   leaf_node: boolean;
   values: FreezeTimeValues;
@@ -282,7 +280,7 @@ export interface FreezeTimeValues {
 
 export interface TimeToConnect {
   data_type: string;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   leaf_node: boolean;
   link: string;
@@ -293,7 +291,7 @@ export interface TimeToConnect {
 export interface Timeout {
   data_type: string;
   display: Display;
-  flags: PurpleFlags;
+  flags: object;
   id: string;
   label: Description;
   leaf_node: boolean;

@@ -1,6 +1,6 @@
+import { fetchMatch } from "@/lib/match";
 import MatchHeader from "@/components/MatchHeader";
 import PlayerStats from "@/components/PlayerStats";
-import { fetchMatch } from "@/lib/match";
 
 interface MatchPageProps {
   params: {

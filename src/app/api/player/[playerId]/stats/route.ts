@@ -9,7 +9,7 @@ interface PlayerStatsParams {
 }
 
 export async function GET(
-  request: Request,
+  _: Request,
   { params: { playerId } }: PlayerStatsParams
 ) {
   const playerStats = await fetchPlayerStatsApi(playerId);

@@ -6,7 +6,7 @@ export default function TeamMapsSkeleton() {
       <table className="table-auto">
         <thead>
           <tr>
-            <th className="text-left px-4">
+            <th className="px-4 text-left">
               <Skeleton className="w-full" />
             </th>
           </tr>
@@ -19,9 +19,9 @@ export default function TeamMapsSkeleton() {
               .map((_, i) => (
                 <tr
                   key={i}
-                  className="h-14 bg-dark-500 border-t-2 border-dark-300 rounded-md"
+                  className="h-14 rounded-md border-t-2 border-dark-300 bg-dark-500"
                 >
-                  <td className="inline-flex items-center w-[70rem] gap-4 h-14 px-4 overflow-hidden text-ellipsis">
+                  <td className="inline-flex h-14 w-[70rem] items-center gap-4 overflow-hidden text-ellipsis px-4">
                     <Skeleton containerClassName="flex-1" className="w-full" />
                   </td>
                 </tr>

@@ -1,9 +1,9 @@
-import { config } from "@/config/config";
-import { faceitConfig } from "@/config/faceit";
 import { CuratedPlayerStats, IMaps } from "@/types/curated-player-stats";
 import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";
 import { PlayerStats } from "@/types/player-stats";
+import { config } from "@/config/config";
+import { faceitConfig } from "@/config/faceit";
 
 export async function fetchPlayerById(playerId: string): Promise<Player> {
   const response = await fetch(faceitConfig.user(playerId), {

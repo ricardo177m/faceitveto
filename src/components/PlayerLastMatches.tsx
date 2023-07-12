@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-import NextImageWithFallback from "./ui/NextImageWithFallback";
-import { config } from "@/config/config";
-import { fetchPlayerMatchesApi } from "@/lib/player";
 import { Player } from "@/types/player";
+import { fetchPlayerMatchesApi } from "@/lib/player";
+
+import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface PlayerLastMatchesProps {
   player: Player;
@@ -16,17 +16,21 @@ export default async function PlayerLastMatches({
 
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-4">Your Latest Matches</h2>
+      <h2 className="mb-4 text-2xl font-bold">Your Latest Matches</h2>
       <div className="flex flex-col [&>a]:border-b [&>a]:border-b-gray-700 last:[&>a]:border-b-0">
         {matches.map((match) => {
           const isWin = match.i10 === "1";
 
           return (
-            <Link href="/match/[id]" as={`/match/${match.matchId}`}>
+            <Link
+              key={match.matchId}
+              href="/match/[id]"
+              as={`/match/${match.matchId}`}
+            >
               <div
                 className={`border-l-2 ${
                   isWin ? "border-l-green-500" : "border-l-red-600"
-                } flex flex-row px-2 bg-dark-400 hover:bg-dark-500 transition-colors`}
+                } flex flex-row bg-dark-400 px-2 transition-colors hover:bg-dark-500`}
               >
                 <div className="my-auto ml-4">
                   <NextImageWithFallback
@@ -37,10 +41,10 @@ export default async function PlayerLastMatches({
                     alt="Map logo"
                   />
                 </div>
-                <div className="my-auto px-8 py-4">
+                <div className="my-auto p-4 px-8">
                   <span>{match.i1}</span>
                 </div>
-                <div className="ml-auto px-4 py-4 text-gray-400">
+                <div className="ml-auto p-4 text-gray-400">
                   <span>{match.i18}</span>
                 </div>
                 {/* <div className="p-4 my-auto ml-auto text-center">

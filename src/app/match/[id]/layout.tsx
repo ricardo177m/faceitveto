@@ -10,5 +10,5 @@ export default function MatchPageLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="max-w-6xl mx-auto">{children}</div>;
+  return <div className="mx-auto max-w-6xl">{children}</div>;
 }

@@ -1,9 +1,10 @@
 import Image from "next/image";
+import { FaCalendarAlt } from "react-icons/fa";
+
+import { CuratedMatch } from "@/types/curated-match";
+import { formatDateTime } from "@/lib/utils";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
-import { formatDateTime } from "@/lib/utils";
-import { CuratedMatch } from "@/types/curated-match";
-import { FaCalendarAlt } from "react-icons/fa";
 
 interface MatchHeaderProps {
   match: CuratedMatch;
@@ -12,12 +13,12 @@ interface MatchHeaderProps {
 export default function MatchHeader({ match }: MatchHeaderProps) {
   return (
     <div className="flex flex-col px-4">
-      <div className="text-3xl py-2">
+      <div className="py-2 text-3xl">
         <span>{match.teams.faction1.name}</span>
         <span className="mx-2 text-dark-700"> / </span>
         <span>{match.teams.faction2.name}</span>
       </div>
-      <div className="flex flex-row flex-wrap items-center gap-4 sm:gap-12 py-4 text-2xl">
+      <div className="flex flex-row flex-wrap items-center gap-4 py-4 text-2xl sm:gap-12">
         {match.mapPicks !== undefined ? (
           <div className="inline-flex items-center gap-4">
             <NextImageWithFallback
@@ -32,7 +33,7 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
         ) : null}
         <div className="inline-flex items-center gap-4">
           <span
-            className={`w-3 h-3 rounded-full ${
+            className={`h-3 w-3 rounded-full ${
               ["VOTING", "CONFIGURING"].includes(match.state.toString())
                 ? "bg-yellow-400"
                 : ["READY", "ONGOING"].includes(match.state.toString())
@@ -47,8 +48,8 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
           <p className="capitalize">{match.state.toString().toLowerCase()}</p>
         </div>
       </div>
-      <div className="text-sm pb-2">
-        <span className="inline-flex items-center gap-2 mx-2">
+      <div className="pb-2 text-sm">
+        <span className="mx-2 inline-flex items-center gap-2">
           <Image
             src="/assets/elo.svg"
             alt="Elo icon"

@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-
 import { useEffect } from "react";
+import Link from "next/link";
 
 interface ErrorProps {
   error: Error;
@@ -16,7 +15,7 @@ export default function MatchPageError({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="flex flex-col gap-5 justify-center items-center p-32">
+    <div className="flex flex-col items-center justify-center gap-5 p-32">
       <h2 className="text-3xl">⚠️ Something went wrong!</h2>
       {/* <h3 className="text-2xl">{error.message}</h3> */}
       <div className="flex flex-row gap-4">
@@ -25,11 +24,11 @@ export default function MatchPageError({ error, reset }: ErrorProps) {
             // Attempt to recover by trying to re-render the segment
             () => reset()
           }
-          className="px-4 py-2 bg-primary text-white rounded-md"
+          className="rounded-md bg-primary px-4 py-2 text-white"
         >
           Try again
         </button>
-        <Link href="/" className="px-4 py-2 bg-blue-500 text-white rounded-md">
+        <Link href="/" className="rounded-md bg-blue-500 px-4 py-2 text-white">
           Go back
         </Link>
       </div>

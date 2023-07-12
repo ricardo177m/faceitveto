@@ -9,7 +9,7 @@ interface NicknameParams {
 }
 
 export async function GET(
-  request: Request,
+  _: Request,
   { params: { nickname } }: NicknameParams
 ) {
   try {

@@ -1,9 +1,9 @@
 "use server";
 
 import { cookies } from "next/dist/client/components/headers";
+import jwt from "jsonwebtoken";
 
 import { config } from "@/config/config";
-import jwt from "jsonwebtoken";
 
 const getServerSession = () => {
   const cookie = cookies().get(config.cookies.token);

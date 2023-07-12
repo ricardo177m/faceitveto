@@ -1,5 +1,9 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": ["faceit", "faceitveto"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["typescript", "typescriptreact"],
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.words": ["faceit", "faceitveto"]
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

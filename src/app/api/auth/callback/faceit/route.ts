@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 import { config } from "@/config/config";
 import {
@@ -6,7 +7,6 @@ import {
   getOauthEndpoints,
   getUserInfo,
 } from "@/lib/faceitApi";
-import jwt from "jsonwebtoken";
 
 export async function GET(request: Request) {
   const code = request.url.match(/code=([^&]*)/);

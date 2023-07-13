@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ImSpinner8 } from "react-icons/im";
 
-import { Player } from "@/types/player";
 import { useSession } from "@/hooks";
 import { env } from "@/env.mjs";
 
@@ -28,19 +27,17 @@ export default function Search() {
   };
 
   const goBtnHandler = async () => {
-    console.log(search);
-
     if (search.length == 0 || loading) return;
     setLoading(true);
 
     try {
-      const player: Player = await fetch(
+      const player = await fetch(
         `${env.NEXT_PUBLIC_API_URL}/nickname/${search}`
-      ).then((res) => res.json());
+      ).then(async (res) => await res.json());
 
-      const state: string = await fetch(
+      const { state }: { state: string } = await fetch(
         `${env.NEXT_PUBLIC_API_URL}/state/${player.id}`
-      ).then((res) => res.json());
+      ).then(async (res) => await res.json());
 
       if (state !== null) {
         router.push(`/match/${state}`);

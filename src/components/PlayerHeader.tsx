@@ -11,7 +11,7 @@ interface PlayerHeaderProps {
 }
 
 export default function PlayerHeader({ player }: PlayerHeaderProps) {
-  const level = player.games.csgo ? player.games.csgo.skill_level : 0;
+  const level = player.games.cs2 ? player.games.cs2.skill_level : 0;
 
   return (
     <header>

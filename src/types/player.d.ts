@@ -27,6 +27,7 @@ export interface Player {
 
 export interface Games {
   csgo?: Csgo;
+  cs2?: Csgo;
 }
 
 export interface Csgo {

@@ -10,6 +10,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { SkeletonTheme } from "react-loading-skeleton";
 
+import NewsPopup from "@/components/NewsPopup";
+
 const inter = Inter({
   subsets: ["latin"],
 });
@@ -35,6 +37,7 @@ export default function RootLayout({
             {/* @ts-expect-error Async Server Component */}
             <NavBar />
             {children}
+            <NewsPopup />
           </SkeletonTheme>
         </AuthContextProvider>
       </body>

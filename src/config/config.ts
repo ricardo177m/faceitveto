@@ -40,5 +40,6 @@ export const config = {
   },
   localStorage: {
     code_verifier: `${COOKIE_PREFIX}:code_verifier`,
+    newsPopup: `${COOKIE_PREFIX}:news-v1.0.1`,
   },
 };

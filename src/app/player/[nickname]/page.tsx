@@ -41,7 +41,7 @@ async function PlayerPage({ params: { nickname } }: PlayerPageProps) {
         <h1>Teammates</h1>
       </section> */}
 
-      <Suspense fallback={<PlayerLastMatchesSkeleton />}>
+      <Suspense fallback={<PlayerLastMatchesSkeleton player={player} />}>
         {/* @ts-expect-error Async Server Component */}
         <PlayerLastMatches player={player} />
       </Suspense>

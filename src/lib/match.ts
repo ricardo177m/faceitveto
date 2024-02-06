@@ -9,7 +9,7 @@ import { NotFoundError } from "@/lib/exceptions";
 
 export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const response = await fetch(faceitConfig.match(matchId), {
-    next: { revalidate: 60 * 2 },
+    next: { revalidate: 5 },
   });
 
   const data = await response.json();

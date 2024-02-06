@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IoMdArrowForward } from "react-icons/io";
 
 import { Player } from "@/types/player";
 import { fetchPlayerState } from "@/lib/player";
@@ -24,6 +25,7 @@ export default async function CurrentMatchLink({
     >
       <FaceitIcon className="w-6" />
       <h1 className="font-bold">Playing right now!</h1>
+      <IoMdArrowForward className="ml-auto text-xl" />
     </Link>
   );
 }

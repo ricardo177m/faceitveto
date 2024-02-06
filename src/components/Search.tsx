@@ -31,18 +31,17 @@ export default function Search() {
     setLoading(true);
 
     try {
-      const player = await fetch(
-        `${env.NEXT_PUBLIC_API_URL}/nickname/${search}`
-      ).then(async (res) => await res.json());
+      const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/nickname/${search}`);
+      const data = await res.json();
 
-      const { state }: { state: string } = await fetch(
-        `${env.NEXT_PUBLIC_API_URL}/state/${player.id}`
-      ).then(async (res) => await res.json());
+      if (res.status !== 200) {
+        setError(data.error);
+        setLoading(false);
+        throw new Error(data.error);
+      }
 
-      if (state !== null) {
-        router.push(`/match/${state}`);
-        setError(null);
-      } else throw new Error("player is not in a match");
+      router.push(`/player/${search}`);
+      setError(null);
     } catch (error) {
       if (error instanceof Error) setError(error.message);
       searchInputRef.current?.focus();

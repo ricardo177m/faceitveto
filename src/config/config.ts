@@ -35,11 +35,13 @@ export const config = {
     de_vertigo: "Vertigo",
   },
 
+  newsPopupText: null,
+
   cookies: {
     token: `${COOKIE_PREFIX}:token`,
   },
   localStorage: {
     code_verifier: `${COOKIE_PREFIX}:code_verifier`,
-    newsPopup: `${COOKIE_PREFIX}:news-v1.0.1`,
+    newsPopup: `${COOKIE_PREFIX}:news-v2`,
   },
 };

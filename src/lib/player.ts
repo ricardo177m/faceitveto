@@ -20,7 +20,8 @@ export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
     next: { revalidate: 60 * 60 * 3 },
   });
   const data = await response.json();
-  return data.payload;
+  if (response.status === 200) return data.payload;
+  else throw new Error(data.errors[0].message);
 }
 
 export async function fetchPlayerState(

@@ -16,6 +16,8 @@ const NewsPopup: React.FC = () => {
     if (!update) setVisible(true);
   }, []);
 
+  if (!config.newsPopupText) return null;
+
   const handleConfirm = () => {
     localStorage.setItem(config.localStorage.newsPopup, "yes");
     setVisible(false);
@@ -33,9 +35,7 @@ const NewsPopup: React.FC = () => {
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
           <div>
-            <p className="font-medium">
-              ⚡ From now on, only CS2 stats will be shown on match pages!
-            </p>
+            <p className="font-medium">{config.newsPopupText}</p>
           </div>
           <div className="max-md:w-full">
             <PrimaryButton

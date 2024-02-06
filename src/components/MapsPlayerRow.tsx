@@ -57,6 +57,7 @@ export default function MapsPlayerRow({
         <Image
           src={`/assets/faceit-levels/${player.level}.svg`}
           alt={`Level ${player.level}`}
+          title={`${player.elo} elo`}
           width={16}
           height={16}
           className="h-8 min-w-[2rem]"

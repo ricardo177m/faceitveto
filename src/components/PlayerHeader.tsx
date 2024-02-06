@@ -42,6 +42,7 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
         <Image
           src={`/assets/faceit-levels/${level}.svg`}
           alt={`Level ${level}`}
+          title={`${player.games.cs2?.faceit_elo} elo`}
           className="h-7 min-w-[2rem] md:h-8"
           width={16}
           height={16}

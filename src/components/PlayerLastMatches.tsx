@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Player } from "@/types/player";
+import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerMatches } from "@/lib/player";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
@@ -13,10 +14,14 @@ export default async function PlayerLastMatches({
   player,
 }: PlayerLastMatchesProps) {
   const matches = await fetchPlayerMatches(player.id, 5);
+  const session = getServerSession();
 
   return (
     <section>
-      <h2 className="mb-4 text-2xl font-bold">Your Latest Matches</h2>
+      <h2 className="mb-4 text-2xl font-bold">
+        {session && player.id === session.id ? "Your" : player.nickname + "'s"}{" "}
+        Latest Matches
+      </h2>
       <div className="flex flex-col [&>a]:border-b [&>a]:border-b-gray-700 last:[&>a]:border-b-0">
         {matches.map((match) => {
           const isWin = match.i10 === "1";

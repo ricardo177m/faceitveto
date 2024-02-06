@@ -57,7 +57,9 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
             width={16}
             height={16}
           />
-          <span className="mr-5">{match.matchRanking}</span>
+          <span className="mr-5">
+            Match Ranking: {Math.round(match.matchRanking)} elo
+          </span>
           {match.finishedAt && (
             <>
               <FaCalendarAlt className="text-dark-800" />

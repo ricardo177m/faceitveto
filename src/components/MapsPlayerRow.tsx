@@ -63,6 +63,22 @@ export default function MapsPlayerRow({
           className="h-8 min-w-[2rem]"
         />
       </td>
+      {!stats ? (
+        <td className="min-w-[3.2rem] px-2">
+          <Skeleton />
+        </td>
+      ) : (
+        <td
+          className="min-w-[3.2rem] cursor-help px-2 text-center text-xs font-bold text-neutral-400"
+          title={`${Math.round(
+            (stats.overall.wins / stats.overall.matches) * 100
+          )}% (${stats.overall.wins} win${
+            stats.overall.wins !== 1 ? "s" : ""
+          }) - ${stats.overall.kdr} K/D`}
+        >
+          {stats?.overall.matches}
+        </td>
+      )}
       {maps.map((map) => {
         if (!stats)
           return (
@@ -82,8 +98,15 @@ export default function MapsPlayerRow({
               key={map.id}
               className="min-w-[6.5rem] px-4 text-center font-bold"
             >
-              <span className="mr-2 text-red-600">0%</span>
-              <span className="text-xs text-neutral-400">0</span>
+              <span className="mr-2 cursor-help text-red-600" title="0 wins">
+                0%
+              </span>
+              <span
+                className="cursor-help text-xs text-neutral-400"
+                title="0 K/D"
+              >
+                0
+              </span>
             </td>
           );
         }
@@ -98,12 +121,17 @@ export default function MapsPlayerRow({
             <span
               className={`${
                 winRate < 50 ? "text-red-600" : "text-green-500"
-              } mr-2`}
-              title={`${mapStats.wins} wins`}
+              } mr-2 cursor-help`}
+              title={`${mapStats.wins} win${mapStats.wins !== 1 ? "s" : ""}`}
             >
               {winRate}%
             </span>
-            <span className="text-xs text-neutral-400">{mapStats.matches}</span>
+            <span
+              className="cursor-help text-xs text-neutral-400"
+              title={`${mapStats.kdr} K/D`}
+            >
+              {mapStats.matches}
+            </span>
           </td>
         );
       })}

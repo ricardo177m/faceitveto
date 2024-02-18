@@ -9,6 +9,8 @@ export const faceitConfig = {
     `https://api.faceit.com/stats/v1/stats/time/users/${playerId}/games/cs2`,
   player: (playerNickname: string) =>
     `https://api.faceit.com/users/v1/nicknames/${playerNickname}`,
+  stats: (playerId: string) =>
+    `https://api.faceit.com/stats/v1/stats/users/${playerId}/games/cs2`,
   user: (playerId: string) =>
     `https://api.faceit.com/users/v1/users/${playerId}`,
 

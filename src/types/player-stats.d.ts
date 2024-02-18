@@ -1,47 +1,73 @@
 export interface PlayerStats {
-  _id: ID;
-  created_at: number;
-  updated_at: number;
-  nickname: string;
-  i10: string; // is win
-  i13: string;
-  i15: string;
-  i3: string;
-  i4: string;
-  i5: string;
-  i6: string; // frags
-  i7: string; // assists
-  i8: string; // deaths
-  i9: string;
-  i14: string;
-  i16: string;
-  playerId: string;
-  c2: string; // kdr
-  c4: string;
-  c3: string;
-  c1: string;
-  i19: string;
-  teamId: string;
-  premade: boolean;
-  c5: string;
-  bestOf: string;
-  competitionId: string;
-  date: number;
-  game: string;
-  gameMode: string;
-  i0: string;
-  i1: string; // map
-  i12: string;
-  i18: string;
-  i2: string;
-  matchId: string;
-  matchRound: string;
-  played: string;
-  status: string;
-  elo: string;
+  lifetime: Lifetime;
+  segments: Segment[];
 }
 
-export interface ID {
-  matchId: string;
-  playerId: string;
+interface Lifetime {
+  _id: {
+    game: string;
+    playerId: string;
+  };
+  pendingStats: unknown[];
+  rev: number;
+  created_at: number;
+  updated_at: number;
+  m1: string;
+  m2: string;
+  m7: string;
+  m13: string;
+  k5: string;
+  k6: string;
+  k8: string;
+  s0: string[];
+  s1: string;
+  s2: string;
+  s3: string;
+  s4: string;
+  s5: string;
+  s6: string;
+  s7: string;
+}
+
+interface Segment {
+  segments: Test;
+  _id: {
+    game: string;
+    gameMode: string;
+    segmentId: "csgo_map" | "competitions";
+    playerId: string;
+  };
+}
+
+interface Test {
+  [key: string]: SegmentStats;
+}
+
+interface SegmentStats {
+  k1: string;
+  k10: string;
+  k11: string;
+  k12: string;
+  k2: string;
+  k3: string;
+  k4: string;
+  k5: string;
+  k6: string;
+  k7: string;
+  k8: string;
+  k9: string;
+  m1: string;
+  m10: string;
+  m11: string;
+  m12: string;
+  m13: string;
+  m14: string;
+  m2: string;
+  m3: string;
+  m4: string;
+  m5: string;
+  m6: string;
+  m7: string;
+  m8: string;
+  m9: string;
 }

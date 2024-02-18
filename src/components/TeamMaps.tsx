@@ -19,6 +19,9 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
           <tr>
             <th className="px-4 text-left">{team.name}</th>
             <th className="text-sm font-normal">Level</th>
+            <th className="min-w-[3.2rem] text-center text-sm font-normal">
+              Maps
+            </th>
             {maps.map((map) => (
               <th key={map.id} className="relative text-sm font-normal">
                 <Image

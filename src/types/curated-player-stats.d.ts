@@ -1,6 +1,7 @@
 export interface MapStats {
   matches: number;
   wins: number;
+  kdr: number;
 }
 
 export interface IMaps {

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaExternalLinkAlt } from "react-icons/fa";
 
 import { CuratedMatch } from "@/types/curated-match";
 import { formatDateTime } from "@/lib/utils";
@@ -45,7 +45,18 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
                 : "blinking"
             }`}
           ></span>
-          <p className="capitalize">{match.state.toString().toLowerCase()}</p>
+          <p className="mr-4 capitalize">
+            {match.state.toString().toLowerCase()}
+          </p>
+          <a
+            href={`https://www.faceit.com/en/cs2/room/${match.id}`}
+            target="_blank"
+            className="text-xs transition-colors hover:text-primary"
+            title="Go to match room"
+            rel="noreferrer"
+          >
+            <FaExternalLinkAlt />
+          </a>
         </div>
       </div>
       <div className="pb-2 text-sm">

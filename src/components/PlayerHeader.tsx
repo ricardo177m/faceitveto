@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { Player } from "@/types/player";
 import defaultAvatar from "@/lib/default-avatar";
@@ -47,6 +48,15 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           width={16}
           height={16}
         />
+        <a
+          href={`https://www.faceit.com/en/players/${player.nickname}`}
+          target="_blank"
+          className="text-xs transition-colors hover:text-primary"
+          title="Go to player page"
+          rel="noreferrer"
+        >
+          <FaExternalLinkAlt />
+        </a>
       </div>
     </header>
   );

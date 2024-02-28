@@ -1,4 +1,4 @@
-import { CuratedPlayerStats, IMaps } from "@/types/curated-player-stats";
+import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
 import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";
 import { PlayerMatchStats } from "@/types/player-match-stats";
@@ -40,7 +40,7 @@ export async function fetchPlayerState(
 
 export async function fetchPlayerStats(
   playerId: string
-): Promise<CuratedPlayerStats> {
+): Promise<IntervalPlayerStats> {
   const url = new URL(faceitConfig.stats(playerId));
   const response = await fetch(url, {
     next: { revalidate: 60 * 20 },
@@ -50,7 +50,7 @@ export async function fetchPlayerStats(
 
   const payload: PlayerStats = data;
 
-  const result: CuratedPlayerStats = {
+  const result: IntervalPlayerStats = {
     playerId,
     overall: {
       matches: 0,
@@ -85,7 +85,7 @@ export async function fetchPlayerStats(
 export async function fetchPlayerStatsLastMatches(
   playerId: string,
   size: number = config.lastNumberOfMatches
-): Promise<CuratedPlayerStats> {
+): Promise<IntervalPlayerStats> {
   const url = new URL(faceitConfig.matches(playerId));
   url.searchParams.append("page", "0");
   url.searchParams.append("size", size.toString());
@@ -97,7 +97,7 @@ export async function fetchPlayerStatsLastMatches(
 
   const payload: PlayerMatchStats[] = data;
 
-  const result: CuratedPlayerStats = {
+  const result: IntervalPlayerStats = {
     playerId,
     overall: {
       matches: 0,

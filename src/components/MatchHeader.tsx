@@ -33,12 +33,12 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
         ) : null}
         <div className="inline-flex items-center gap-4">
           <span
-            className={`h-3 w-3 rounded-full ${
+            className={`size-3 rounded-full ${
               ["VOTING", "CONFIGURING"].includes(match.state.toString())
                 ? "bg-yellow-400"
                 : ["READY", "ONGOING"].includes(match.state.toString())
-                ? "bg-green-500"
-                : "bg-gray-600"
+                  ? "bg-green-500"
+                  : "bg-gray-600"
             } ${
               ["FINISHED", "CANCELED"].includes(match.state.toString())
                 ? ""

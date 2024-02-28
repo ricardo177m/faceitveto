@@ -9,6 +9,11 @@ export interface IMaps {
 }
 
 export interface CuratedPlayerStats {
+  total: IntervalPlayerStats;
+  mostRecent: IntervalPlayerStats;
+}
+
+export interface IntervalPlayerStats {
   playerId: string;
   overall: MapStats;
   maps: IMaps;

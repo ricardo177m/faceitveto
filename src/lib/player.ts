@@ -132,7 +132,10 @@ export async function fetchPlayerStatsLastMatches(
     }
   });
 
-  result.overall.kdr /= result.overall.matches;
+  result.overall.kdr =
+    Math.round((result.overall.kdr / result.overall.matches) * 100) / 100;
+
+  if (!result.overall.kdr) result.overall.kdr = 0;
 
   return result;
 }

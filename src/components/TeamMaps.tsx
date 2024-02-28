@@ -1,14 +1,14 @@
 import Image from "next/image";
 
 import { CuratedFaction, CuratedMap } from "@/types/curated-match";
-import { CuratedPlayerStats } from "@/types/curated-player-stats";
+import { IntervalPlayerStats } from "@/types/curated-player-stats";
 
 import MapsPlayerRow from "./MapsPlayerRow";
 
 interface TeamMapsProps {
   team: CuratedFaction;
   maps: CuratedMap[];
-  playerStats: CuratedPlayerStats[] | null;
+  playerStats?: IntervalPlayerStats[];
 }
 
 export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
@@ -42,7 +42,7 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
               key={player.id}
               player={player}
               stats={
-                playerStats === null
+                !playerStats
                   ? undefined
                   : playerStats.find((p) => p.playerId === player.id)
               }

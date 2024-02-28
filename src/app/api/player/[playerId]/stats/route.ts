@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchPlayerStats } from "@/lib/player";
+import { fetchPlayerStats, fetchPlayerStatsLastMatches } from "@/lib/player";
 
 interface PlayerStatsParams {
   params: {
@@ -12,6 +12,15 @@ export async function GET(
   _: Request,
   { params: { playerId } }: PlayerStatsParams
 ) {
-  const playerStats = await fetchPlayerStats(playerId);
-  return NextResponse.json(playerStats);
+  const promises = [
+    fetchPlayerStats(playerId),
+    fetchPlayerStatsLastMatches(playerId),
+  ];
+
+  const result = await Promise.all(promises);
+
+  return NextResponse.json({
+    total: result[0],
+    mostRecent: result[1],
+  });
 }

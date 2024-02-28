@@ -1,26 +1,51 @@
+import { useCallback, useEffect, useState } from "react";
+
 import { CuratedMatch } from "@/types/curated-match";
-import getServerSession from "@/lib/getServerSession";
+import { CuratedPlayerStats } from "@/types/curated-player-stats";
 import { isPlayerFaction } from "@/lib/match";
-import { fetchPlayerStats } from "@/lib/player";
+import { useSession } from "@/hooks";
 import TeamMaps from "@/components/TeamMaps";
+import { env } from "@/env.mjs";
 
 interface PlayerStatsProps {
   curatedMatch: CuratedMatch;
+  showMostRecent: boolean;
 }
 
-export default async function PlayerStats({ curatedMatch }: PlayerStatsProps) {
-  const playerStatsPromises = [
-    ...curatedMatch.teams.faction1.players.map((p) => fetchPlayerStats(p.id)),
-    ...curatedMatch.teams.faction2.players.map((p) => fetchPlayerStats(p.id)),
-  ];
+export default function PlayerStats({
+  curatedMatch,
+  showMostRecent,
+}: PlayerStatsProps) {
+  const [playerStats, setPlayerStats] = useState<CuratedPlayerStats[] | null>(
+    null
+  );
 
-  const playerStats = await Promise.all(playerStatsPromises);
+  const session = useSession();
 
-  const session = getServerSession();
+  const fetchPlayerStats = useCallback(async () => {
+    const fetchPromises = [
+      ...curatedMatch.teams.faction1.players.map((p) =>
+        fetch(`${env.NEXT_PUBLIC_API_URL}/player/${p.id}/stats`)
+      ),
+      ...curatedMatch.teams.faction2.players.map((p) =>
+        fetch(`${env.NEXT_PUBLIC_API_URL}/player/${p.id}/stats`)
+      ),
+    ];
+
+    const results = await Promise.all(fetchPromises);
+    const stats: CuratedPlayerStats[] = await Promise.all(
+      results.map((r) => r.json())
+    );
+    setPlayerStats(stats);
+  }, [curatedMatch.teams]);
+
+  useEffect(() => {
+    fetchPlayerStats();
+  }, [fetchPlayerStats]);
 
   let factions = [curatedMatch.teams.faction1, curatedMatch.teams.faction2];
 
-  if (session && isPlayerFaction(factions[0], session.id))
+  if (session.user && isPlayerFaction(factions[0], session.user.id))
     factions = factions.reverse();
 
   return (
@@ -28,12 +53,16 @@ export default async function PlayerStats({ curatedMatch }: PlayerStatsProps) {
       <TeamMaps
         team={factions[0]}
         maps={curatedMatch.maps}
-        playerStats={playerStats}
+        playerStats={playerStats?.map((p) =>
+          showMostRecent ? p.mostRecent : p.total
+        )}
       />
       <TeamMaps
         team={factions[1]}
         maps={curatedMatch.maps}
-        playerStats={playerStats}
+        playerStats={playerStats?.map((p) =>
+          showMostRecent ? p.mostRecent : p.total
+        )}
       />
     </div>
   );

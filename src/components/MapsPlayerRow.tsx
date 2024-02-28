@@ -4,13 +4,13 @@ import { FaCrown } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
-import { CuratedPlayerStats } from "@/types/curated-player-stats";
+import { IntervalPlayerStats } from "@/types/curated-player-stats";
 import { config } from "@/config/config";
 import NextImageWithFallback from "@/components/ui/NextImageWithFallback";
 
 interface MapsPlayerRowProps {
   player: CuratedPlayer;
-  stats: CuratedPlayerStats | undefined;
+  stats: IntervalPlayerStats | undefined;
   maps: CuratedMap[];
   captain: string;
 }

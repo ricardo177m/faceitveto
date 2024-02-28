@@ -1,16 +1,24 @@
+import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { FaCalendarAlt, FaExternalLinkAlt } from "react-icons/fa";
 
 import { CuratedMatch } from "@/types/curated-match";
 import { formatDateTime } from "@/lib/utils";
+import Checkbox from "@/components/ui/Checkbox";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface MatchHeaderProps {
   match: CuratedMatch;
+  showMostRecent: boolean;
+  setShowMostRecent: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function MatchHeader({ match }: MatchHeaderProps) {
+export default function MatchHeader({
+  match,
+  showMostRecent,
+  setShowMostRecent,
+}: MatchHeaderProps) {
   return (
     <div className="flex flex-col px-4">
       <div className="py-2 text-3xl">
@@ -59,8 +67,14 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
           </a>
         </div>
       </div>
-      <div className="pb-2 text-sm">
-        <span className="mx-2 inline-flex items-center gap-2">
+      <div className="pb-1 text-sm">
+        <Checkbox
+          isChecked={showMostRecent}
+          setIsChecked={setShowMostRecent}
+          label="Most Recent Matches"
+          className="mx-2 inline-flex items-center gap-2"
+        />
+        <div className="mx-2 inline-flex items-center gap-2">
           <Image
             src="/assets/elo.svg"
             alt="Elo icon"
@@ -68,16 +82,14 @@ export default function MatchHeader({ match }: MatchHeaderProps) {
             width={16}
             height={16}
           />
-          <span className="mr-5">
-            Match Ranking: {Math.round(match.matchRanking)} elo
-          </span>
-          {match.finishedAt && (
-            <>
-              <FaCalendarAlt className="text-dark-800" />
-              <span>{formatDateTime(match.finishedAt)}</span>
-            </>
-          )}
-        </span>
+          <span>Match Ranking: {Math.round(match.matchRanking)} elo</span>
+        </div>
+        {match.finishedAt && (
+          <div className="mx-2 inline-flex items-center gap-2">
+            <FaCalendarAlt className="text-dark-800" />
+            <span>{formatDateTime(match.finishedAt)}</span>
+          </div>
+        )}
       </div>
     </div>
   );

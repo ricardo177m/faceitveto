@@ -1,6 +1,5 @@
 import { fetchMatch } from "@/lib/match";
-import MatchHeader from "@/components/MatchHeader";
-import PlayerStats from "@/components/PlayerStats";
+import Match from "@/components/Match";
 
 interface MatchPageProps {
   params: {
@@ -10,13 +9,5 @@ interface MatchPageProps {
 
 export default async function MatchPage({ params: { id } }: MatchPageProps) {
   const curatedMatch = await fetchMatch(id);
-
-  return (
-    <div>
-      <MatchHeader match={curatedMatch} />
-
-      {/* @ts-expect-error Async Server Component */}
-      <PlayerStats curatedMatch={curatedMatch} />
-    </div>
-  );
+  return <Match match={curatedMatch} />;
 }

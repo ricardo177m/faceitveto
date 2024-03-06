@@ -7,6 +7,7 @@ import {
   getOauthEndpoints,
   getUserInfo,
 } from "@/lib/faceit-oauth";
+import { fetchPlayerById } from "@/lib/player";
 import { env } from "@/env.mjs";
 
 export async function GET(request: Request) {
@@ -31,11 +32,14 @@ export async function GET(request: Request) {
       token.access_token
     );
 
+    const detailedUser = await fetchPlayerById(userinfo.guid);
+
     const data = {
       id: userinfo.guid,
       nickname: userinfo.nickname,
-      avatar: userinfo.picture,
-      locale: userinfo.locale,
+      avatar: detailedUser.avatar,
+      country: detailedUser.country,
+      steamid: detailedUser.platforms?.steam?.id64,
     };
 
     const userToken = jwt.sign(data, jwtSecret, { expiresIn: "180d" });

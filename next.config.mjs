@@ -3,7 +3,18 @@ import "./src/env.mjs";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["assets.faceit-cdn.net", "distribution.faceit-cdn.net"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "assets.faceit-cdn.net",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "distribution.faceit-cdn.net",
+        pathname: "/**",
+      },
+    ],
     minimumCacheTTL: 60 * 60 * 12,
   },
   productionBrowserSourceMaps: true,

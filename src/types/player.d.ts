@@ -22,7 +22,7 @@ export interface Player {
   user_type: string;
   verified: boolean;
   version: number;
-  platforms: Platforms;
+  platforms?: Platforms;
 }
 
 export interface Games {
@@ -43,7 +43,7 @@ export interface Csgo {
 }
 
 export interface Platforms {
-  steam: Steam;
+  steam?: Steam;
 }
 
 export interface Steam {

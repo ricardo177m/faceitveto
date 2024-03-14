@@ -26,6 +26,11 @@ export default async function PlayerLastMatches({
         {matches.map((match) => {
           const isWin = match.i10 === "1";
 
+          const roundsWon = match.c5;
+          const rawScore = match.i18.split(" ");
+          if (rawScore[2] === roundsWon) rawScore.reverse();
+          const score = rawScore.join(" ");
+
           return (
             <Link
               key={match.matchId}
@@ -50,7 +55,7 @@ export default async function PlayerLastMatches({
                   <span>{match.i1}</span>
                 </div>
                 <div className="ml-auto p-4 text-gray-400">
-                  <span>{match.i18}</span>
+                  <span>{score}</span>
                 </div>
                 {/* <div className="p-4 my-auto ml-auto text-center">
                   <span

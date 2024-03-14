@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
-import Image from "next/image";
-import { FaCalendarAlt, FaExternalLinkAlt } from "react-icons/fa";
+import moment from "moment";
+import { FaClock, FaExternalLinkAlt } from "react-icons/fa";
 
 import { CuratedMatch } from "@/types/curated-match";
 import { formatDateTime } from "@/lib/utils";
 import Checkbox from "@/components/ui/Checkbox";
 
+import Elo from "./icons/Elo";
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface MatchHeaderProps {
@@ -75,19 +76,16 @@ export default function MatchHeader({
           className="mx-2 inline-flex items-center gap-2"
         />
         <div className="mx-2 inline-flex items-center gap-2">
-          <Image
-            src="/assets/elo.svg"
-            alt="Elo icon"
-            className="w-4"
-            width={16}
-            height={16}
-          />
+          <Elo className="w-4 fill-dark-800" />
           <span>Match Ranking: {Math.round(match.matchRanking)} elo</span>
         </div>
         {match.finishedAt && (
-          <div className="mx-2 inline-flex items-center gap-2">
-            <FaCalendarAlt className="text-dark-800" />
-            <span>{formatDateTime(match.finishedAt)}</span>
+          <div
+            title={formatDateTime(match.finishedAt)}
+            className="mx-2 inline-flex items-center gap-2"
+          >
+            <FaClock className="text-dark-800" />
+            <span>{moment(match.finishedAt).fromNow()}</span>
           </div>
         )}
       </div>

@@ -12,9 +12,9 @@ export default async function NavBar() {
   return (
     <nav className="mb-4 flex h-16 w-full flex-row items-center gap-4 border-b border-b-dark-600 px-4">
       <Logo />
-      <div>
+      {/* <div>
         <span className="rounded-md bg-dark-600 px-2 py-1 text-sm">Beta</span>
-      </div>
+      </div> */}
       <div className="ml-auto flex flex-row items-center gap-2">
         {session ? (
           <>

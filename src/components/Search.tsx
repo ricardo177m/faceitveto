@@ -14,7 +14,7 @@ const minQueryLength = 2;
 
 export default function Search() {
   const [query, setQuery] = useState<string>("");
-  const [hidden, setHidden] = useState<boolean>(true);
+  const [hidden, setHidden] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

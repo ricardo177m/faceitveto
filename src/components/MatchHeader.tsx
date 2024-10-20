@@ -68,7 +68,7 @@ export default function MatchHeader({
           </a>
         </div>
       </div>
-      <div className="pb-1 text-sm">
+      <div className="flex flex-wrap items-center gap-y-4 pb-1 text-sm">
         <Checkbox
           isChecked={showMostRecent}
           setIsChecked={setShowMostRecent}

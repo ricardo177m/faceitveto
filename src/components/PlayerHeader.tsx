@@ -4,6 +4,7 @@ import { Player } from "@/types/player";
 import defaultAvatar from "@/lib/default-avatar";
 import toBase64 from "@/services/toBase64";
 
+import CountryFlag from "./CountryFlag";
 import Level from "./Level";
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
@@ -12,7 +13,16 @@ interface PlayerHeaderProps {
 }
 
 export default function PlayerHeader({ player }: PlayerHeaderProps) {
-  const level = player.games.cs2 ? player.games.cs2.skill_level : 0;
+  const cs2 =
+    player.games && player.games.cs2
+      ? {
+          level: player.games.cs2.skill_level,
+          elo: player.games.cs2.faceit_elo,
+        }
+      : {
+          level: 0,
+          elo: 0,
+        };
 
   return (
     <header>
@@ -40,9 +50,10 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
         <h1 className="text-2xl font-bold text-white md:text-3xl">
           {player.nickname}
         </h1>
+        <CountryFlag country={player.country} />
         <Level
-          level={level}
-          elo={player.games.cs2?.faceit_elo}
+          level={cs2.level}
+          elo={cs2.elo}
           className="h-7 min-w-[2rem] md:h-8"
         />
         <a

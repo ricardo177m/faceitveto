@@ -1,3 +1,5 @@
+import { getName } from "country-list";
+
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface CountryFlagProps {
@@ -15,8 +17,8 @@ export default function CountryFlag({
     <NextImageWithFallback
       fallbackSrc="/assets/countries/unknown.svg"
       src={`/assets/countries/${country?.toLowerCase()}.svg`}
-      alt={`${country?.toUpperCase()} flag`}
-      title={`${country?.toUpperCase()} flag`}
+      alt={getName(country as string) || "Unknown"}
+      title={getName(country as string) || "Unknown"}
       width={size || 16}
       height={size || 16}
       className={`${className} h-4 min-w-[1.5rem]`}

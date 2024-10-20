@@ -46,7 +46,7 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           className="absolute bottom-4 ml-6 aspect-square w-28 translate-y-1/2 rounded-full border border-dark-700 md:bottom-8 md:ml-8 md:w-44"
         />
       </div>
-      <div className="ml-40 mt-4 inline-flex items-center gap-4 md:ml-60">
+      <div className="ml-40 mt-4 inline-flex flex-wrap items-center gap-4 md:ml-60">
         <h1 className="text-2xl font-bold text-white md:text-3xl">
           {player.nickname}
         </h1>

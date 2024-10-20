@@ -18,6 +18,8 @@ export const faceitConfig = {
   matchStatsCfg: "https://api.faceit.com/stats/v1/stats/configuration/cs2",
   userList: "https://api.faceit.com/user-summary/v1/list",
   state: "https://api.faceit.com/match/v1/matches/groupByState",
+  list: "https://www.faceit.com/api/user-summary/v2/list",
+  skillGroups: "https://www.faceit.com/api/skills/v3/configs/games/cs2",
 
   openidConfig: "https://api.faceit.com/auth/v1/openid_configuration",
 };

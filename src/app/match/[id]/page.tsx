@@ -1,4 +1,4 @@
-import { fetchMatch } from "@/lib/match";
+import { fetchDemocracy, fetchMatch } from "@/lib/match";
 import Match from "@/components/Match";
 
 interface MatchPageProps {
@@ -9,5 +9,10 @@ interface MatchPageProps {
 
 export default async function MatchPage({ params: { id } }: MatchPageProps) {
   const curatedMatch = await fetchMatch(id);
-  return <Match match={curatedMatch} />;
+  const democracy =
+    curatedMatch.state.toString() === "VOTING"
+      ? await fetchDemocracy(id)
+      : undefined;
+
+  return <Match match={curatedMatch} democracy={democracy} />;
 }

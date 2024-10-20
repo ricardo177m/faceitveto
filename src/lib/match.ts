@@ -3,6 +3,7 @@ import {
   CuratedMap,
   CuratedMatch,
 } from "@/types/curated-match";
+import { Democracy } from "@/types/democracy";
 import { Element, Faction, Match } from "@/types/match";
 import { faceitConfig } from "@/config/faceit";
 import { NotFoundError } from "@/lib/exceptions";
@@ -73,6 +74,17 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   };
 
   return curatedMatch;
+}
+
+export async function fetchDemocracy(matchId: string): Promise<Democracy> {
+  const response = await fetch(faceitConfig.match(matchId), {
+    cache: "no-cache",
+  });
+
+  const data = await response.json();
+
+  if (response.status === 200) return data.payload;
+  else throw new Error(data.errors[0].message);
 }
 
 export function isPlayerFaction(faction: CuratedFaction, playerId: string) {

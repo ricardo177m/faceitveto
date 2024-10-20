@@ -1,6 +1,7 @@
 "use client";
 
 import { CuratedMatch } from "@/types/curated-match";
+import { Democracy } from "@/types/democracy";
 import { config } from "@/config/config";
 import { useLocalStorage } from "@/hooks";
 
@@ -9,6 +10,7 @@ import PlayerStats from "./PlayerStats";
 
 interface MapsPlayerRowProps {
   match: CuratedMatch;
+  democracy?: Democracy;
 }
 
 export default function Match({ match }: MapsPlayerRowProps) {

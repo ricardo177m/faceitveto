@@ -75,9 +75,12 @@ export default function MatchHeader({
           label="Most Recent Matches"
           className="mx-2 inline-flex items-center gap-2"
         />
-        <div className="mx-2 inline-flex items-center gap-2">
+        <div
+          className="mx-2 inline-flex items-center gap-2"
+          title="Match Avg Elo"
+        >
           <Elo className="w-4 fill-dark-800" />
-          <span>Match Ranking: {Math.round(match.matchRanking)} elo</span>
+          <span>{Math.round(match.matchRanking)}</span>
         </div>
         {match.finishedAt && (
           <div

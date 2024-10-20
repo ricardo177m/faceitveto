@@ -1,10 +1,10 @@
-import Image from "next/image";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { Player } from "@/types/player";
 import defaultAvatar from "@/lib/default-avatar";
 import toBase64 from "@/services/toBase64";
 
+import Level from "./Level";
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface PlayerHeaderProps {
@@ -40,13 +40,10 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
         <h1 className="text-2xl font-bold text-white md:text-3xl">
           {player.nickname}
         </h1>
-        <Image
-          src={`/assets/faceit-levels/${level}.svg`}
-          alt={`Level ${level}`}
-          title={`${player.games.cs2?.faceit_elo} elo`}
+        <Level
+          level={level}
+          elo={player.games.cs2?.faceit_elo}
           className="h-7 min-w-[2rem] md:h-8"
-          width={16}
-          height={16}
         />
         <a
           href={`https://www.faceit.com/en/players/${player.nickname}`}

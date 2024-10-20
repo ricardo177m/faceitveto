@@ -4,7 +4,7 @@ import getServerSession from "@/lib/getServerSession";
 import Logo from "@/components/ui/Logo";
 import { SignInWithFaceit, SignOut } from "@/components/actions";
 
-import NextImageWithFallback from "./ui/NextImageWithFallback";
+import PlayerAvatar from "./PlayerAvatar";
 
 export default async function NavBar() {
   const session = getServerSession();
@@ -23,14 +23,7 @@ export default async function NavBar() {
               as={`/player/${session.nickname}`}
               className="inline-flex items-center gap-2 rounded-md px-2 py-1 transition-colors duration-200 ease-in-out hover:bg-gray-700"
             >
-              <NextImageWithFallback
-                src={session.avatar as string}
-                fallbackSrc="/assets/default-avatar.svg"
-                alt="Player avatar"
-                width="32"
-                height="32"
-                className="aspect-square rounded-full border border-dark-700"
-              />
+              <PlayerAvatar player={session} size={32} />
               <p>{session.nickname}</p>
             </Link>
             <SignOut />

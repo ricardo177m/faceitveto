@@ -2,7 +2,7 @@
 
 import { CuratedMatch } from "@/types/curated-match";
 import { config } from "@/config/config";
-import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
+import { useLocalStorage } from "@/hooks";
 
 import MatchHeader from "./MatchHeader";
 import PlayerStats from "./PlayerStats";

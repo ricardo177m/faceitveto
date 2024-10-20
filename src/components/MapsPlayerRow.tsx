@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FaCrown } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
@@ -6,7 +5,9 @@ import Skeleton from "react-loading-skeleton";
 import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { IntervalPlayerStats } from "@/types/curated-player-stats";
 import { config } from "@/config/config";
-import NextImageWithFallback from "@/components/ui/NextImageWithFallback";
+
+import Level from "./Level";
+import PlayerAvatar from "./PlayerAvatar";
 
 interface MapsPlayerRowProps {
   player: CuratedPlayer;
@@ -32,16 +33,7 @@ export default function MapsPlayerRow({
           borderLeftColor: config.premadeColors[player.partyId] ?? "gray",
         }}
       >
-        <NextImageWithFallback
-          src={player.avatar}
-          fallbackSrc="/assets/default-avatar.svg"
-          alt={`${player.nickname}'s avatar`}
-          width={36}
-          height={36}
-          className="aspect-square rounded-full border border-dark-700"
-          unoptimized={true}
-          loading="lazy"
-        />
+        <PlayerAvatar player={player} />
         <Link
           href={`/player/[nickname]`}
           as={`/player/${player.nickname}`}
@@ -54,14 +46,7 @@ export default function MapsPlayerRow({
         </Link>
       </td>
       <td className="px-4">
-        <Image
-          src={`/assets/faceit-levels/${player.level}.svg`}
-          alt={`Level ${player.level}`}
-          title={`${player.elo} elo`}
-          width={16}
-          height={16}
-          className="h-8 min-w-[2rem]"
-        />
+        <Level level={player.level} elo={player.elo} />
       </td>
       {!stats ? (
         <td className="min-w-[3.2rem] px-2">

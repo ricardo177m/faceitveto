@@ -41,7 +41,7 @@ export const config = {
     token: `${COOKIE_PREFIX}:token`,
   },
   localStorage: {
-    code_verifier: `${COOKIE_PREFIX}:code_verifier`,
     newsPopup: `${COOKIE_PREFIX}:news-v2`,
+    showMostRecent: `${COOKIE_PREFIX}:showMostRecent`,
   },
 };

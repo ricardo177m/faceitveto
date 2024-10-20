@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
 import { CuratedMatch } from "@/types/curated-match";
+import { config } from "@/config/config";
+import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
 
 import MatchHeader from "./MatchHeader";
 import PlayerStats from "./PlayerStats";
@@ -12,7 +12,10 @@ interface MapsPlayerRowProps {
 }
 
 export default function Match({ match }: MapsPlayerRowProps) {
-  const [showMostRecent, setShowMostRecent] = useState(false);
+  const [showMostRecent, setShowMostRecent] = useLocalStorage(
+    config.localStorage.showMostRecent,
+    false
+  );
 
   return (
     <div>

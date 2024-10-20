@@ -34,6 +34,7 @@ export default function Search() {
 
   const handleClick = useCallback((e: MouseEvent) => {
     setHidden(e.target !== inputRef.current);
+    console.log(e.target !== inputRef.current);
   }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +71,7 @@ export default function Search() {
               onChange={handleInput}
               onFocus={() => setHidden(false)}
             />
-            {query.length >= minQueryLength && searchres ? (
+            {query.length >= minQueryLength ? (
               <div
                 className="absolute mt-1 w-96 rounded-md bg-gray-700 px-4 py-2 text-center shadow-xl"
                 hidden={hidden}
@@ -79,13 +80,13 @@ export default function Search() {
                   Array(3)
                     .fill(1)
                     .map((_, i) => <SearchResultSkeleton key={i} />)
-                ) : searchres.total_count > 0 ? (
+                ) : searchres!.total_count > 0 ? (
                   <>
-                    {searchres.results.map((p) => (
+                    {searchres!.results.map((p) => (
                       <SearchResult key={p.id} player={p} />
                     ))}
                     <span className="text-xs text-dark-900">
-                      {searchres.total_count} players found
+                      {searchres!.total_count} players found
                     </span>
                   </>
                 ) : (

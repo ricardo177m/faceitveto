@@ -3,6 +3,7 @@ export type CuratedMatch = {
   region: string;
   matchRanking: number;
   state: States;
+  bestOf: number;
   maps: CuratedMap[];
   mapPicks?: CuratedMap[];
   teams: {
@@ -24,6 +25,7 @@ export enum States {
   ONGOING,
   CANCELED,
   FINISHED,
+  SCHEDULED,
 }
 
 type CuratedMap = {

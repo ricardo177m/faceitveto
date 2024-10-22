@@ -3,6 +3,7 @@ import moment from "moment";
 import { FaClock, FaExternalLinkAlt } from "react-icons/fa";
 
 import { CuratedMatch } from "@/types/curated-match";
+import { MatchStats } from "@/types/match-stats";
 import { formatDateTime } from "@/lib/utils";
 import Checkbox from "@/components/ui/Checkbox";
 
@@ -11,12 +12,14 @@ import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface MatchHeaderProps {
   match: CuratedMatch;
+  stats: MatchStats[];
   showMostRecent: boolean;
   setShowMostRecent: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function MatchHeader({
   match,
+  stats,
   showMostRecent,
   setShowMostRecent,
 }: MatchHeaderProps) {
@@ -24,7 +27,31 @@ export default function MatchHeader({
     <div className="flex flex-col px-4">
       <div className="py-2 text-3xl">
         <span>{match.teams.faction1.name}</span>
-        <span className="mx-2 text-dark-700"> / </span>
+        {stats.length > 0 && match.bestOf === 1 ? (
+          <span className="mx-3">
+            <span
+              className={
+                stats[0].teams[0].i17 === "1"
+                  ? "text-green-500"
+                  : "text-dark-800"
+              }
+            >
+              {stats[0].teams[0].c5}
+            </span>
+            <span className="text-dark-700"> / </span>
+            <span
+              className={
+                stats[0].teams[1].i17 === "1"
+                  ? "text-green-500"
+                  : "text-dark-800"
+              }
+            >
+              {stats[0].teams[1].c5}
+            </span>
+          </span>
+        ) : (
+          <span className="mx-2 text-dark-700"> / </span>
+        )}
         <span>{match.teams.faction2.name}</span>
       </div>
       <div className="flex flex-row flex-wrap items-center gap-4 py-4 text-2xl sm:gap-12">
@@ -77,7 +104,7 @@ export default function MatchHeader({
         />
         <div
           className="mx-2 inline-flex items-center gap-2"
-          title="Match Avg Elo"
+          title="Match Average Elo"
         >
           <Elo className="w-4 fill-dark-800" />
           <span>{Math.round(match.matchRanking)}</span>

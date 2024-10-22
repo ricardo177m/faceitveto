@@ -5,6 +5,7 @@ import {
 } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
 import { Element, Faction, Match } from "@/types/match";
+import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
 import { faceitConfig } from "@/config/faceit";
 import { NotFoundError } from "@/lib/exceptions";
@@ -57,6 +58,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
     region: match.region,
     matchRanking: match.entityCustom.effectiveRanking,
     state: match.state,
+    bestOf: match.matchCustom.overview.round.to_play,
     maps: match.matchCustom.tree.map.values.value.map(mapFilter),
     mapPicks: Object.prototype.hasOwnProperty.call(match, "voting")
       ? (match.voting?.map.pick.map((map) => {
@@ -75,6 +77,15 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   };
 
   return curatedMatch;
+}
+
+export async function fetchMatchStats(matchId: string): Promise<MatchStats[]> {
+  const response = await fetch(faceitConfig.matchStats(matchId), {
+    next: { revalidate: 5 },
+  });
+
+  const data: MatchStats[] = await response.json();
+  return data;
 }
 
 export async function fetchDemocracy(matchId: string): Promise<Democracy> {

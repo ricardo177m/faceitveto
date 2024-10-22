@@ -6,6 +6,7 @@ import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerByNickname } from "@/lib/player";
 import CurrentMatchLink from "@/components/CurrentMatchLink";
 import PlayerHeader from "@/components/PlayerHeader";
+import PlayerHeaderSkeleton from "@/components/PlayerHeaderSkeleton";
 import PlayerLastMatches from "@/components/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "@/components/PlayerLastMatchesSkeleton";
 

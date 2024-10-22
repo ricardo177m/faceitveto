@@ -2,6 +2,7 @@
 
 import { CuratedMatch } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
+import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
 import { useLocalStorage } from "@/hooks";
 
@@ -11,9 +12,10 @@ import PlayerStats from "./PlayerStats";
 interface MapsPlayerRowProps {
   match: CuratedMatch;
   democracy?: Democracy;
+  stats: MatchStats[];
 }
 
-export default function Match({ match }: MapsPlayerRowProps) {
+export default function Match({ match, stats }: MapsPlayerRowProps) {
   const [showMostRecent, setShowMostRecent] = useLocalStorage(
     config.localStorage.showMostRecent,
     false
@@ -23,6 +25,7 @@ export default function Match({ match }: MapsPlayerRowProps) {
     <div>
       <MatchHeader
         match={match}
+        stats={stats}
         showMostRecent={showMostRecent}
         setShowMostRecent={setShowMostRecent}
       />

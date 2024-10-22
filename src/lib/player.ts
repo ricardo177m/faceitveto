@@ -124,12 +124,16 @@ export async function fetchPlayerStatsLastMatches(
     result.overall.kdr += kdr;
 
     result.maps[map].matches++;
-    result.maps[map].kdr = kdr;
+    result.maps[map].kdr += kdr;
 
     if (isWin) {
       result.overall.wins++;
       result.maps[map].wins++;
     }
+  });
+
+  Object.entries(result.maps).forEach(([, v]) => {
+    v.kdr = Math.round((v.kdr / v.matches) * 100) / 100;
   });
 
   result.overall.kdr =

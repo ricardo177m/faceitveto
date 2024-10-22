@@ -6,7 +6,7 @@ import {
   getAccessToken,
   getOauthEndpoints,
   getUserInfo,
-} from "@/lib/faceit-oauth";
+} from "@/lib/faceitOauth";
 import { fetchPlayerById } from "@/lib/player";
 import { env } from "@/env.mjs";
 

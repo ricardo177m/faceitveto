@@ -12,13 +12,6 @@ export default function MatchHeaderSkeleton() {
       </div>
       <div className="pb-2 text-sm">
         <span className="mx-2 inline-flex items-center gap-2">
-          <Image
-            src="/assets/elo.svg"
-            alt="Elo icon"
-            className="w-4"
-            width={16}
-            height={16}
-          />
           <Skeleton containerClassName="w-12" />
         </span>
       </div>

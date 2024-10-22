@@ -1,7 +1,7 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { Player } from "@/types/player";
-import defaultAvatar from "@/lib/default-avatar";
+import defaultAvatar from "@/lib/defaultAvatar";
 import toBase64 from "@/services/toBase64";
 
 import CountryFlag from "./CountryFlag";

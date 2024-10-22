@@ -14,7 +14,7 @@ export default function GuestHome() {
             height={42}
             priority
           />
-          <div className="flex min-w-max flex-col gap-2">
+          <div className="flex w-full max-w-96 flex-col gap-2">
             <p className="text-lg text-gray-200">Search for a player</p>
             <Search />
           </div>

@@ -1,11 +1,10 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { Player } from "@/types/player";
-import defaultAvatar from "@/lib/defaultAvatar";
-import toBase64 from "@/services/toBase64";
 
 import CountryFlag from "./CountryFlag";
 import Level from "./Level";
+import PlayerAvatar from "./PlayerAvatar";
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface PlayerHeaderProps {
@@ -35,15 +34,10 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           height={100}
           className="h-40 w-full rounded-md border border-dark-700 object-cover md:h-56"
         />
-        <NextImageWithFallback
-          src={player.avatar}
-          fallbackSrc="/assets/default-avatar.svg"
-          placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(defaultAvatar())}`}
-          alt={`${player.nickname}'s avatar`}
-          width={256}
-          height={256}
-          className="absolute bottom-4 ml-6 aspect-square w-28 translate-y-1/2 rounded-full border border-dark-700 md:bottom-8 md:ml-8 md:w-44"
+        <PlayerAvatar
+          player={player}
+          size={256}
+          className="absolute bottom-4 ml-6 w-28 translate-y-1/2 md:bottom-8 md:ml-8 md:w-44"
         />
       </div>
       <div className="ml-40 mt-4 inline-flex flex-wrap items-center gap-4 md:ml-60">

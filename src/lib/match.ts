@@ -5,6 +5,7 @@ import {
 } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
 import { Element, Faction, Match } from "@/types/match";
+import { config } from "@/config/config";
 import { faceitConfig } from "@/config/faceit";
 import { NotFoundError } from "@/lib/exceptions";
 
@@ -24,7 +25,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const buildFaction = (faction: Faction) => ({
     name: faction.name,
     avatar:
-      faction.avatar === null ? "/assets/default-avatar.svg" : faction.avatar,
+      faction.avatar === null ? config.defaultAvatarAsset : faction.avatar,
     winProbability:
       faction.stats !== undefined ? faction.stats.winProbability : undefined,
     captain: faction.leader,
@@ -35,7 +36,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
         id: player.id,
         nickname: player.nickname,
         avatar:
-          player.avatar === null ? "/assets/default-avatar.svg" : player.avatar,
+          player.avatar === null ? config.defaultAvatarAsset : player.avatar,
         gameId: player.gameId,
         memberships: player.memberships,
         elo: player.elo,

@@ -33,7 +33,6 @@ export default function Search() {
 
   const handleClick = useCallback((e: MouseEvent) => {
     setHidden(e.target !== inputRef.current);
-    console.log(e.target !== inputRef.current);
   }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +51,7 @@ export default function Search() {
     <div className="relative">
       <input
         type="text"
-        className="w-96 rounded-md bg-dark-600 px-4 py-1"
+        className="w-full max-w-96 rounded-md bg-dark-600 px-4 py-1"
         placeholder="Nickname"
         autoFocus
         ref={inputRef}
@@ -61,7 +60,7 @@ export default function Search() {
       />
       {query.length >= minQueryLength ? (
         <div
-          className="absolute mt-1 w-96 rounded-md bg-gray-700 px-4 py-2 text-center shadow-xl"
+          className="absolute mt-1 w-full max-w-96 rounded-md bg-gray-700 px-4 py-2 text-center shadow-xl"
           hidden={hidden}
         >
           {isLoading ? (

@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { IoMdArrowForward } from "react-icons/io";
 
-import { Player } from "@/types/player";
 import { fetchPlayerState } from "@/lib/player";
 
 import FaceitIcon from "./icons/faceit";
 
 interface CurrentMatchLinkProps {
-  player: Player;
+  player: { id: string };
   yourMatch?: boolean;
 }
 

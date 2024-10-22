@@ -15,7 +15,6 @@ export default function UserHome({ session }: UserHomeProps) {
       <h1 className="text-3xl font-bold">Hello {session.nickname}</h1>
 
       <section className="my-4">
-        {/* @ts-expect-error Async Server Component */}
         <CurrentMatchLink player={session} yourMatch />
       </section>
 
@@ -24,7 +23,6 @@ export default function UserHome({ session }: UserHomeProps) {
           <PlayerLastMatchesSkeleton player={session} size={1} self={true} />
         }
       >
-        {/* @ts-expect-error Async Server Component */}
         <PlayerLastMatches player={session} size={1} self={true} />
       </Suspense>
 

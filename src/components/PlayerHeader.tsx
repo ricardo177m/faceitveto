@@ -45,11 +45,7 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           {player.nickname}
         </h1>
         <CountryFlag country={player.country} />
-        <Level
-          level={cs2.level}
-          elo={cs2.elo}
-          className="h-7 min-w-[2rem] md:h-8"
-        />
+        <Level level={cs2.level} elo={cs2.elo} className="h-7 min-w-8 md:h-8" />
         <a
           href={`https://www.faceit.com/en/players/${player.nickname}`}
           target="_blank"

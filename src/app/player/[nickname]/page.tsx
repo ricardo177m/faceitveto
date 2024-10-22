@@ -36,17 +36,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
   return (
     <div className="mb-16 flex flex-col gap-8 px-4">
       <PlayerHeader player={player} />
-
-      {/* @ts-expect-error Async Server Component */}
       <CurrentMatchLink player={player} />
-
-      {/* <section>
-        <h1>Some cool stats</h1>
-      </section>
-      <section>
-        <h1>Teammates</h1>
-      </section> */}
-
       <Suspense
         fallback={
           <PlayerLastMatchesSkeleton
@@ -55,7 +45,6 @@ export default async function PlayerPage(props: PlayerPageProps) {
           />
         }
       >
-        {/* @ts-expect-error Async Server Component */}
         <PlayerLastMatches
           player={player}
           self={!!session && player.id === session.id}

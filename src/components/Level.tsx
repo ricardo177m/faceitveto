@@ -17,7 +17,7 @@ export default function Level({ level, elo, className, size }: LevelProps) {
       title={elo ? `${elo} elo (CS2)` : "CS2 Level"}
       width={size || 16}
       height={size || 16}
-      className={`${className} h-8 min-w-[2rem]`}
+      className={`${className} h-8 min-w-8`}
     />
   );
 }

@@ -34,7 +34,6 @@ export default function RootLayout({
       <body className={`bg-dark-300 text-white ${inter.className}`}>
         <AuthContextProvider>
           <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
-            {/* @ts-expect-error Async Server Component */}
             <NavBar />
             {children}
             <NewsPopup />

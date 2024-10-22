@@ -3,12 +3,15 @@ import { NextResponse } from "next/server";
 import { fetchMatch } from "@/lib/match";
 
 interface MatchParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function GET(_: Request, { params: { id } }: MatchParams) {
+export async function GET(_: Request, props: MatchParams) {
+  const params = await props.params;
+  const { id } = params;
+
   try {
     const curatedMatch = await fetchMatch(id);
     return NextResponse.json(curatedMatch);

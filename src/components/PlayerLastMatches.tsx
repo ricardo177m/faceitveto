@@ -1,26 +1,30 @@
 import Link from "next/link";
 
-import { Player } from "@/types/player";
-import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerMatches } from "@/lib/player";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 
 interface PlayerLastMatchesProps {
-  player: Player;
+  player: {
+    id: string;
+    nickname: string;
+  };
+  self: boolean;
+  size?: number;
 }
 
 export default async function PlayerLastMatches({
   player,
+  self,
+  size = 5,
 }: PlayerLastMatchesProps) {
-  const matches = await fetchPlayerMatches(player.id, 5);
-  const session = getServerSession();
+  const matches = await fetchPlayerMatches(player.id, size);
 
   return (
     <section>
       <h2 className="mb-4 text-2xl font-bold">
-        {session && player.id === session.id ? "Your" : player.nickname + "'s"}{" "}
-        Latest Matches
+        {self ? "Your" : player.nickname + "'s"} Latest Match
+        {size > 1 ? "es" : ""}
       </h2>
       <div className="flex flex-col [&>a]:border-b [&>a]:border-b-gray-700 last:[&>a]:border-b-0">
         {matches.map((match) => {

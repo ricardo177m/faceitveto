@@ -1,11 +1,12 @@
-import { cookies } from "next/dist/client/components/headers";
+import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 import { config } from "@/config/config";
 import { env } from "@/env.mjs";
 
-const getServerSession = () => {
-  const cookie = cookies().get(config.cookies.token);
+const getServerSession = async () => {
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get(config.cookies.token);
   const token = cookie?.value as string;
 
   if (!token) return null;

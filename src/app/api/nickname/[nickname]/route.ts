@@ -3,15 +3,15 @@ import { NextResponse } from "next/server";
 import { fetchPlayerByNickname } from "@/lib/player";
 
 interface NicknameParams {
-  params: {
+  params: Promise<{
     nickname: string;
-  };
+  }>;
 }
 
-export async function GET(
-  _: Request,
-  { params: { nickname } }: NicknameParams
-) {
+export async function GET(_: Request, props: NicknameParams) {
+  const params = await props.params;
+  const { nickname } = params;
+
   try {
     const data = await fetchPlayerByNickname(nickname);
     return NextResponse.json(data);

@@ -7,7 +7,7 @@ import { SignInWithFaceit, SignOut } from "@/components/actions";
 import PlayerAvatar from "./PlayerAvatar";
 
 export default async function NavBar() {
-  const session = getServerSession();
+  const session = await getServerSession();
 
   return (
     <nav className="mb-4 flex h-16 w-full flex-row items-center gap-4 border-b border-b-dark-600 px-4">

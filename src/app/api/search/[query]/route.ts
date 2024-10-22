@@ -3,14 +3,17 @@ import { NextResponse } from "next/server";
 import { fetchPlayerSearch } from "@/lib/search";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     query: string;
-  };
+  }>;
 }
 
 const minQueryLength = 2;
 
-export async function GET(_: Request, { params: { query } }: RouteParams) {
+export async function GET(_: Request, props: RouteParams) {
+  const params = await props.params;
+  const { query } = params;
+
   try {
     if (query.length < minQueryLength)
       throw new Error(

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { config } from "@/config/config";
+import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerByNickname } from "@/lib/player";
 import CurrentMatchLink from "@/components/CurrentMatchLink";
 import PlayerHeader from "@/components/PlayerHeader";
@@ -9,13 +10,18 @@ import PlayerLastMatches from "@/components/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "@/components/PlayerLastMatchesSkeleton";
 
 interface PlayerPageProps {
-  params: {
+  params: Promise<{
     nickname: string;
-  };
+  }>;
 }
 
-async function PlayerPage({ params: { nickname } }: PlayerPageProps) {
+export default async function PlayerPage(props: PlayerPageProps) {
+  const params = await props.params;
+
+  const { nickname } = params;
+
   const player = await fetchPlayerByNickname(nickname);
+  const session = await getServerSession();
 
   if (!player) {
     return (
@@ -41,21 +47,33 @@ async function PlayerPage({ params: { nickname } }: PlayerPageProps) {
         <h1>Teammates</h1>
       </section> */}
 
-      <Suspense fallback={<PlayerLastMatchesSkeleton player={player} />}>
+      <Suspense
+        fallback={
+          <PlayerLastMatchesSkeleton
+            player={player}
+            self={!!session && player.id === session.id}
+          />
+        }
+      >
         {/* @ts-expect-error Async Server Component */}
-        <PlayerLastMatches player={player} />
+        <PlayerLastMatches
+          player={player}
+          self={!!session && player.id === session.id}
+        />
       </Suspense>
     </div>
   );
 }
 
-export function generateMetadata({
-  params: { nickname },
-}: PlayerPageProps): Metadata {
+export async function generateMetadata(
+  props: PlayerPageProps
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const { nickname } = params;
+
   return {
     title: nickname + " - " + config.title,
     description: config.description,
   };
 }
-
-export default PlayerPage;

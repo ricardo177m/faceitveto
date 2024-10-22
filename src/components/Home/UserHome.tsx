@@ -1,4 +1,8 @@
+import { Suspense } from "react";
+
 import CurrentMatchLink from "../CurrentMatchLink";
+import PlayerLastMatches from "../PlayerLastMatches";
+import PlayerLastMatchesSkeleton from "../PlayerLastMatchesSkeleton";
 import Search from "../Search";
 
 interface UserHomeProps {
@@ -14,6 +18,15 @@ export default function UserHome({ session }: UserHomeProps) {
         {/* @ts-expect-error Async Server Component */}
         <CurrentMatchLink player={session} yourMatch />
       </section>
+
+      <Suspense
+        fallback={
+          <PlayerLastMatchesSkeleton player={session} size={1} self={true} />
+        }
+      >
+        {/* @ts-expect-error Async Server Component */}
+        <PlayerLastMatches player={session} size={1} self={true} />
+      </Suspense>
 
       {/* <section className="mt-6 flex flex-col gap-8">
         <h2 className="mb-4 text-2xl font-bold">Your Team</h2>

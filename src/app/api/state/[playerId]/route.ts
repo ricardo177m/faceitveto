@@ -3,12 +3,15 @@ import { NextResponse } from "next/server";
 import { fetchPlayerState } from "@/lib/player";
 
 interface StateParams {
-  params: {
+  params: Promise<{
     playerId: string;
-  };
+  }>;
 }
 
-export async function GET(_: Request, { params: { playerId } }: StateParams) {
+export async function GET(_: Request, props: StateParams) {
+  const params = await props.params;
+  const { playerId } = params;
+
   try {
     const data = await fetchPlayerState(playerId);
     return NextResponse.json({ state: data });

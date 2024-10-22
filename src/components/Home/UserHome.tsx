@@ -11,8 +11,8 @@ interface UserHomeProps {
 
 export default function UserHome({ session }: UserHomeProps) {
   return (
-    <main className="mx-auto max-w-6xl">
-      <h1 className="mt-8 text-3xl font-bold">Hello {session.nickname}</h1>
+    <main className="mx-auto mb-16 mt-6 max-w-6xl px-4">
+      <h1 className="text-3xl font-bold">Hello {session.nickname}</h1>
 
       <section className="my-4">
         {/* @ts-expect-error Async Server Component */}

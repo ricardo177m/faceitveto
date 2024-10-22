@@ -27,7 +27,7 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
     <header>
       <div className="relative">
         <NextImageWithFallback
-          src={player.cover_image_url}
+          src={player.cover_image_url || "/assets/default-cover.svg"}
           fallbackSrc="/assets/default-cover.svg"
           alt="Player Cover Image"
           width={700}

@@ -86,6 +86,7 @@ export default function MatchHeader({
           <div
             title={formatDateTime(match.finishedAt)}
             className="mx-2 inline-flex items-center gap-2"
+            suppressHydrationWarning // client & server timezones may differ
           >
             <FaClock className="text-dark-800" />
             <span>{moment(match.finishedAt).fromNow()}</span>

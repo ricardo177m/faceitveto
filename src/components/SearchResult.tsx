@@ -9,11 +9,10 @@ import Level from "./Level";
 import PlayerAvatar from "./PlayerAvatar";
 
 interface SearchResultProps {
-  key: string;
   player: PlayerSearch;
 }
 
-export default function SearchResult({ key, player }: SearchResultProps) {
+export default function SearchResult({ player }: SearchResultProps) {
   const router = useRouter();
 
   const cs2level = player.games.find((g) => g.name === "cs2")?.skill_level;
@@ -21,7 +20,6 @@ export default function SearchResult({ key, player }: SearchResultProps) {
   return (
     <button
       className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 transition-colors hover:bg-gray-600"
-      key={key}
       onClick={() => router.push(`/player/${player.nickname}`)}
     >
       <PlayerAvatar player={player} size={34} />

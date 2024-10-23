@@ -11,19 +11,19 @@ export interface Democracy {
     action: "drop" | "pick";
     time_left_to_vote: number; // ms to vote
   };
-  tickets: Ticket;
+  tickets: Ticket[];
   vote_complete?: boolean;
 }
 
-interface Ticket {
+export interface Ticket {
   entities: Entity[];
   entity_type: "location" | "map";
-  vote_type: string;
-  config: Config[];
-  timeout: number;
+  vote_type?: string;
+  config?: Config[];
+  timeout?: number;
 }
 
-interface Entity {
+export interface Entity {
   status: "open" | "pick" | "drop";
   selected_by: "faction1" | "faction2" | "n/a";
   properties: {
@@ -32,7 +32,7 @@ interface Entity {
     name: string;
     guid: string;
     class_name: string;
-    game_location_id: string;
+    game_location_id?: string;
     game_map_id?: string;
   };
 }

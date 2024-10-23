@@ -88,15 +88,17 @@ export async function fetchMatchStats(matchId: string): Promise<MatchStats[]> {
   return data;
 }
 
-export async function fetchDemocracy(matchId: string): Promise<Democracy> {
-  const response = await fetch(faceitConfig.match(matchId), {
+export async function fetchDemocracy(
+  matchId: string
+): Promise<Democracy | undefined> {
+  const response = await fetch(faceitConfig.democracy(matchId), {
     cache: "no-cache",
   });
 
   const data = await response.json();
 
   if (response.status === 200) return data.payload;
-  else throw new Error(data.errors[0].message);
+  else return undefined;
 }
 
 export function isPlayerFaction(faction: CuratedFaction, playerId: string) {

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { CuratedFaction, CuratedMap } from "@/types/curated-match";
 import { IntervalPlayerStats } from "@/types/curated-player-stats";
+import { Ticket } from "@/types/democracy";
 
 import MapsPlayerRow from "./MapsPlayerRow";
 
@@ -9,9 +10,21 @@ interface TeamMapsProps {
   team: CuratedFaction;
   maps: CuratedMap[];
   playerStats?: IntervalPlayerStats[];
+  democracyMapEntities?: Ticket;
 }
 
-export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
+export default function TeamMaps({
+  team,
+  maps,
+  playerStats,
+  democracyMapEntities,
+}: TeamMapsProps) {
+  const drops = !democracyMapEntities
+    ? []
+    : democracyMapEntities.entities
+        .filter((e) => e.status === "drop")
+        .map((e) => e.properties.class_name);
+
   return (
     <div className="py-1">
       <table className="mx-auto table-auto">
@@ -23,10 +36,13 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
               Maps
             </th>
             {maps.map((map) => (
-              <th key={map.id} className="relative text-sm font-normal">
+              <th
+                key={map.id}
+                className={`relative text-sm font-normal transition-opacity ${playerStats && drops.find((m) => m === map.id) ? "opacity-30" : ""}`}
+              >
                 <Image
                   src={map.image}
-                  alt="Map image"
+                  alt={`${map.name}'s cover`}
                   width={80}
                   height={32}
                   className="absolute -top-4 left-3 -z-10 rounded-md opacity-60"
@@ -48,6 +64,7 @@ export default function TeamMaps({ team, maps, playerStats }: TeamMapsProps) {
               }
               maps={maps}
               captain={team.captain}
+              drops={drops}
             />
           ))}
         </tbody>

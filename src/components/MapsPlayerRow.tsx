@@ -14,6 +14,7 @@ interface MapsPlayerRowProps {
   stats: IntervalPlayerStats | undefined;
   maps: CuratedMap[];
   captain: string;
+  drops: string[];
 }
 
 export default function MapsPlayerRow({
@@ -21,6 +22,7 @@ export default function MapsPlayerRow({
   stats,
   maps,
   captain,
+  drops,
 }: MapsPlayerRowProps) {
   return (
     <tr
@@ -69,19 +71,20 @@ export default function MapsPlayerRow({
           return (
             <td
               key={map.id}
-              className="min-w-[6.5rem] px-4 text-center font-bold"
+              className="min-w-[6.5rem] px-4 text-center font-bold transition-opacity"
             >
               <Skeleton />
             </td>
           );
 
         const mapStats = stats.maps[map.id];
+        const drop = drops.find((m) => m === map.id);
 
         if (!mapStats) {
           return (
             <td
               key={map.id}
-              className="min-w-[6.5rem] px-4 text-center font-bold"
+              className={`min-w-[6.5rem] px-4 text-center font-bold transition-opacity ${drop ? "opacity-30" : ""}`}
             >
               <span className="mr-2 cursor-help text-red-600" title="0 wins">
                 0%
@@ -101,7 +104,7 @@ export default function MapsPlayerRow({
         return (
           <td
             key={map.id}
-            className="min-w-[6.5rem] px-4 text-center font-bold"
+            className={`min-w-[6.5rem] px-4 text-center font-bold transition-opacity ${drop ? "opacity-30" : ""}`}
           >
             <span
               className={`${

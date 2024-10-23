@@ -15,12 +15,8 @@ export default async function MatchPage(props: MatchPageProps) {
   const { id } = params;
 
   const curatedMatch = await fetchMatch(id);
-  const democracy =
-    curatedMatch.state.toString() === "VOTING"
-      ? await fetchDemocracy(id)
-      : undefined;
-
   const stats = await fetchMatchStats(id);
+  const democracy = await fetchDemocracy(id);
 
   return <Match match={curatedMatch} democracy={democracy} stats={stats} />;
 }

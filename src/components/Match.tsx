@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { CuratedMatch } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
 import { MatchStats } from "@/types/match-stats";
@@ -15,11 +17,17 @@ interface MapsPlayerRowProps {
   stats: MatchStats[];
 }
 
-export default function Match({ match, stats }: MapsPlayerRowProps) {
+export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
   const [showMostRecent, setShowMostRecent] = useLocalStorage(
     config.localStorage.showMostRecent,
     false
   );
+
+  const [democracyState, setDemocracy] = useState<Democracy | undefined>(
+    democracy
+  );
+
+  // useEffect -> subscribe democracy {match.id}
 
   return (
     <div>
@@ -29,7 +37,11 @@ export default function Match({ match, stats }: MapsPlayerRowProps) {
         showMostRecent={showMostRecent}
         setShowMostRecent={setShowMostRecent}
       />
-      <PlayerStats curatedMatch={match} showMostRecent={showMostRecent} />
+      <PlayerStats
+        curatedMatch={match}
+        showMostRecent={showMostRecent}
+        democracy={democracyState}
+      />
     </div>
   );
 }

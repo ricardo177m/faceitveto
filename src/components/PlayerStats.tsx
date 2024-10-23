@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { CuratedMatch } from "@/types/curated-match";
 import { CuratedPlayerStats } from "@/types/curated-player-stats";
+import { Democracy } from "@/types/democracy";
 import { isPlayerFaction } from "@/lib/match";
 import { useSession } from "@/hooks";
 import TeamMaps from "@/components/TeamMaps";
@@ -10,11 +11,13 @@ import { env } from "@/env.mjs";
 interface PlayerStatsProps {
   curatedMatch: CuratedMatch;
   showMostRecent: boolean;
+  democracy?: Democracy;
 }
 
 export default function PlayerStats({
   curatedMatch,
   showMostRecent,
+  democracy,
 }: PlayerStatsProps) {
   const [playerStats, setPlayerStats] = useState<CuratedPlayerStats[] | null>(
     null
@@ -48,6 +51,10 @@ export default function PlayerStats({
   if (session.user && isPlayerFaction(factions[0], session.user.id))
     factions = factions.reverse();
 
+  const democracyMapEntities = democracy?.tickets.find(
+    (t) => t.entity_type === "map"
+  );
+
   return (
     <div className="mx-4 mb-4 mt-2 space-y-4 overflow-x-auto py-4 scrollbar scrollbar-track-transparent scrollbar-thumb-slate-600 scrollbar-thumb-rounded-xl scrollbar-h-1">
       <TeamMaps
@@ -56,6 +63,7 @@ export default function PlayerStats({
         playerStats={playerStats?.map((p) =>
           showMostRecent ? p.mostRecent : p.total
         )}
+        democracyMapEntities={democracyMapEntities}
       />
       <TeamMaps
         team={factions[1]}
@@ -63,6 +71,7 @@ export default function PlayerStats({
         playerStats={playerStats?.map((p) =>
           showMostRecent ? p.mostRecent : p.total
         )}
+        democracyMapEntities={democracyMapEntities}
       />
     </div>
   );

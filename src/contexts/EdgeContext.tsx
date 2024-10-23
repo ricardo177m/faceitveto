@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from "react";
 import useWebSocket, { SendMessage } from "react-use-websocket";
 
 import { Democracy } from "@/types/democracy";
+import { MatchState } from "@/types/match-state";
 import { faceitConfig } from "@/config/faceit";
 import { outgoing } from "@/lib/edgeEvents";
 import { parseEvent } from "@/lib/edgeParser";
@@ -15,9 +16,17 @@ export interface EdgeContextData {
     matchId: string,
     callback: (payload: Democracy) => void
   ) => void;
+  subscribeMatchState: (
+    matchId: string,
+    callback: (payload: MatchState) => void
+  ) => void;
   unsubscribeDemocracy: (
     matchId: string,
     callback: (payload: Democracy) => void
+  ) => void;
+  unsubscribeMatchState: (
+    matchId: string,
+    callback: (payload: MatchState) => void
   ) => void;
   version: string | null;
 }
@@ -42,21 +51,29 @@ export function EdgeContextProvider({
     const data = event.data as Blob;
     const e = parseEvent(Buffer.from(await data.arrayBuffer()));
 
-    if (e === null) return console.log("[Edge] Unknown event");
-
-    console.log("[Edge] Received event: " + e.event);
+    // if (e === null) return console.log("[Edge] Unknown event");
+    // console.log("[Edge] Received event: " + e.event);
 
     switch (e.event) {
-      case "welcome":
+      case "welcome": {
         const version = (e.payload as string).slice(1, -1);
         setVersion(version);
         break;
-      case "ping":
+      }
+      case "ping": {
         sendMessage(outgoing.pong);
         break;
-      case "voting_update":
-        eventEmitter.emit("democracy", e.payload.entity);
+      }
+      case "voting_update": {
+        const d = e.payload.entity as Democracy;
+        eventEmitter.emit("democracy-" + d.match_id, d);
         break;
+      }
+      case "match_state_update": {
+        const m = e.payload.entity as MatchState;
+        eventEmitter.emit("matchstate-" + m.id, m);
+        break;
+      }
     }
   }
 
@@ -65,14 +82,29 @@ export function EdgeContextProvider({
     callback: (payload: Democracy) => void
   ) {
     sendMessage(outgoing.subscriptions.democracy(matchId));
-    eventEmitter.on("democracy", callback);
+    eventEmitter.on("democracy-" + matchId, callback);
   }
 
   function unsubscribeDemocracy(
     matchId: string,
     callback: (payload: Democracy) => void
   ) {
-    eventEmitter.off("democracy", callback);
+    eventEmitter.off("democracy-" + matchId, callback);
+  }
+
+  function subscribeMatchState(
+    matchId: string,
+    callback: (payload: MatchState) => void
+  ) {
+    sendMessage(outgoing.subscriptions.match(matchId));
+    eventEmitter.on("matchstate-" + matchId, callback);
+  }
+
+  function unsubscribeMatchState(
+    matchId: string,
+    callback: (payload: MatchState) => void
+  ) {
+    eventEmitter.off("matchstate-" + matchId, callback);
   }
 
   // const ready = readyState === ReadyState.OPEN;
@@ -86,7 +118,9 @@ export function EdgeContextProvider({
       value={{
         sendMessage,
         subscribeDemocracy,
+        subscribeMatchState: subscribeMatchState,
         unsubscribeDemocracy,
+        unsubscribeMatchState: unsubscribeMatchState,
         version,
       }}
       {...props}

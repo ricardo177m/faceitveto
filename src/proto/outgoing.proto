@@ -1,0 +1,33 @@
+package outgoingpackage;
+syntax = "proto3";
+
+message Welcome {
+    int32 field1 = 1;
+    Welcome2 content = 2;
+}
+
+message Welcome2 {
+    string client = 1;
+    string token = 2;
+}
+
+message Pubsub {
+    int32 field1 = 1;
+    Pubsub2 field2 = 2;
+}
+
+message Pubsub2 {
+    int32 field1 = 1;
+    optional int32 field2 = 2;
+    int32 field3 = 3;
+    Pubsub3 field4 = 4;
+}
+
+message Pubsub3 {
+    string pubsub = 1;
+    Pubsub4 content = 2;
+}
+
+message Pubsub4 {
+    string content = 1;
+}

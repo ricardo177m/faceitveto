@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { CuratedMatch } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
 import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
 import { useLocalStorage } from "@/hooks";
+import EdgeContext from "@/contexts/EdgeContext";
 
 import MatchHeader from "./MatchHeader";
 import PlayerStats from "./PlayerStats";
@@ -27,7 +28,18 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
     democracy
   );
 
-  // useEffect -> subscribe democracy {match.id}
+  const edgeContext = useContext(EdgeContext);
+
+  const handleUpdateDemocracy = (payload: Democracy) => {
+    setDemocracy(payload);
+  };
+
+  useEffect(() => {
+    edgeContext.subscribeDemocracy(match.id, handleUpdateDemocracy);
+    return () => {
+      edgeContext.unsubscribeDemocracy(match.id, handleUpdateDemocracy);
+    };
+  }, [match.id]);
 
   return (
     <div>

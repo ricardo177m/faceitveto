@@ -93,6 +93,10 @@ export async function fetchDemocracy(
 ): Promise<Democracy | undefined> {
   const response = await fetch(faceitConfig.democracy(matchId), {
     cache: "no-cache",
+    headers: {
+      "Cache-Control": "no-cache",
+      pragma: "no-cache",
+    },
   });
 
   const data = await response.json();

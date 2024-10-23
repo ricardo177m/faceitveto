@@ -1,0 +1,37 @@
+package incomingpackage;
+syntax = "proto3";
+
+message Message {
+  optional int32 field1 = 1;
+  oneof content { // no
+    Welcome welcome = 2;
+    SubMessage submessage = 3;
+    PubsubConfirmation pubsub_confirmation = 4;
+  }
+}
+
+message Welcome {
+  string server = 1;
+}
+
+message SubMessage {
+  int32 field2 = 1;
+  Event event = 2;
+}
+
+message Event {
+  string event_name = 1;
+  string payload = 2;
+}
+
+message PubsubConfirmation {
+  int32 field1 = 1;
+  int32 field2 = 2;
+  int32 field3 = 3;
+  PubsubConfirmationSubMsg field4 = 4;
+}
+
+message PubsubConfirmationSubMsg {
+  int32 field1 = 1;
+  string field2 = 2;
+}

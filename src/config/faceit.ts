@@ -22,4 +22,6 @@ export const faceitConfig = {
   skillGroups: "https://www.faceit.com/api/skills/v3/configs/games/cs2",
 
   openidConfig: "https://api.faceit.com/auth/v1/openid_configuration",
+
+  edge: "wss://edge.faceit.com/v1/ws",
 };

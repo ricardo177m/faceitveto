@@ -60,7 +60,7 @@ export async function fetchPlayerStats(
     maps: {} as IMaps,
   };
 
-  const maps = payload.segments.find(
+  const maps = payload.segments?.find(
     (s) => s._id.gameMode === "5v5" && s._id.segmentId === "csgo_map"
   );
 

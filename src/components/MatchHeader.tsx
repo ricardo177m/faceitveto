@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import moment from "moment";
 import { FaClock, FaExternalLinkAlt } from "react-icons/fa";
 
 import { CuratedMatch } from "@/types/curated-match";
 import { MatchStats } from "@/types/match-stats";
 import { formatDateTime } from "@/lib/utils";
+import EdgeContext from "@/contexts/EdgeContext";
 import Checkbox from "@/components/ui/Checkbox";
 
 import Elo from "./icons/Elo";
@@ -23,6 +24,8 @@ export default function MatchHeader({
   showMostRecent,
   setShowMostRecent,
 }: MatchHeaderProps) {
+  const { version } = useContext(EdgeContext);
+
   return (
     <div className="flex flex-col px-4">
       <div className="py-2 text-3xl">
@@ -119,6 +122,7 @@ export default function MatchHeader({
             <span>{moment(match.finishedAt).fromNow()}</span>
           </div>
         )}
+        <span className="ml-auto text-xs text-dark-600">{version}</span>
       </div>
     </div>
   );

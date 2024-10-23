@@ -3,7 +3,7 @@ import { EdgeEventType } from "@/types/edge";
 export const incoming: EdgeEventType[] = [
   {
     name: "welcome",
-    pattern: "FACEIT Edge",
+    pattern: "FACEIT Edge <prod>",
     jsondata: false,
     padding: { l: 9, r: 1 },
   },

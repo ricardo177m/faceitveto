@@ -48,8 +48,8 @@ export function EdgeContextProvider({
 
     switch (e.event) {
       case "welcome":
-        console.log(`[Edge] Welcome accepted, version ${e.payload}`);
-        setVersion(e.payload);
+        const version = (e.payload as string).slice(1, -1);
+        setVersion(version);
         break;
       case "ping":
         sendMessage(outgoing.pong);

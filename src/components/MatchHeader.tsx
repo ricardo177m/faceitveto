@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import moment from "moment";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import { FaClock, FaExternalLinkAlt } from "react-icons/fa";
@@ -30,6 +30,8 @@ export default function MatchHeader({
   showMostRecent,
   setShowMostRecent,
 }: MatchHeaderProps) {
+  const [countdown, setCountdown] = useState<number>(0);
+
   const { version } = useContext(EdgeContext);
 
   const session = useSession();
@@ -60,6 +62,11 @@ export default function MatchHeader({
   const renderer: CountdownRendererFn = ({ seconds }) => {
     return <span>{seconds}</span>;
   };
+
+  useEffect(() => {
+    if (democracy?.conditions?.time_left_to_vote)
+      setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
+  }, [democracy]);
 
   return (
     <div className="flex flex-col px-4">
@@ -139,10 +146,7 @@ export default function MatchHeader({
                     : `${teamNames[democracy?.conditions?.turn_to_vote]} is voting`}
                 </p>
                 <p className="text-dark-900">
-                  <Countdown
-                    date={Date.now() + democracy.conditions.time_left_to_vote}
-                    renderer={renderer}
-                  />
+                  <Countdown date={countdown} renderer={renderer} />
                 </p>
               </div>
             ) : (

@@ -3,7 +3,7 @@ import { IoMdArrowForward } from "react-icons/io";
 
 import { fetchPlayerState } from "@/lib/player";
 
-import FaceitIcon from "./icons/faceit";
+import FaceitIcon from "./icons/Faceit";
 
 interface CurrentMatchLinkProps {
   player: { id: string };

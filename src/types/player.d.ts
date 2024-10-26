@@ -55,3 +55,8 @@ export interface Steam {
 export interface Streaming {
   twitch_id: string;
 }
+
+export interface Playtime {
+  "2weeks": number;
+  forever: number;
+}

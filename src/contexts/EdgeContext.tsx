@@ -5,7 +5,7 @@ import useWebSocket, { SendMessage } from "react-use-websocket";
 
 import { Democracy } from "@/types/democracy";
 import { MatchState } from "@/types/match-state";
-import { faceitConfig } from "@/config/faceit";
+import { faceit } from "@/config/endpoints";
 import { outgoing } from "@/lib/edgeEvents";
 import { parseEvent } from "@/lib/edgeParser";
 import { eventEmitter } from "@/lib/eventEmitter";
@@ -41,7 +41,7 @@ export function EdgeContextProvider({
   children,
   ...props
 }: EdgeContextProviderProps) {
-  const { sendMessage, readyState } = useWebSocket(faceitConfig.edge, {
+  const { sendMessage, readyState } = useWebSocket(faceit.edge, {
     onMessage: handleMessage,
   });
 

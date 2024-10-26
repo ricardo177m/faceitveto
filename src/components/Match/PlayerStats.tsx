@@ -5,7 +5,7 @@ import { CuratedPlayerStats } from "@/types/curated-player-stats";
 import { Democracy } from "@/types/democracy";
 import { isPlayerFaction } from "@/lib/match";
 import { useSession } from "@/hooks";
-import TeamMaps from "@/components/TeamMaps";
+import TeamMaps from "@/components/Match/TeamMaps";
 import { env } from "@/env.mjs";
 
 interface PlayerStatsProps {

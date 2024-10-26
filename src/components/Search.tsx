@@ -11,7 +11,12 @@ import SearchResultSkeleton from "./SearchResultSkeleton";
 
 const minQueryLength = 2;
 
-export default function Search() {
+interface SearchProps {
+  className?: string;
+  placeholder?: string;
+}
+
+export default function Search({ className, placeholder }: SearchProps) {
   const [query, setQuery] = useState<string>("");
   const [hidden, setHidden] = useState<boolean>(false);
 
@@ -48,11 +53,11 @@ export default function Search() {
   });
 
   return (
-    <div className="relative">
+    <div className={`${className} relative`}>
       <input
         type="text"
         className="w-full max-w-96 rounded-md bg-dark-600 px-4 py-1"
-        placeholder="Nickname"
+        placeholder={placeholder || "Nickname"}
         autoFocus
         ref={inputRef}
         onChange={handleInput}
@@ -73,7 +78,8 @@ export default function Search() {
                 <SearchResult key={p.id} player={p} />
               ))}
               <span className="text-xs text-dark-900">
-                {searchres!.total_count} players found
+                {searchres!.total_count} player
+                {searchres!.total_count !== 1 && "s"} found
               </span>
             </>
           ) : (

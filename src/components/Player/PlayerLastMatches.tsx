@@ -2,7 +2,8 @@ import Link from "next/link";
 
 import { fetchPlayerMatches } from "@/lib/player";
 
-import NextImageWithFallback from "./ui/NextImageWithFallback";
+import NextImageWithFallback from "../ui/NextImageWithFallback";
+import RowItem from "../ui/RowItem";
 
 interface PlayerLastMatchesProps {
   player: {
@@ -37,32 +38,28 @@ export default async function PlayerLastMatches({
             const score = rawScore.join(" ");
 
             return (
-              <Link
+              <RowItem
                 key={match.matchId}
                 href="/match/[id]"
                 as={`/match/${match.matchId}`}
+                className={`border-l-2 ${isWin ? "border-l-green-500" : "border-l-red-600"}`}
               >
-                <div
-                  className={`border-l-2 ${
-                    isWin ? "border-l-green-500" : "border-l-red-600"
-                  } flex flex-row bg-dark-400 px-2 transition-colors hover:bg-dark-500`}
-                >
-                  <div className="my-auto ml-4">
-                    <NextImageWithFallback
-                      src={`/assets/map-icons/${match.i1}.svg`}
-                      fallbackSrc="/assets/map-icons/unknown.svg"
-                      width="36"
-                      height="36"
-                      alt="Map logo"
-                    />
-                  </div>
-                  <div className="my-auto p-4 px-8">
-                    <span>{match.i1}</span>
-                  </div>
-                  <div className="ml-auto p-4 text-gray-400">
-                    <span>{score}</span>
-                  </div>
-                  {/* <div className="p-4 my-auto ml-auto text-center">
+                <div className="my-auto ml-4">
+                  <NextImageWithFallback
+                    src={`/assets/map-icons/${match.i1}.svg`}
+                    fallbackSrc="/assets/map-icons/unknown.svg"
+                    width="36"
+                    height="36"
+                    alt="Map logo"
+                  />
+                </div>
+                <div className="my-auto p-4 px-8">
+                  <span>{match.i1}</span>
+                </div>
+                <div className="ml-auto p-4 text-gray-400">
+                  <span>{score}</span>
+                </div>
+                {/* <div className="p-4 my-auto ml-auto text-center">
                   <span
                     className={`font-bold ${
                       isWin ? "text-green-500" : "text-red-600"
@@ -71,8 +68,7 @@ export default async function PlayerLastMatches({
                     {isWin ? "Win" : "Loss"}
                   </span>
                 </div> */}
-                </div>
-              </Link>
+              </RowItem>
             );
           })}
       </div>

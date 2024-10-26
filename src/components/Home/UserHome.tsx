@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
 import CurrentMatchLink from "../CurrentMatchLink";
-import PlayerLastMatches from "../PlayerLastMatches";
-import PlayerLastMatchesSkeleton from "../PlayerLastMatchesSkeleton";
+import PlayerLastMatches from "../Player/PlayerLastMatches";
+import PlayerLastMatchesSkeleton from "../Player/PlayerLastMatchesSkeleton";
 import Search from "../Search";
 
 interface UserHomeProps {

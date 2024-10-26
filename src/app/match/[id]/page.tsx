@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import { config } from "@/config/config";
 import { fetchDemocracy, fetchMatch, fetchMatchStats } from "@/lib/match";
-import Match from "@/components/Match";
+import Match from "@/components/Match/Match";
 
 interface MatchPageProps {
   params: Promise<{

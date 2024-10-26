@@ -6,8 +6,8 @@ import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { IntervalPlayerStats } from "@/types/curated-player-stats";
 import { config } from "@/config/config";
 
-import Level from "./Level";
-import PlayerAvatar from "./PlayerAvatar";
+import Level from "../Level";
+import PlayerAvatar from "../PlayerAvatar";
 
 interface MapsPlayerRowProps {
   player: CuratedPlayer;

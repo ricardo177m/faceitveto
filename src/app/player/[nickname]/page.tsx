@@ -5,9 +5,10 @@ import { config } from "@/config/config";
 import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerByNickname } from "@/lib/player";
 import CurrentMatchLink from "@/components/CurrentMatchLink";
-import PlayerHeader from "@/components/PlayerHeader";
-import PlayerLastMatches from "@/components/PlayerLastMatches";
-import PlayerLastMatchesSkeleton from "@/components/PlayerLastMatchesSkeleton";
+import PlayerHeader from "@/components/Player/PlayerHeader";
+import PlayerLastMatches from "@/components/Player/PlayerLastMatches";
+import PlayerLastMatchesSkeleton from "@/components/Player/PlayerLastMatchesSkeleton";
+import Search from "@/components/Search";
 
 interface PlayerPageProps {
   params: Promise<{
@@ -25,10 +26,11 @@ export default async function PlayerPage(props: PlayerPageProps) {
 
   if (!player) {
     return (
-      <div className="mb-16 flex flex-col justify-center gap-8 px-4">
-        <h1 className="text-center text-2xl font-bold text-white">
+      <div className="mb-16 flex flex-col items-center justify-center gap-8 px-4">
+        <h1 className="mt-8 text-center text-2xl font-bold text-white">
           Player not found.
         </h1>
+        <Search className="w-full max-w-96" placeholder="Search for a player" />
       </div>
     );
   }

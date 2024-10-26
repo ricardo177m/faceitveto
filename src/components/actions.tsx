@@ -7,7 +7,7 @@ import { ImSpinner8 } from "react-icons/im";
 import { MdLogout } from "react-icons/md";
 
 import { useSession } from "@/hooks";
-import FaceitIcon from "@/components/icons/faceit";
+import FaceitIcon from "@/components/icons/Faceit";
 import { env } from "@/env.mjs";
 
 export function SignOut() {

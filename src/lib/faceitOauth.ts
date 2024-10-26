@@ -1,9 +1,9 @@
-import { faceitConfig } from "@/config/faceit";
-import toBase64 from "@/services/toBase64";
+import { faceit } from "@/config/endpoints";
 import { env } from "@/env.mjs";
+import toBase64 from "@/utils/toBase64";
 
 export async function getOauthEndpoints(): Promise<FaceitOpenIdCfg> {
-  const openIdCfg = await fetch(faceitConfig.openidConfig);
+  const openIdCfg = await fetch(faceit.openidConfig);
   return openIdCfg.json();
 }
 

@@ -1,4 +1,4 @@
-import Skeleton from "react-loading-skeleton";
+import RowItemSkeleton from "../ui/RowItemSkeleton";
 
 interface PlayerLastMatchesProps {
   player: {
@@ -25,13 +25,7 @@ export default function PlayerLastMatchesSkeleton({
           .fill(0)
           .map((_, i) => (
             <div key={i}>
-              <div
-                className={`flex h-14 flex-row border-l-2 border-l-gray-600 bg-dark-400 px-2 transition-colors hover:bg-dark-500`}
-              >
-                <div className="mx-4 my-auto w-full">
-                  <Skeleton />
-                </div>
-              </div>
+              <RowItemSkeleton />
             </div>
           ))}
       </div>

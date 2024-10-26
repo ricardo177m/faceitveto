@@ -1,5 +1,5 @@
-import MatchHeaderSkeleton from "@/components/MatchHeaderSkeleton";
-import TeamMapsSkeleton from "@/components/TeamMapsSkeleton";
+import MatchHeaderSkeleton from "@/components/Match/MatchHeaderSkeleton";
+import TeamMapsSkeleton from "@/components/Match/TeamMapsSkeleton";
 
 export default function MatchPageLoading() {
   return (

@@ -7,11 +7,11 @@ import { Democracy } from "@/types/democracy";
 import { Element, Faction, Match } from "@/types/match";
 import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
-import { faceitConfig } from "@/config/faceit";
+import { faceit } from "@/config/endpoints";
 import { NotFoundError } from "@/lib/exceptions";
 
 export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
-  const response = await fetch(faceitConfig.match(matchId), {
+  const response = await fetch(faceit.match(matchId), {
     next: { revalidate: 5 },
   });
 
@@ -80,7 +80,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
 }
 
 export async function fetchMatchStats(matchId: string): Promise<MatchStats[]> {
-  const response = await fetch(faceitConfig.matchStats(matchId), {
+  const response = await fetch(faceit.matchStats(matchId), {
     next: { revalidate: 5 },
   });
 
@@ -91,7 +91,7 @@ export async function fetchMatchStats(matchId: string): Promise<MatchStats[]> {
 export async function fetchDemocracy(
   matchId: string
 ): Promise<Democracy | undefined> {
-  const response = await fetch(faceitConfig.democracy(matchId), {
+  const response = await fetch(faceit.democracy(matchId), {
     cache: "no-cache",
     headers: {
       "Cache-Control": "no-cache",

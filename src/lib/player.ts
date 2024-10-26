@@ -4,10 +4,10 @@ import { Player } from "@/types/player";
 import { PlayerMatchStats } from "@/types/player-match-stats";
 import { PlayerStats } from "@/types/player-stats";
 import { config } from "@/config/config";
-import { faceitConfig } from "@/config/faceit";
+import { faceit } from "@/config/endpoints";
 
 export async function fetchPlayerById(playerId: string): Promise<Player> {
-  const response = await fetch(faceitConfig.user(playerId), {
+  const response = await fetch(faceit.user(playerId), {
     cache: "force-cache",
   });
   const data = await response.json();
@@ -16,11 +16,12 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
   return data.payload as Player;
 }
 
-export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
-  const response = await fetch(faceitConfig.player(nickname), {
+export async function fetchPlayerByNickname(nickname: string): Promise<Player | null> {
+  const response = await fetch(faceit.player(nickname), {
     next: { revalidate: 60 * 60 * 3 },
   });
   const data = await response.json();
+  if (response.status === 404) return null;
   if (response.status === 200) return data.payload;
   else throw new Error(data.errors[0].message);
 }
@@ -28,7 +29,7 @@ export async function fetchPlayerByNickname(nickname: string): Promise<Player> {
 export async function fetchPlayerState(
   playerId: string
 ): Promise<string | null> {
-  const url = new URL(faceitConfig.state);
+  const url = new URL(faceit.state);
   url.searchParams.append("userId", playerId);
 
   const response = await fetch(url, { cache: "no-cache" });
@@ -41,7 +42,7 @@ export async function fetchPlayerState(
 export async function fetchPlayerStats(
   playerId: string
 ): Promise<IntervalPlayerStats> {
-  const url = new URL(faceitConfig.stats(playerId));
+  const url = new URL(faceit.stats(playerId));
   const response = await fetch(url, {
     next: { revalidate: 60 * 20 },
   });
@@ -86,7 +87,7 @@ export async function fetchPlayerStatsLastMatches(
   playerId: string,
   size: number = config.lastNumberOfMatches
 ): Promise<IntervalPlayerStats> {
-  const url = new URL(faceitConfig.matches(playerId));
+  const url = new URL(faceit.matches(playerId));
   url.searchParams.append("page", "0");
   url.searchParams.append("size", size.toString());
 
@@ -148,7 +149,7 @@ export async function fetchPlayerMatches(
   playerId: string,
   size: number
 ): Promise<PlayerMatchStats[]> {
-  const url = new URL(faceitConfig.matches(playerId));
+  const url = new URL(faceit.matches(playerId));
   url.searchParams.append("page", "0");
   url.searchParams.append("size", size.toString());
 

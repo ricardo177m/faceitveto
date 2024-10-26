@@ -13,13 +13,13 @@ import { CuratedMatch } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
 import { MatchStats } from "@/types/match-stats";
 import { isPlayerFaction } from "@/lib/match";
-import { formatDateTime } from "@/lib/utils";
 import { useSession } from "@/hooks";
 import EdgeContext from "@/contexts/EdgeContext";
 import Checkbox from "@/components/ui/Checkbox";
+import { formatDateTime } from "@/utils/dateFormat";
 
-import Elo from "./icons/Elo";
-import NextImageWithFallback from "./ui/NextImageWithFallback";
+import Elo from "../icons/Elo";
+import NextImageWithFallback from "../ui/NextImageWithFallback";
 
 interface MatchHeaderProps {
   match: CuratedMatch;
@@ -36,7 +36,7 @@ export default function MatchHeader({
   showMostRecent,
   setShowMostRecent,
 }: MatchHeaderProps) {
-  const [countdown, setCountdown] = useState<number>(0);
+  const [countdown, setCountdown] = useState<number | undefined>();
 
   const { version } = useContext(EdgeContext);
 
@@ -65,12 +65,8 @@ export default function MatchHeader({
     faction2: match.teams.faction2.name,
   };
 
-  const renderer: CountdownRendererFn = ({ seconds }) => {
-    return <span>{seconds}</span>;
-  };
-
   useEffect(() => {
-    if (democracy?.conditions?.time_left_to_vote)
+    if (!!democracy?.conditions?.time_left_to_vote)
       setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
   }, [democracy]);
 
@@ -152,7 +148,12 @@ export default function MatchHeader({
                     : `${teamNames[democracy?.conditions?.turn_to_vote]} is voting`}
                 </p>
                 <p className="text-dark-900">
-                  <Countdown date={countdown} renderer={renderer} />
+                  {countdown && (
+                    <Countdown
+                      date={countdown}
+                      renderer={(p) => <span>{p.seconds}</span>}
+                    />
+                  )}
                 </p>
               </div>
             ) : (

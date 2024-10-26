@@ -2,10 +2,10 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { Player } from "@/types/player";
 
-import CountryFlag from "./CountryFlag";
-import Level from "./Level";
-import PlayerAvatar from "./PlayerAvatar";
-import NextImageWithFallback from "./ui/NextImageWithFallback";
+import CountryFlag from "../CountryFlag";
+import Level from "../Level";
+import PlayerAvatar from "../PlayerAvatar";
+import NextImageWithFallback from "../ui/NextImageWithFallback";
 
 interface PlayerHeaderProps {
   player: Player;

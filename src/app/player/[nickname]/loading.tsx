@@ -1,4 +1,4 @@
-import PlayerHeaderSkeleton from "@/components/PlayerHeaderSkeleton";
+import PlayerHeaderSkeleton from "@/components/Player/PlayerHeaderSkeleton";
 
 export default function PlayerPageLoading() {
   return (

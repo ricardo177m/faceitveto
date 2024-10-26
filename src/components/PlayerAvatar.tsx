@@ -1,6 +1,6 @@
 import { config } from "@/config/config";
 import defaultAvatar from "@/lib/defaultAvatar";
-import toBase64 from "@/services/toBase64";
+import toBase64 from "@/utils/toBase64";
 
 import NextImageWithFallback from "./ui/NextImageWithFallback";
 

@@ -1,4 +1,4 @@
-export const faceitConfig = {
+export const faceit = {
   democracy: (matchId: string) =>
     `https://api.faceit.com/democracy/v1/match/${matchId}`,
   match: (matchId: string) =>
@@ -13,6 +13,8 @@ export const faceitConfig = {
     `https://api.faceit.com/stats/v1/stats/users/${playerId}/games/cs2`,
   user: (playerId: string) =>
     `https://api.faceit.com/users/v1/users/${playerId}`,
+  detailedMatches: (playerId: string) =>
+    `https://api.faceit.com/match-history/v5/players/${playerId}/history/`,
 
   search: "https://api.faceit.com/search/v1",
   matchStatsCfg: "https://api.faceit.com/stats/v1/stats/configuration/cs2",
@@ -24,4 +26,11 @@ export const faceitConfig = {
   openidConfig: "https://api.faceit.com/auth/v1/openid_configuration",
 
   edge: "wss://edge.faceit.com/v1/ws",
+};
+
+export const steam = {
+  recentPlayedGames:
+    "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001",
+  resolveVanityUrl:
+    "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001",
 };

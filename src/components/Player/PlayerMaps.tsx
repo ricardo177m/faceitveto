@@ -31,7 +31,8 @@ export default function PlayerMaps({ player, self }: PlayerMapsProps) {
 
   const fetchStats = useCallback(async () => {
     const res = await fetch(
-      `${env.NEXT_PUBLIC_API_URL}/player/${player.id}/stats`
+      `${env.NEXT_PUBLIC_API_URL}/player/${player.id}/stats`,
+      { next: { revalidate: 60 } }
     );
     setPlayerStats(await res.json());
   }, [player.id]);

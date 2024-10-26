@@ -41,7 +41,7 @@ export function EdgeContextProvider({
   children,
   ...props
 }: EdgeContextProviderProps) {
-  const { sendMessage, readyState } = useWebSocket(faceit.edge, {
+  const { sendMessage } = useWebSocket(faceit.edge, {
     onMessage: handleMessage,
   });
 

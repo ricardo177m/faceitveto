@@ -8,6 +8,7 @@ import CurrentMatchLink from "@/components/CurrentMatchLink";
 import PlayerHeader from "@/components/Player/PlayerHeader";
 import PlayerLastMatches from "@/components/Player/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "@/components/Player/PlayerLastMatchesSkeleton";
+import PlayerMaps from "@/components/Player/PlayerMaps";
 import Search from "@/components/Search";
 
 interface PlayerPageProps {
@@ -35,23 +36,19 @@ export default async function PlayerPage(props: PlayerPageProps) {
     );
   }
 
+  const self = !!session && player.id === session.id;
+
   return (
     <div className="mb-16 flex flex-col gap-8 px-4">
       <PlayerHeader player={player} />
       <CurrentMatchLink player={player} />
       <Suspense
-        fallback={
-          <PlayerLastMatchesSkeleton
-            player={player}
-            self={!!session && player.id === session.id}
-          />
-        }
+        fallback={<PlayerLastMatchesSkeleton player={player} self={self} />}
       >
-        <PlayerLastMatches
-          player={player}
-          self={!!session && player.id === session.id}
-        />
+        <PlayerLastMatches player={player} self={self} />
       </Suspense>
+
+      <PlayerMaps player={player} self={self} />
     </div>
   );
 }

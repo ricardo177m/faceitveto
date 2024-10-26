@@ -1,8 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ImSpinner8 } from "react-icons/im";
-import useSWR from "swr";
 
 import { PlayerListResult } from "@/types/player-list";
 import { env } from "@/env.mjs";

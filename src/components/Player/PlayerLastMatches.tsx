@@ -1,8 +1,6 @@
-import Link from "next/link";
-
 import { fetchPlayerMatches } from "@/lib/player";
 
-import NextImageWithFallback from "../ui/NextImageWithFallback";
+import MapIcon from "../MapIcon";
 import RowItem from "../ui/RowItem";
 
 interface PlayerLastMatchesProps {
@@ -37,6 +35,8 @@ export default async function PlayerLastMatches({
             if (rawScore[2] === roundsWon) rawScore.reverse();
             const score = rawScore.join(" ");
 
+            const mapName = match.i1.split("_")[1] || match.i1;
+
             return (
               <RowItem
                 key={match.matchId}
@@ -45,16 +45,10 @@ export default async function PlayerLastMatches({
                 className={`border-l-2 ${isWin ? "border-l-green-500" : "border-l-red-600"}`}
               >
                 <div className="my-auto ml-4">
-                  <NextImageWithFallback
-                    src={`/assets/map-icons/${match.i1}.svg`}
-                    fallbackSrc="/assets/map-icons/unknown.svg"
-                    width="36"
-                    height="36"
-                    alt="Map logo"
-                  />
+                  <MapIcon mapId={match.i1} />
                 </div>
                 <div className="my-auto p-4 px-8">
-                  <span>{match.i1}</span>
+                  <span className="capitalize">{mapName}</span>
                 </div>
                 <div className="ml-auto p-4 text-gray-400">
                   <span>{score}</span>

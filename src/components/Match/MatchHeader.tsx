@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import moment from "moment";
-import Countdown, { CountdownRendererFn } from "react-countdown";
+import Countdown from "react-countdown";
 import { FaClock, FaExternalLinkAlt } from "react-icons/fa";
 
 import { CuratedMatch } from "@/types/curated-match";
@@ -66,7 +66,7 @@ export default function MatchHeader({
   };
 
   useEffect(() => {
-    if (!!democracy?.conditions?.time_left_to_vote)
+    if (democracy?.conditions?.time_left_to_vote)
       setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
   }, [democracy]);
 

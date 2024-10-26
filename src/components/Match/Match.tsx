@@ -20,7 +20,7 @@ interface MapsPlayerRowProps {
 }
 
 export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
-  const [showMostRecent, setShowMostRecent] = useLocalStorage(
+  const [showMostRecent, setShowMostRecent] = useLocalStorage<boolean>(
     config.localStorage.showMostRecent,
     false
   );

@@ -1,3 +1,5 @@
+"use server";
+
 import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
 import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";

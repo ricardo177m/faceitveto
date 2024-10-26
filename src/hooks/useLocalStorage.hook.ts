@@ -31,7 +31,7 @@ const getLocalStorageServerSnapshot = () => {
   return null;
 };
 
-export function useLocalStorage(key: string, initialValue: unknown) {
+export function useLocalStorage<T>(key: string, initialValue: T) {
   const getSnapshot = () => window.localStorage.getItem(key);
 
   const store = React.useSyncExternalStore(
@@ -41,7 +41,7 @@ export function useLocalStorage(key: string, initialValue: unknown) {
   );
 
   const setState = React.useCallback(
-    (v: unknown) => {
+    (v: T) => {
       try {
         const nextState =
           typeof v === "function" ? v(JSON.parse(store as string)) : v;
@@ -67,5 +67,8 @@ export function useLocalStorage(key: string, initialValue: unknown) {
     }
   }, [key, initialValue]);
 
-  return [store ? JSON.parse(store) : initialValue, setState];
+  return [(store ? JSON.parse(store) : initialValue) as T, setState] as [
+    T,
+    React.Dispatch<React.SetStateAction<T>>,
+  ];
 }

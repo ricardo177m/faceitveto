@@ -1,6 +1,5 @@
 "use client";
 
-import { Url } from "url";
 import Link from "next/link";
 
 interface NavLinkProps extends React.ComponentProps<typeof Link> {

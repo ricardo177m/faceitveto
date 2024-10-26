@@ -24,3 +24,5 @@ export async function GET(_: Request, props: PlayerStatsParams) {
     mostRecent: result[1],
   });
 }
+
+export const revalidate = 60;

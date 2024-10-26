@@ -1,11 +1,31 @@
 import { Playtime } from "@/types/player";
+import {
+  PlayerSummary,
+  PlayerSummaryResult,
+  RecentPlayedGamesResult,
+} from "@/types/steam";
 import { steam } from "@/config/endpoints";
 import { env } from "@/env.mjs";
 
+export async function playerSummaries(
+  query: string[]
+): Promise<PlayerSummary[]> {
+  const url = new URL(steam.playerSummaries);
+  url.searchParams.set("key", env.STEAM_API_KEY);
+  url.searchParams.set("steamids", query.join(","));
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 * 60 * 3 },
+  });
+
+  const data = (await res.json()) as PlayerSummaryResult;
+  return data.response.players;
+}
+
 export async function resolveVanityUrl(query: string): Promise<string | null> {
   const url = new URL(steam.resolveVanityUrl);
-  url.searchParams.append("key", env.STEAM_API_KEY);
-  url.searchParams.append("vanityurl", query);
+  url.searchParams.set("key", env.STEAM_API_KEY);
+  url.searchParams.set("vanityurl", query);
 
   const res = await fetch(url, {
     next: { revalidate: 60 * 60 * 3 },
@@ -13,21 +33,21 @@ export async function resolveVanityUrl(query: string): Promise<string | null> {
   if (res.status !== 200) return null;
 
   const data = await res.json();
-  if (data.response.success !== 1) return data.response.steamid;
+  if (data.response.success === 1) return data.response.steamid;
   else return null;
 }
 
 export async function getPlaytime(steamid: string): Promise<Playtime | null> {
   const url = new URL(steam.recentPlayedGames);
-  url.searchParams.append("key", env.STEAM_API_KEY);
-  url.searchParams.append("steamid", steamid);
+  url.searchParams.set("key", env.STEAM_API_KEY);
+  url.searchParams.set("steamid", steamid);
 
   const res = await fetch(url, {
     next: { revalidate: 60 * 60 * 3 },
   });
   if (res.status !== 200) return null;
 
-  const data = (await res.json()) as SteamRecentPlayedGames;
+  const data = (await res.json()) as RecentPlayedGamesResult;
 
   const games = data.response.games;
   if (!games) return null;

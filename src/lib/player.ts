@@ -1,6 +1,7 @@
 import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
 import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";
+import { PlayerListResult } from "@/types/player-list";
 import { PlayerMatchStats } from "@/types/player-match-stats";
 import { PlayerStats } from "@/types/player-stats";
 import { config } from "@/config/config";
@@ -16,7 +17,9 @@ export async function fetchPlayerById(playerId: string): Promise<Player> {
   return data.payload as Player;
 }
 
-export async function fetchPlayerByNickname(nickname: string): Promise<Player | null> {
+export async function fetchPlayerByNickname(
+  nickname: string
+): Promise<Player | null> {
   const response = await fetch(faceit.player(nickname), {
     next: { revalidate: 60 * 60 * 3 },
   });
@@ -161,4 +164,17 @@ export async function fetchPlayerMatches(
   const payload: PlayerMatchStats[] = data;
 
   return payload;
+}
+
+export async function fetchPlayerList(
+  list: string[]
+): Promise<PlayerListResult[]> {
+  const response = await fetch(faceit.list, {
+    method: "post",
+    body: JSON.stringify({ ids: list }),
+    next: { revalidate: 60 * 60 * 3 },
+  });
+  const data = await response.json();
+  if (response.status === 200) return Object.values(data.payload);
+  else throw new Error(data.errors[0].message);
 }

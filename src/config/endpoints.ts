@@ -18,9 +18,8 @@ export const faceit = {
 
   search: "https://api.faceit.com/search/v1",
   matchStatsCfg: "https://api.faceit.com/stats/v1/stats/configuration/cs2",
-  userList: "https://api.faceit.com/user-summary/v1/list",
   state: "https://api.faceit.com/match/v1/matches/groupByState",
-  list: "https://www.faceit.com/api/user-summary/v2/list",
+  list: "https://api.faceit.com/user-summary/v2/list",
   skillGroups: "https://www.faceit.com/api/skills/v3/configs/games/cs2",
 
   openidConfig: "https://api.faceit.com/auth/v1/openid_configuration",
@@ -33,4 +32,6 @@ export const steam = {
     "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001",
   resolveVanityUrl:
     "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001",
+  playerSummaries:
+    "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002",
 };

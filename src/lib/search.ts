@@ -2,10 +2,11 @@ import { PlayerSearchResult } from "@/types/player-search-result";
 import { faceit } from "@/config/endpoints";
 
 export async function fetchPlayerSearch(
-  query: string
+  query: string,
+  limit = 3
 ): Promise<PlayerSearchResult> {
   const url = new URL(faceit.search);
-  url.searchParams.append("limit", "3");
+  url.searchParams.append("limit", limit.toString());
   url.searchParams.append("query", query);
 
   const response = await fetch(url, {

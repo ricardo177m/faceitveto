@@ -50,11 +50,30 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           href={`https://www.faceit.com/en/players/${player.nickname}`}
           target="_blank"
           className="text-xs transition-colors hover:text-primary"
-          title="Go to player page"
+          title="Go to FACEIT profile"
           rel="noreferrer"
         >
-          <FaExternalLinkAlt />
+          <img
+            className="aspect-square w-4"
+            src="/assets/faceit-rounded.svg"
+            alt="Go to FACEIT profile"
+          />
         </a>
+        {player.platforms?.steam?.id64 && (
+          <a
+            href={`https://steamcommunity.com/profiles/${player.platforms?.steam?.id64}`}
+            target="_blank"
+            className="text-xs transition-colors hover:text-primary"
+            title="Go to Steam profile"
+            rel="noreferrer"
+          >
+            <img
+              className="aspect-square w-4"
+              src="/assets/steam-rounded.svg"
+              alt="Go to Steam profile"
+            />
+          </a>
+        )}
       </div>
     </header>
   );

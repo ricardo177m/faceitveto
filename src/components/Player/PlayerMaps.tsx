@@ -45,6 +45,8 @@ export default function PlayerMaps({ player, self }: PlayerMapsProps) {
     playerStats &&
     (showMostRecent ? playerStats.mostRecent : playerStats.total);
 
+  if (data && !Object.keys(data.maps).length) return null;
+
   return (
     <section>
       <h2 className="mb-4 text-2xl font-bold">

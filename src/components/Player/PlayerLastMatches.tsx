@@ -26,7 +26,9 @@ export default async function PlayerLastMatches({
         {size > 1 ? "es" : ""}
       </h2>
       <div className="flex flex-col [&>a]:border-b [&>a]:border-b-gray-700 last:[&>a]:border-b-0">
-        {matches &&
+        {matches && !matches.length ? (
+          <p>No matches to display.</p>
+        ) : (
           matches.map((match) => {
             const isWin = match.i10 === "1";
 
@@ -64,7 +66,8 @@ export default async function PlayerLastMatches({
                 </div> */}
               </RowItem>
             );
-          })}
+          })
+        )}
       </div>
     </section>
   );

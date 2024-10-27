@@ -1,3 +1,4 @@
+import { config } from "@/config/config";
 import Premade from "@/components/Team/Premade";
 
 export default function PremadePage() {
@@ -8,3 +9,10 @@ export default function PremadePage() {
     </main>
   );
 }
+
+export const metadata = {
+  title: `Premade Win Rate - ${config.title}`,
+  description: `Discover the win rate of your premade team on ${config.title}.`,
+  keywords:
+    "faceit, premade, team, win rate, stats, matches, veto, faceit veto",
+};

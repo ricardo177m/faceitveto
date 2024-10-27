@@ -32,5 +32,7 @@ export async function generateMetadata(
   return {
     title: `${curatedMatch.teams.faction1.name} vs ${curatedMatch.teams.faction2.name} - ${config.title}`,
     description: config.description,
+    keywords:
+      "faceit, veto, match, stats, democracy, players, teams, faceit veto",
   };
 }

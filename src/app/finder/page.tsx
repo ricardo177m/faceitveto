@@ -1,3 +1,4 @@
+import { config } from "@/config/config";
 import Finder from "@/components/Finder";
 
 export default function FinderPage() {
@@ -8,3 +9,10 @@ export default function FinderPage() {
     </main>
   );
 }
+
+export const metadata = {
+  title: `Account Finder - ${config.title}`,
+  description: `Find out if you have played with or against another player on ${config.title}.`,
+  keywords:
+    "faceit, finder, account, player, stats, matches, veto, faceit veto",
+};

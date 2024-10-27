@@ -18,7 +18,7 @@ interface TogetherProps {
   className?: string;
 }
 
-export default function Together({ className }: TogetherProps) {
+export default function HaveWeMet({ className }: TogetherProps) {
   const [team, setTeam] = useState<Player[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPlayer, setIsLoadingPlayer] = useState(true);

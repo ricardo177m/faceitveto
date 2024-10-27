@@ -63,5 +63,6 @@ export async function generateMetadata(
   return {
     title: nickname + " - " + config.title,
     description: config.description,
+    keywords: "faceit, player, stats, matches, veto, faceit veto",
   };
 }

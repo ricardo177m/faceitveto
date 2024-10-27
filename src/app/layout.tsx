@@ -20,6 +20,7 @@ const inter = Inter({
 export const metadata = {
   title: config.title,
   description: config.description,
+  keywords: "faceit, veto, maps, stats, matches",
 };
 
 export default function RootLayout({

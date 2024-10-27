@@ -30,10 +30,10 @@ const OtherFeaturesSection = () => {
       </p>
       <p className="mb-2">
         <Link
-          href="/together"
+          href="/havewemet"
           className="underline transition-colors hover:text-primary"
         >
-          Matches Together
+          Have We Met
         </Link>
       </p>
     </section>

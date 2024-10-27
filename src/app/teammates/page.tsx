@@ -1,3 +1,4 @@
+import { config } from "@/config/config";
 import Teammates from "@/components/Teammates";
 
 export default function FinderPage() {
@@ -8,3 +9,8 @@ export default function FinderPage() {
     </main>
   );
 }
+export const metadata = {
+  title: `Teammates - ${config.title}`,
+  description: `View your teammates' stats and matches on ${config.title}.`,
+  keywords: "faceit, teammates, team, stats, matches, veto, faceit veto",
+};

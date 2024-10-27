@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import { TeamStatsData } from "@/types/team-stats";
 
 import MapIcon from "../MapIcon";
@@ -60,18 +62,12 @@ export default function TeamStats({ stats }: TeamStatsProps) {
                   <div className="my-auto p-4 px-8">
                     <span className="capitalize">{mapName}</span>
                   </div>
-                  <div className="ml-auto p-4 text-gray-400">
+                  <div className="my-auto ml-auto px-4 text-dark-800 max-md:hidden">
+                    <span>{moment(match.finished_at * 1000).fromNow()}</span>
+                  </div>
+                  <div className="p-4 text-gray-400 max-md:ml-auto">
                     <span>{score}</span>
                   </div>
-                  {/* <div className="p-4 my-auto ml-auto text-center">
-                  <span
-                    className={`font-bold ${
-                      isWin ? "text-green-500" : "text-red-600"
-                    }`}
-                  >
-                    {isWin ? "Win" : "Loss"}
-                  </span>
-                </div> */}
                 </RowItem>
               );
             })

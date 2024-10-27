@@ -1,3 +1,6 @@
+import moment from "moment";
+import { FaClock } from "react-icons/fa";
+
 import { fetchPlayerMatches } from "@/lib/player";
 
 import MapIcon from "../MapIcon";
@@ -52,7 +55,10 @@ export default async function PlayerLastMatches({
                 <div className="my-auto p-4 px-8">
                   <span className="capitalize">{mapName}</span>
                 </div>
-                <div className="ml-auto p-4 text-gray-400">
+                <div className="my-auto ml-auto px-4 text-dark-800 max-md:hidden">
+                  <span>{moment(match.created_at).fromNow()}</span>
+                </div>
+                <div className="p-4 text-gray-400 max-md:ml-auto">
                   <span>{score}</span>
                 </div>
                 {/* <div className="p-4 my-auto ml-auto text-center">

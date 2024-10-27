@@ -23,3 +23,7 @@ export interface SubscriberBadge {
   next_badge_length: number;
   tiers: number[];
 }
+
+export interface PlayerListResponse {
+  [key: string]: PlayerListResult;
+}

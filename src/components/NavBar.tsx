@@ -5,7 +5,6 @@ import Logo from "@/components/ui/Logo";
 import { SignInWithFaceit, SignOut } from "@/components/actions";
 
 import PlayerAvatar from "./PlayerAvatar";
-import NavLink from "./ui/NavLink";
 
 export default async function NavBar() {
   const session = await getServerSession();
@@ -13,12 +12,6 @@ export default async function NavBar() {
   return (
     <nav className="mb-4 flex h-16 w-full flex-row items-center gap-4 border-b border-b-dark-600 px-4">
       <Logo />
-      <NavLink href="/finder" className="max-md:hidden">
-        Finder
-      </NavLink>
-      <NavLink href="/premade" className="max-md:hidden">
-        Premade Winrate
-      </NavLink>
       {/* <div>
         <span className="rounded-md bg-dark-600 px-2 py-1 text-sm">Beta</span>
       </div> */}

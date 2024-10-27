@@ -12,12 +12,20 @@ const OtherFeaturesSection = () => {
           FACEIT Account Finder
         </Link>
       </p>
-      <p>
+      <p className="mb-2">
         <Link
           href="/premade"
           className="underline transition-colors hover:text-primary"
         >
           Premade Win Rate
+        </Link>
+      </p>
+      <p className="mb-2">
+        <Link
+          href="/teammates"
+          className="underline transition-colors hover:text-primary"
+        >
+          Teammates
         </Link>
       </p>
     </section>

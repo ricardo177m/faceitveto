@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { fetchPlayerDetailedMatches, fetchPlayerMatches } from "@/lib/player";
+import { DetailedMatch } from "@/types/detailed-match";
+import { PlayerMatchStats } from "@/types/player-match-stats";
+import {
+  fetchPlayerDetailedMatches,
+  fetchPlayerMatches,
+  fetchPlayerStats,
+} from "@/lib/player";
 
 const schema = z.array(z.string().uuid());
 
@@ -18,12 +24,34 @@ export async function GET(req: NextRequest) {
   try {
     const validated = schema.parse(ids);
 
-    // TODO: choose player with less matches to reduce the amount of requests
-    // n - 1
-    const matchesDetails = await fetchPlayerDetailedMatches(validated[0]);
-    const matchesStats = await fetchPlayerMatches(validated[0]);
+    const playerPromises = validated.map((id) => fetchPlayerStats(id));
+    const players = await Promise.all(playerPromises);
+
+    // find player with less matches
+    const player = players.reduce((acc, curr) => {
+      if (curr.overall.matches < acc.overall.matches) return curr;
+      return acc;
+    });
+
+    const playerId = player.playerId;
+    const matches = player.overall.matches;
+
+    const matchesDetailsPromises: Promise<DetailedMatch[]>[] = [];
+    const matchesStatsPromises: Promise<PlayerMatchStats[]>[] = [];
+
+    Array.from({ length: Math.ceil(matches / 100) }, (_, i) => {
+      matchesDetailsPromises.push(fetchPlayerDetailedMatches(playerId, 100, i));
+      matchesStatsPromises.push(fetchPlayerMatches(playerId, 100, i));
+    });
+
+    const matchesDetails = (await Promise.all(matchesDetailsPromises)).flat();
+    const matchesStats = (await Promise.all(matchesStatsPromises)).flat();
+
+    let count = 0;
 
     const filteredMatches = matchesDetails.filter((match) => {
+      if (!match) return false;
+      count++;
       const faction1 = match.teams.faction1.players;
       const faction2 = match.teams.faction2.players;
 
@@ -56,16 +84,21 @@ export async function GET(req: NextRequest) {
         total: filteredMatches.length,
         wins: filteredMatches.filter((match) => match.stats.isWin).length,
       },
-      matches: filteredMatches,
+      matches: filteredMatches
+        .sort((a, b) => b.finished_at - a.finished_at)
+        .slice(0, 10),
+      matchesCount: count,
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof z.ZodError)
       return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
     console.log(error);
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 }
-    );
+    if (error instanceof Error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    else
+      return NextResponse.json(
+        { error: "Something went wrong" },
+        { status: 500 }
+      );
   }
 }

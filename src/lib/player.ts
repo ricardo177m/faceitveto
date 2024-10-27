@@ -1,10 +1,8 @@
-"use server";
-
 import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
 import { DetailedMatch } from "@/types/detailed-match";
 import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";
-import { PlayerListResult } from "@/types/player-list";
+import { PlayerListResponse } from "@/types/player-list";
 import { PlayerMatchStats } from "@/types/player-match-stats";
 import { PlayerStats } from "@/types/player-stats";
 import { config } from "@/config/config";
@@ -178,15 +176,15 @@ export async function fetchPlayerMatches(
 
 export async function fetchPlayerDetailedMatches(
   playerId: string,
-  limit: number = 100,
-  offset: number = 0
+  size: number = 100,
+  page: number = 0
   // from: number, // new Date("1970-01-01").valueOf(),
   // to: number
 ): Promise<DetailedMatch[]> {
   const url = new URL(faceitopen.history(playerId));
   url.searchParams.append("game", "cs2");
-  url.searchParams.append("limit", limit.toString());
-  url.searchParams.append("offset", offset.toString());
+  url.searchParams.append("limit", size.toString());
+  url.searchParams.append("offset", (page * size).toString());
   // url.searchParams.append("from", size.toString());
   // url.searchParams.append("to", size.toString());
 
@@ -202,13 +200,13 @@ export async function fetchPlayerDetailedMatches(
 
 export async function fetchPlayerList(
   list: string[]
-): Promise<PlayerListResult[]> {
+): Promise<PlayerListResponse> {
   const response = await fetch(faceit.list, {
     method: "post",
     body: JSON.stringify({ ids: list }),
     next: { revalidate: 60 * 60 * 3 },
   });
   const data = await response.json();
-  if (response.status === 200) return Object.values(data.payload);
+  if (response.status === 200) return data.payload;
   else throw new Error(data.errors[0].message);
 }

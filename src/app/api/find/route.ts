@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { fetchPlayerList } from "@/lib/player";
 import { fetchPlayerSearch } from "@/lib/search";
@@ -54,14 +55,17 @@ export async function GET(req: NextRequest) {
     if (!ids.length) return NextResponse.json([]);
 
     const data = await fetchPlayerList(ids);
-    return NextResponse.json(data);
+    return NextResponse.json(Object.values(data));
   } catch (error) {
+    if (error instanceof z.ZodError)
+      return NextResponse.json({ error: error.errors }, { status: 400 });
+    console.log(error);
     if (error instanceof Error)
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     else
       return NextResponse.json(
         { error: "Something went wrong" },
-        { status: 400 }
+        { status: 500 }
       );
   }
 }

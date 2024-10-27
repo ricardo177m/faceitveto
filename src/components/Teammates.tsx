@@ -83,10 +83,10 @@ export default function Teammates({ className }: TeammatesProps) {
   };
 
   useEffect(() => {
-    if (!selectedData) return setIsLoading(false);
+    if (!selectedData) return;
 
     // check if all players have been fetched
-    const allPlayersFetched = selectedData.every((p) =>
+    const allPlayersFetched = selectedData?.every((p) =>
       playerList.has(p.playerId)
     );
     if (allPlayersFetched) return setIsLoading(false);

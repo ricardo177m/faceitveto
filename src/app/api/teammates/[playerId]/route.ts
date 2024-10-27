@@ -73,7 +73,7 @@ export async function GET(req: NextRequest, props: TeammatesParams) {
             playerId: e,
           };
         else teammatesData.enemies[e].matches++;
-        if (!isWin) teammatesData.enemies[e].wins++;
+        if (isWin) teammatesData.enemies[e].wins++;
       });
     });
 

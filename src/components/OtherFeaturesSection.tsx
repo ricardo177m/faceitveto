@@ -28,6 +28,14 @@ const OtherFeaturesSection = () => {
           Teammates
         </Link>
       </p>
+      <p className="mb-2">
+        <Link
+          href="/together"
+          className="underline transition-colors hover:text-primary"
+        >
+          Matches Together
+        </Link>
+      </p>
     </section>
   );
 };

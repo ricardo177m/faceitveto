@@ -15,9 +15,9 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const ids = searchParams.getAll("playerid[]");
 
-  if (ids.length < 2)
+  if (ids.length !== 2)
     return NextResponse.json(
-      { error: "You must provide at least 2 ids" },
+      { error: "You must provide 2 ids" },
       { status: 400 }
     );
 
@@ -49,7 +49,10 @@ export async function GET(req: NextRequest) {
 
     let count = 0;
 
-    const filteredMatches = matchesDetails.filter((match) => {
+    const matchesTeammate: DetailedMatch[] = [];
+    const matchesOpponent: DetailedMatch[] = [];
+
+    matchesDetails.forEach((match) => {
       if (!match) return false;
       count++;
       const faction1 = match.teams.faction1.players;
@@ -58,10 +61,22 @@ export async function GET(req: NextRequest) {
       const faction1Ids = faction1.map((player) => player.player_id);
       const faction2Ids = faction2.map((player) => player.player_id);
 
-      const isValidFaction1 = validated.every((id) => faction1Ids.includes(id));
-      const isValidFaction2 = validated.every((id) => faction2Ids.includes(id));
+      const areTeammatesFaction1 = validated.every((id) =>
+        faction1Ids.includes(id)
+      );
+      const areTeammatesFaction2 = validated.every((id) =>
+        faction2Ids.includes(id)
+      );
 
-      if (!isValidFaction1 && !isValidFaction2) return false;
+      const asTeammates = areTeammatesFaction1 || areTeammatesFaction2;
+
+      const asOpponents =
+        (faction1Ids.includes(validated[0]) &&
+          faction2Ids.includes(validated[1])) ||
+        (faction1Ids.includes(validated[1]) &&
+          faction2Ids.includes(validated[0]));
+
+      if (!asTeammates && !asOpponents) return false;
 
       const stats = matchesStats.find(
         (stats) => stats.matchId === match.match_id
@@ -75,17 +90,33 @@ export async function GET(req: NextRequest) {
         roundsWon: stats.c5,
       };
 
-      return true;
+      if (asTeammates) matchesTeammate.push(match);
+      else if (asOpponents) matchesOpponent.push(match);
     });
 
-    return NextResponse.json({
+    const asTeammates = {
       stats: {
-        total: filteredMatches.length,
-        wins: filteredMatches.filter((match) => match.stats.isWin).length,
+        total: matchesTeammate.length,
+        wins: matchesTeammate.filter((match) => match.stats.isWin).length,
       },
-      matches: filteredMatches
+      matches: matchesTeammate
         .sort((a, b) => b.finished_at - a.finished_at)
         .slice(0, 10), // TODO
+    };
+
+    const asOpponents = {
+      stats: {
+        total: matchesOpponent.length,
+        wins: matchesOpponent.filter((match) => match.stats.isWin).length,
+      },
+      matches: matchesOpponent
+        .sort((a, b) => b.finished_at - a.finished_at)
+        .slice(0, 10), // TODO
+    };
+
+    return NextResponse.json({
+      asTeammates,
+      asOpponents,
       matchesCount: count,
     });
   } catch (error) {

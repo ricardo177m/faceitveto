@@ -7,3 +7,8 @@ export interface TeamStatsData {
   };
   matches: DetailedMatch[];
 }
+
+export interface TogetherStatsData {
+  asTeammates: TeamStatsData;
+  asOpponents: TeamStatsData;
+}

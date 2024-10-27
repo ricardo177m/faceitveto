@@ -1,5 +1,4 @@
 import moment from "moment";
-import { FaClock } from "react-icons/fa";
 
 import { fetchPlayerMatches } from "@/lib/player";
 

@@ -1,5 +1,3 @@
-"use client";
-
 interface PaginationProps {
   offset: number;
   limit: number;
@@ -8,13 +6,13 @@ interface PaginationProps {
   className?: string;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+export default function Pagination({
   offset,
   limit,
   total,
   setOffset,
   className,
-}) => {
+}: PaginationProps) {
   const page = Math.floor(offset / limit) + 1;
 
   return (
@@ -36,6 +34,4 @@ const Pagination: React.FC<PaginationProps> = ({
       </button>
     </div>
   );
-};
-
-export default Pagination;
+}

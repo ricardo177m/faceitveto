@@ -95,7 +95,7 @@ export default function Teammates({ className }: TeammatesProps) {
       .map((p) => p.playerId)
       .filter((p) => !playerList.has(p));
     fetchPlayerList(missingPlayers);
-  }, [selectedData]);
+  }, [selectedData, fetchPlayerList]);
 
   return (
     <div className={className}>

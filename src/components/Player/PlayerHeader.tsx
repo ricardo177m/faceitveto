@@ -1,5 +1,3 @@
-import { FaExternalLinkAlt } from "react-icons/fa";
-
 import { Player } from "@/types/player";
 
 import CountryFlag from "../CountryFlag";

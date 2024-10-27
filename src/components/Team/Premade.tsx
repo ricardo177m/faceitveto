@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Player } from "@/types/player";
 import { PlayerSearch } from "@/types/player-search-result";
@@ -24,15 +24,12 @@ export default function Premade({ className }: PremadeProps) {
   const [isLoadingPlayer, setIsLoadingPlayer] = useState(true);
   const [matches, setMatches] = useState<TeamStatsData | null>(null);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const session = useSession();
 
   const handleClick = (player: PlayerSearch) => fetchPlayer(player.id);
 
   const fetchPlayer = useCallback(
     async (playerid: string) => {
-      if (inputRef.current) inputRef.current.value = "";
       if (team.length >= 5) return;
       if (team.find((player) => player.id === playerid)) return;
       setIsLoadingPlayer(true);
@@ -64,11 +61,7 @@ export default function Premade({ className }: PremadeProps) {
   return (
     <div className={className}>
       <div className="flex flex-row gap-4">
-        <Search
-          onClick={handleClick}
-          inputRef={inputRef}
-          className="w-full max-w-96"
-        />
+        <Search onClick={handleClick} className="w-full max-w-96" />
         <PrimaryButton
           disabled={isLoading || isLoadingPlayer || team.length < 2}
           onClick={handleSubmit}

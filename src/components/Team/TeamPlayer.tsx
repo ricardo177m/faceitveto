@@ -30,7 +30,7 @@ export default function TeamPlayer({ player, handleRemove }: TeamPlayerProps) {
         <Level
           elo={cs2?.faceit_elo}
           level={cs2?.skill_level}
-          className="h-6 w-6"
+          className="size-6"
           size={6}
         />
         <span>{cs2?.faceit_elo}</span>

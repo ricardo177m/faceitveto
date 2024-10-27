@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
 import { PlayerSearch, PlayerSearchResult } from "@/types/player-search-result";
@@ -15,20 +14,18 @@ const minQueryLength = 2;
 interface SearchProps {
   className?: string;
   placeholder?: string;
-  inputRef?: React.RefObject<HTMLInputElement>;
   onClick?: (player: PlayerSearch) => void;
 }
 
 export default function Search({
   className,
   placeholder,
-  inputRef,
   onClick,
 }: SearchProps) {
   const [query, setQuery] = useState<string>("");
   const [hidden, setHidden] = useState<boolean>(false);
 
-  const theInputRef = inputRef ?? useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const fetcher = (url: RequestInfo | URL) => {
     if (query.length < minQueryLength) return;
@@ -45,7 +42,7 @@ export default function Search({
     data && !!query.length ? data : null;
 
   const handleClick = useCallback((e: MouseEvent) => {
-    setHidden(e.target !== theInputRef.current);
+    setHidden(e.target !== inputRef.current);
   }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,8 +64,9 @@ export default function Search({
         className="w-full max-w-96 rounded-md bg-dark-600 px-4 py-1"
         placeholder={placeholder || "Nickname"}
         autoFocus
-        ref={theInputRef}
+        ref={inputRef}
         onChange={handleInput}
+        value={query}
         onFocus={() => setHidden(false)}
       />
       {query.length >= minQueryLength ? (
@@ -83,7 +81,12 @@ export default function Search({
           ) : searchres!.total_count > 0 ? (
             <>
               {searchres!.results.map((p) => (
-                <SearchResult key={p.id} player={p} onClick={onClick} />
+                <SearchResult
+                  key={p.id}
+                  player={p}
+                  onClick={onClick}
+                  setQuery={setQuery}
+                />
               ))}
               <span className="text-xs text-dark-900">
                 {searchres!.total_count} player

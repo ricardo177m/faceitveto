@@ -1,5 +1,3 @@
-import { DetailedMatch } from "@/types/detailed-match";
-import { Player } from "@/types/player";
 import { TeamStatsData } from "@/types/team-stats";
 
 import MapIcon from "../MapIcon";

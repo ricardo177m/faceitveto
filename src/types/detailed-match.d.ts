@@ -1,5 +1,3 @@
-import { PlayerMatchStats } from "./player-match-stats";
-
 export interface DetailedMatch {
   match_id: string;
   game_id: string;

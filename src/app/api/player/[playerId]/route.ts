@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchPlayerById, fetchPlayerByNickname } from "@/lib/player";
+import { fetchPlayerById } from "@/lib/player";
 
 interface NicknameParams {
   params: Promise<{

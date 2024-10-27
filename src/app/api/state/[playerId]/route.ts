@@ -8,7 +8,7 @@ interface StateParams {
   }>;
 }
 
-export async function GET(_: Request, props: StateParams) {
+export async function POST(_: Request, props: StateParams) {
   const params = await props.params;
   const { playerId } = params;
 

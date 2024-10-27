@@ -8,7 +8,7 @@ interface MatchParams {
   }>;
 }
 
-export async function GET(_: Request, props: MatchParams) {
+export async function POST(_: Request, props: MatchParams) {
   const params = await props.params;
   const { id } = params;
 

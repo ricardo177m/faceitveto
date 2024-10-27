@@ -41,7 +41,7 @@ export async function fetchPlayerState(
   const url = new URL(faceit.state);
   url.searchParams.append("userId", playerId);
 
-  const response = await fetch(url, { cache: "no-cache" });
+  const response = await fetch(url, { cache: "no-store" });
   const data: PartialMatchState = await response.json();
 
   const match = Object.values(data.payload)[0];

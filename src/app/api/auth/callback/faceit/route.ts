@@ -33,6 +33,7 @@ export async function GET(request: Request) {
     );
 
     const detailedUser = await fetchPlayerById(userinfo.guid);
+    if (!detailedUser) return new NextResponse(null, { status: 404 });
 
     const data = {
       id: userinfo.guid,

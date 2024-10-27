@@ -1,6 +1,8 @@
 import { Suspense } from "react";
+import Link from "next/link";
 
 import CurrentMatchLink from "../CurrentMatchLink";
+import OtherFeaturesSection from "../OtherFeaturesSection";
 import PlayerLastMatches from "../Player/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "../Player/PlayerLastMatchesSkeleton";
 import Search from "../Search";
@@ -34,6 +36,8 @@ export default function UserHome({ session }: UserHomeProps) {
         <h2 className="mb-4 text-2xl font-bold">Search for a player</h2>
         <Search />
       </section>
+
+      <OtherFeaturesSection />
     </main>
   );
 }

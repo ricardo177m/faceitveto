@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import OtherFeaturesSection from "../OtherFeaturesSection";
 import Search from "../Search";
 
 export default function GuestHome() {
@@ -20,6 +21,7 @@ export default function GuestHome() {
           </div>
         </div>
       </div>
+      <OtherFeaturesSection />
     </main>
   );
 }

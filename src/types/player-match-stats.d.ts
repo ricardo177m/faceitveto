@@ -32,7 +32,7 @@ export interface PlayerMatchStats {
   i0: string;
   i1: string; // map
   i12: string;
-  i18: string;
+  i18: string; // score
   i2: string;
   matchId: string;
   matchRound: string;

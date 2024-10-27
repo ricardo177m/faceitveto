@@ -1,22 +1,26 @@
 "use server";
 
 import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
+import { DetailedMatch } from "@/types/detailed-match";
 import { PartialMatchState } from "@/types/match";
 import { Player } from "@/types/player";
 import { PlayerListResult } from "@/types/player-list";
 import { PlayerMatchStats } from "@/types/player-match-stats";
 import { PlayerStats } from "@/types/player-stats";
 import { config } from "@/config/config";
-import { faceit } from "@/config/endpoints";
+import { faceit, faceitopen } from "@/config/endpoints";
+import { env } from "@/env.mjs";
 
-export async function fetchPlayerById(playerId: string): Promise<Player> {
+export async function fetchPlayerById(
+  playerId: string
+): Promise<Player | null> {
   const response = await fetch(faceit.user(playerId), {
     cache: "force-cache",
   });
   const data = await response.json();
-  if (response.status !== 200) throw new Error(data.error);
-
-  return data.payload as Player;
+  if (response.status === 404) return null;
+  if (response.status === 200) return data.payload;
+  else throw new Error(data.errors[0].message);
 }
 
 export async function fetchPlayerByNickname(
@@ -152,19 +156,47 @@ export async function fetchPlayerStatsLastMatches(
 
 export async function fetchPlayerMatches(
   playerId: string,
-  size: number
+  size: number = 100,
+  page: number = 0
+  // from: number, // new Date("1970-01-01").valueOf(),
+  // to: number
 ): Promise<PlayerMatchStats[]> {
   const url = new URL(faceit.matches(playerId));
-  url.searchParams.append("page", "0");
+  url.searchParams.append("page", page.toString());
   url.searchParams.append("size", size.toString());
+  url.searchParams.append("game_mode", "5v5");
+  // url.searchParams.append("from", size.toString());
+  // url.searchParams.append("to", size.toString());
 
   const response = await fetch(url, {
     next: { revalidate: 60 * 5 },
   });
   const data = await response.json();
-
   const payload: PlayerMatchStats[] = data;
+  return payload;
+}
 
+export async function fetchPlayerDetailedMatches(
+  playerId: string,
+  limit: number = 100,
+  offset: number = 0
+  // from: number, // new Date("1970-01-01").valueOf(),
+  // to: number
+): Promise<DetailedMatch[]> {
+  const url = new URL(faceitopen.history(playerId));
+  url.searchParams.append("game", "cs2");
+  url.searchParams.append("limit", limit.toString());
+  url.searchParams.append("offset", offset.toString());
+  // url.searchParams.append("from", size.toString());
+  // url.searchParams.append("to", size.toString());
+
+  const response = await fetch(url, {
+    next: { revalidate: 60 * 5 },
+    headers: { Authorization: `Bearer ${env.FACEIT_OPEN_API_TOKEN}` },
+  });
+  const data = await response.json();
+
+  const payload: DetailedMatch[] = data.items;
   return payload;
 }
 

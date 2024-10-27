@@ -10,17 +10,19 @@ import PlayerAvatar from "./PlayerAvatar";
 
 interface SearchResultProps {
   player: PlayerSearch;
+  onClick?: (player: PlayerSearch) => void;
 }
 
-export default function SearchResult({ player }: SearchResultProps) {
-  const router = useRouter();
+export default function SearchResult({ player, onClick }: SearchResultProps) {
+  const { push } = useRouter();
 
+  const defaultClickHandler = () => push(`/player/${player.nickname}`);
   const cs2level = player.games.find((g) => g.name === "cs2")?.skill_level;
 
   return (
     <button
       className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 transition-colors hover:bg-gray-600"
-      onClick={() => router.push(`/player/${player.nickname}`)}
+      onClick={() => (onClick ? onClick(player) : defaultClickHandler())}
     >
       <PlayerAvatar player={player} size={34} />
       <span className="truncate">{player.nickname}</span>

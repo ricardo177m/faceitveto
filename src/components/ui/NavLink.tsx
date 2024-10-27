@@ -11,7 +11,7 @@ const NavLink = ({ href, children, className, ...props }: NavLinkProps) => {
   return (
     <Link
       href={href}
-      className={`${className} inline-flex h-full items-center px-4 text-gray-300 transition-colors hover:text-white`}
+      className={`${className} inline-flex h-full items-center px-2 text-gray-300 transition-colors hover:text-white`}
       {...props}
     >
       <span>{children}</span>

@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
-import { PlayerSearchResult } from "@/types/player-search-result";
+import { PlayerSearch, PlayerSearchResult } from "@/types/player-search-result";
 import { env } from "@/env.mjs";
 
 import SearchResult from "./SearchResult";
@@ -14,13 +15,20 @@ const minQueryLength = 2;
 interface SearchProps {
   className?: string;
   placeholder?: string;
+  inputRef?: React.RefObject<HTMLInputElement>;
+  onClick?: (player: PlayerSearch) => void;
 }
 
-export default function Search({ className, placeholder }: SearchProps) {
+export default function Search({
+  className,
+  placeholder,
+  inputRef,
+  onClick,
+}: SearchProps) {
   const [query, setQuery] = useState<string>("");
   const [hidden, setHidden] = useState<boolean>(false);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const theInputRef = inputRef ?? useRef<HTMLInputElement>(null);
 
   const fetcher = (url: RequestInfo | URL) => {
     if (query.length < minQueryLength) return;
@@ -37,7 +45,7 @@ export default function Search({ className, placeholder }: SearchProps) {
     data && !!query.length ? data : null;
 
   const handleClick = useCallback((e: MouseEvent) => {
-    setHidden(e.target !== inputRef.current);
+    setHidden(e.target !== theInputRef.current);
   }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,13 +67,13 @@ export default function Search({ className, placeholder }: SearchProps) {
         className="w-full max-w-96 rounded-md bg-dark-600 px-4 py-1"
         placeholder={placeholder || "Nickname"}
         autoFocus
-        ref={inputRef}
+        ref={theInputRef}
         onChange={handleInput}
         onFocus={() => setHidden(false)}
       />
       {query.length >= minQueryLength ? (
         <div
-          className="absolute mt-1 w-full max-w-96 rounded-md bg-gray-700 px-4 py-2 text-center shadow-xl"
+          className="absolute z-40 mt-1 w-full max-w-96 rounded-md bg-gray-700 px-4 py-2 text-center shadow-xl"
           hidden={hidden}
         >
           {isLoading ? (
@@ -75,7 +83,7 @@ export default function Search({ className, placeholder }: SearchProps) {
           ) : searchres!.total_count > 0 ? (
             <>
               {searchres!.results.map((p) => (
-                <SearchResult key={p.id} player={p} />
+                <SearchResult key={p.id} player={p} onClick={onClick} />
               ))}
               <span className="text-xs text-dark-900">
                 {searchres!.total_count} player

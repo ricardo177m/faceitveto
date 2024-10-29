@@ -32,3 +32,12 @@ export interface EntityCustom {
   };
   queueId: string;
 }
+
+export interface PartialMatchState {
+  payload: {
+    [key: string]: {
+      id: string;
+      state: string;
+    }[];
+  };
+}

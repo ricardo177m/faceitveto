@@ -371,11 +371,3 @@ export interface VotingEntity {
   entities: Element[];
   pick: string[];
 }
-
-interface PartialMatchState {
-  payload: {
-    [key: string]: {
-      id: string;
-    }[];
-  };
-}

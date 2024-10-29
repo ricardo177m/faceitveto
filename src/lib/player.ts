@@ -1,6 +1,6 @@
 import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
 import { DetailedMatch } from "@/types/detailed-match";
-import { PartialMatchState } from "@/types/match";
+import { PartialMatchState } from "@/types/match-state";
 import { Player } from "@/types/player";
 import { PlayerListResponse } from "@/types/player-list";
 import { PlayerMatchStats } from "@/types/player-match-stats";
@@ -43,7 +43,9 @@ export async function fetchPlayerState(
   const data: PartialMatchState = await response.json();
 
   const match = Object.values(data.payload)[0];
-  return match === undefined ? null : match[0].id;
+  return match === undefined || match[0].state === "CHECK-IN"
+    ? null
+    : match[0].id;
 }
 
 export async function fetchPlayerStats(

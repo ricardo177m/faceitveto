@@ -36,7 +36,7 @@ export default function PlayerEloProgression({
   const progress = !cs2.elo
     ? 0
     : cs2.elo >= max
-      ? 100
+      ? 1
       : (cs2.elo - min) / (max - min);
 
   useEffect(() => {

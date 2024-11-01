@@ -10,6 +10,7 @@ import { env } from "@/env.mjs";
 
 import CountryFlag from "./CountryFlag";
 import Level from "./Level";
+import LevelElo from "./LevelElo";
 import PlayerAvatar from "./PlayerAvatar";
 import Search from "./Search";
 import Pagination from "./table/Pagination";
@@ -146,7 +147,7 @@ export default function Teammates({ className }: TeammatesProps) {
                     <th className="w-full min-w-64 pl-6 pr-4 text-left">
                       Player
                     </th>
-                    <th className="min-w-16 px-4">Level</th>
+                    <th className="min-w-24 px-4">Level</th>
                     <th className="min-w-20 px-4">Matches</th>
                     <th className="min-w-20 px-4">Wins</th>
                     <th className="min-w-24 px-4">Winrate</th>
@@ -176,11 +177,10 @@ export default function Teammates({ className }: TeammatesProps) {
                             <CountryFlag country={player.country} />
                           </Link>
                         </td>
-                        <td>
-                          <Level
+                        <td className="text-center">
+                          <LevelElo
                             level={cs2 ? cs2.skill_level : 0}
                             elo={cs2 ? cs2.elo : 0}
-                            className="mx-auto size-8"
                           />
                         </td>
                         <td className="text-center">

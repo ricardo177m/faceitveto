@@ -2,9 +2,11 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { config } from "@/config/config";
+import { fetchSkillGroups } from "@/lib/cs2cfg";
 import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerByNickname } from "@/lib/player";
 import CurrentMatchLink from "@/components/CurrentMatchLink";
+import PlayerEloProgression from "@/components/Player/PlayerElo";
 import PlayerHeader from "@/components/Player/PlayerHeader";
 import PlayerLastMatches from "@/components/Player/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "@/components/Player/PlayerLastMatchesSkeleton";
@@ -19,10 +21,10 @@ interface PlayerPageProps {
 
 export default async function PlayerPage(props: PlayerPageProps) {
   const params = await props.params;
-
   const { nickname } = params;
 
   const player = await fetchPlayerByNickname(nickname);
+  const skillGroups = await fetchSkillGroups();
   const session = await getServerSession();
 
   if (!player) {
@@ -47,7 +49,7 @@ export default async function PlayerPage(props: PlayerPageProps) {
       >
         <PlayerLastMatches player={player} self={self} />
       </Suspense>
-
+      <PlayerEloProgression player={player} skillGroups={skillGroups} />
       <PlayerMaps player={player} self={self} />
     </div>
   );

@@ -180,7 +180,7 @@ export default function Teammates({ className }: TeammatesProps) {
                           <Level
                             level={cs2 ? cs2.skill_level : 0}
                             elo={cs2 ? cs2.elo : 0}
-                            className="mx-auto h-8"
+                            className="mx-auto size-8"
                           />
                         </td>
                         <td className="text-center">

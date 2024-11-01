@@ -36,7 +36,7 @@ export default function SearchResult({
       <PlayerAvatar player={player} size={34} />
       <span className="truncate">{player.nickname}</span>
       <CountryFlag country={player.country} className="ml-auto" />
-      <Level level={cs2level} className="h-[1.6rem]" />
+      <Level level={cs2level} className="size-7" />
     </button>
   );
 }

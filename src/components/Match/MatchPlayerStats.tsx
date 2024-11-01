@@ -8,17 +8,17 @@ import { useSession } from "@/hooks";
 import TeamMaps from "@/components/Match/TeamMaps";
 import { env } from "@/env.mjs";
 
-interface PlayerStatsProps {
+interface MatchPlayerStatsProps {
   curatedMatch: CuratedMatch;
   showMostRecent: boolean;
   democracy?: Democracy;
 }
 
-export default function PlayerStats({
+export default function MatchPlayerStats({
   curatedMatch,
   showMostRecent,
   democracy,
-}: PlayerStatsProps) {
+}: MatchPlayerStatsProps) {
   const [playerStats, setPlayerStats] = useState<CuratedPlayerStats[] | null>(
     null
   );

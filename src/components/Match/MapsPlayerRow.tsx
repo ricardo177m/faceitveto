@@ -6,7 +6,7 @@ import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
 import { IntervalPlayerStats } from "@/types/curated-player-stats";
 import { config } from "@/config/config";
 
-import Level from "../Level";
+import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
 
 interface MapsPlayerRowProps {
@@ -47,8 +47,8 @@ export default function MapsPlayerRow({
           ) : null}
         </Link>
       </td>
-      <td className="px-4">
-        <Level level={player.level} elo={player.elo} />
+      <td className="px-4 text-center">
+        <LevelElo level={player.level} elo={player.elo} />
       </td>
       {!stats ? (
         <td className="min-w-[3.2rem] px-2">

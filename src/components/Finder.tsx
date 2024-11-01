@@ -6,8 +6,7 @@ import { PlayerListResult } from "@/types/player-list";
 import { env } from "@/env.mjs";
 
 import CountryFlag from "./CountryFlag";
-import Elo from "./icons/Elo";
-import Level from "./Level";
+import LevelElo from "./LevelElo";
 import PlayerAvatar from "./PlayerAvatar";
 import PrimaryButton from "./ui/PrimaryButton";
 import RowItem from "./ui/RowItem";
@@ -81,19 +80,10 @@ export default function Finder({ className }: FinderProps) {
                 <PlayerAvatar player={p} size={40} />
                 <span className="truncate">{p.nickname}</span>
                 <CountryFlag country={p.country} className="ml-auto" />
-                <Level
+                <LevelElo
                   level={cs2 ? cs2.skill_level : 0}
-                  className="h-[1.6rem]"
+                  elo={cs2 ? cs2.elo : 0}
                 />
-                {cs2 && (
-                  <div
-                    className="inline-flex items-center gap-2 text-sm text-dark-800"
-                    title={`${p.nickname}'s CS2 elo`}
-                  >
-                    <Elo className="w-4 fill-dark-800" />
-                    <span>{cs2.elo}</span>
-                  </div>
-                )}
               </RowItem>
             );
           })

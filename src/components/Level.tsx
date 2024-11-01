@@ -13,11 +13,11 @@ export default function Level({ level, elo, className, size }: LevelProps) {
   return (
     <Image
       src={`/assets/faceit-levels/${levelasset}.svg`}
-      alt={`Level ${level}`}
-      title={elo ? `${elo} elo (CS2)` : "CS2 Level"}
+      alt={`Level ${levelasset}`}
+      title={`CS2 Level ${levelasset}${elo ? ` (${elo} elo)` : ""}`}
       width={size || 16}
       height={size || 16}
-      className={`${className} h-8 min-w-8`}
+      className={className}
     />
   );
 }

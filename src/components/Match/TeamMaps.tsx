@@ -31,7 +31,7 @@ export default function TeamMaps({
         <thead>
           <tr>
             <th className="px-4 text-left">{team.name}</th>
-            <th className="text-sm font-normal">Level</th>
+            <th className="min-w-28 text-sm font-normal">Level</th>
             <th className="min-w-[3.2rem] text-center text-sm font-normal">
               Maps
             </th>

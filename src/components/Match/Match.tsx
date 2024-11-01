@@ -11,7 +11,7 @@ import { useLocalStorage } from "@/hooks";
 import EdgeContext from "@/contexts/EdgeContext";
 
 import MatchHeader from "./MatchHeader";
-import PlayerStats from "./PlayerStats";
+import MatchPlayerStats from "./MatchPlayerStats";
 
 interface MapsPlayerRowProps {
   match: CuratedMatch;
@@ -59,7 +59,7 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
         setShowMostRecent={setShowMostRecent}
         democracy={democracyState}
       />
-      <PlayerStats
+      <MatchPlayerStats
         curatedMatch={match}
         showMostRecent={showMostRecent}
         democracy={democracyState}

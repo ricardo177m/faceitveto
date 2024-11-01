@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { Player } from "@/types/player";
 
 import CountryFlag from "../CountryFlag";
-import Level from "../Level";
+import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
 
 interface TeamPlayerProps {
@@ -26,15 +26,7 @@ export default function TeamPlayer({ player, handleRemove }: TeamPlayerProps) {
         <span className="truncate font-bold">{player.nickname}</span>
         <CountryFlag country={player.country} />
       </div>
-      <div className="inline-flex items-center gap-2 text-sm">
-        <Level
-          elo={cs2?.faceit_elo}
-          level={cs2?.skill_level}
-          className="size-6"
-          size={6}
-        />
-        <span>{cs2?.faceit_elo}</span>
-      </div>
+      <LevelElo level={cs2?.skill_level} elo={cs2?.faceit_elo} />
     </div>
   );
 }

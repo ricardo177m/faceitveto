@@ -1,21 +1,18 @@
 import { Suspense } from "react";
-import { Metadata } from "next";
 
-import { config } from "@/config/config";
 import PlayerHeaderSkeleton from "@/components/Player/PlayerHeaderSkeleton";
 import PlayerLayout from "@/components/Player/PlayerLayout";
 
-interface PlayerPagetProps {
+interface PlayerPageProps {
   params: Promise<{
     nickname: string;
   }>;
   children: React.ReactNode;
 }
 
-export default async function PlayerPageLayout(props: PlayerPagetProps) {
+export default async function PlayerPageLayout(props: PlayerPageProps) {
   const params = await props.params;
   const { nickname } = params;
-
   const { children } = props;
 
   return (
@@ -27,17 +24,4 @@ export default async function PlayerPageLayout(props: PlayerPagetProps) {
       </div>
     </div>
   );
-}
-
-export async function generateMetadata(
-  props: PlayerPagetProps
-): Promise<Metadata> {
-  const params = await props.params;
-  const { nickname } = params;
-
-  return {
-    title: nickname + " - " + config.title,
-    description: config.description,
-    keywords: "faceit, player, stats, matches, veto, faceit veto",
-  };
 }

@@ -1,11 +1,12 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 
+import { config } from "@/config/config";
 import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerByNickname } from "@/lib/player";
 import CurrentMatchLink from "@/components/CurrentMatchLink";
 import PlayerLastMatches from "@/components/Player/PlayerLastMatches";
 import PlayerLastMatchesSkeleton from "@/components/Player/PlayerLastMatchesSkeleton";
-import Search from "@/components/Search";
 
 interface PlayerPageProps {
   params: Promise<{
@@ -34,4 +35,17 @@ export default async function PlayerPage(props: PlayerPageProps) {
       </Suspense>
     </>
   );
+}
+
+export async function generateMetadata(
+  props: PlayerPageProps
+): Promise<Metadata> {
+  const params = await props.params;
+  const { nickname } = params;
+
+  return {
+    title: nickname + " - " + config.title,
+    description: config.description,
+    keywords: "faceit, player, stats, matches, veto, faceit veto",
+  };
 }

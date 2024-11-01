@@ -57,6 +57,8 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
             className="aspect-square w-4"
             src="/assets/faceit-rounded.svg"
             alt="Go to FACEIT profile"
+            width={8}
+            height={8}
             unoptimized
           />
         </a>
@@ -72,6 +74,8 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
               className="aspect-square w-4"
               src="/assets/steam-rounded.svg"
               alt="Go to Steam profile"
+              width={8}
+              height={8}
               unoptimized
             />
           </a>

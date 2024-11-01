@@ -16,7 +16,9 @@ export default function Pagination({
   const page = Math.floor(offset / limit) + 1;
 
   return (
-    <div className={`${className}`}>
+    <div
+      className={`${className} inline-flex w-full items-center justify-center`}
+    >
       <button
         onClick={() => setOffset(offset - limit)}
         disabled={offset === 0}
@@ -24,7 +26,7 @@ export default function Pagination({
       >
         {"<"}
       </button>
-      <span className="px-4">{page}</span>
+      <span className="min-w-12">{page}</span>
       <button
         onClick={() => setOffset(offset + limit)}
         disabled={offset + limit >= total}

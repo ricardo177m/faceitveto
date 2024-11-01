@@ -11,8 +11,8 @@ export default function FinderPage() {
 }
 
 export const metadata = {
-  title: `Account Finder - ${config.title}`,
-  description: `Find out if you have played with or against another player on ${config.title}.`,
+  title: `FACEIT Finder - ${config.title}`,
+  description: `Find the FACEIT account linked to a Steam profile on ${config.title}.`,
   keywords:
     "faceit, finder, account, player, stats, matches, veto, faceit veto",
 };

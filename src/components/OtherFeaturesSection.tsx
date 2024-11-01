@@ -1,41 +1,34 @@
 import Link from "next/link";
 
 const OtherFeaturesSection = () => {
+  const links = [
+    {
+      label: "FACEIT Finder",
+      href: "/finder",
+    },
+    {
+      label: "Premade Win Rate",
+      href: "/premade",
+    },
+    {
+      label: "Have We Met",
+      href: "/havewemet",
+    },
+  ];
+
   return (
     <section className="mt-6 flex flex-col">
       <h2 className="mb-4 text-2xl font-bold">Other Features</h2>
-      <p className="mb-2">
-        <Link
-          href="/finder"
-          className="underline transition-colors hover:text-primary"
-        >
-          FACEIT Account Finder
-        </Link>
-      </p>
-      <p className="mb-2">
-        <Link
-          href="/premade"
-          className="underline transition-colors hover:text-primary"
-        >
-          Premade Win Rate
-        </Link>
-      </p>
-      <p className="mb-2">
-        <Link
-          href="/teammates"
-          className="underline transition-colors hover:text-primary"
-        >
-          Teammates
-        </Link>
-      </p>
-      <p className="mb-2">
-        <Link
-          href="/havewemet"
-          className="underline transition-colors hover:text-primary"
-        >
-          Have We Met
-        </Link>
-      </p>
+      {links.map((link) => (
+        <p key={link.href} className="mb-2">
+          <Link
+            href={link.href}
+            className="underline transition-colors hover:text-primary"
+          >
+            {link.label}
+          </Link>
+        </p>
+      ))}
     </section>
   );
 };

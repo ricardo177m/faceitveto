@@ -14,7 +14,6 @@ import LevelElo from "./LevelElo";
 import PlayerAvatar from "./PlayerAvatar";
 import Pagination from "./table/Pagination";
 import Checkbox from "./ui/Checkbox";
-import RowItemSkeleton from "./ui/RowItemSkeleton";
 
 interface TeammatesProps {
   player: Player | null;
@@ -33,8 +32,6 @@ export default function Teammates({ player, self }: TeammatesProps) {
   );
   const [isEnemies, setIsEnemies] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
-
-  if (!player) return null;
 
   const selectedData = (
     isEnemies ? teammatesData?.enemies : teammatesData?.teammates
@@ -90,8 +87,11 @@ export default function Teammates({ player, self }: TeammatesProps) {
   }, [selectedData, fetchPlayerList]);
 
   useEffect(() => {
+    if (!player) return;
     fetchTeammates(player.id);
   }, [player]);
+
+  if (!player) return null;
 
   const LoadingPlayer = (key: string) => (
     <tr
@@ -190,7 +190,7 @@ export default function Teammates({ player, self }: TeammatesProps) {
                     <td className="text-center">
                       <span className="my-auto">{p.wins}</span>
                     </td>
-                    <td className="tvext-center pl-4 pr-6">
+                    <td className="pl-4 pr-6 text-center">
                       <span
                         className={`${winrate < 50 ? "text-red-600" : "text-green-500"} my-auto`}
                       >

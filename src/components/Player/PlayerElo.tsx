@@ -46,7 +46,7 @@ export default function PlayerEloProgression({
         behavior: "smooth",
       });
     }
-  }, [ref]);
+  }, [ref, progress]);
 
   return (
     <section>
@@ -75,9 +75,9 @@ export default function PlayerEloProgression({
               );
             })}
           </div>
-          <div className="h-[0.25rem] bg-dark-700" title={cs2.elo + " elo"}>
+          <div className="h-1 bg-dark-700" title={cs2.elo + " elo"}>
             <div
-              className="h-[0.25rem] bg-primary"
+              className="h-1 bg-primary"
               style={{ width: progress * 100 + "%" }}
             ></div>
           </div>

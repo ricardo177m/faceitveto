@@ -24,7 +24,7 @@ const limit = 10;
 
 export default function Teammates({ className }: TeammatesProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [teammatesData, setTeammatesData] = useState<TeammatesData | null>(
     null
   );

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Player } from "@/types/player";
 
 import CountryFlag from "../CountryFlag";
@@ -51,10 +53,11 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
           title="Go to FACEIT profile"
           rel="noreferrer"
         >
-          <img
+          <Image
             className="aspect-square w-4"
             src="/assets/faceit-rounded.svg"
             alt="Go to FACEIT profile"
+            unoptimized
           />
         </a>
         {player.platforms?.steam?.id64 && (
@@ -65,10 +68,11 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
             title="Go to Steam profile"
             rel="noreferrer"
           >
-            <img
+            <Image
               className="aspect-square w-4"
               src="/assets/steam-rounded.svg"
               alt="Go to Steam profile"
+              unoptimized
             />
           </a>
         )}

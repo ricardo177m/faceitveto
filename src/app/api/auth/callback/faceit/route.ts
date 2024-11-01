@@ -64,6 +64,7 @@ export async function GET(request: Request) {
 
     return response;
   } catch (error) {
+    console.log(error);
     return new NextResponse(null, { status: 500 });
   }
 }

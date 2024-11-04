@@ -19,11 +19,7 @@ export default function UserHome({ session }: UserHomeProps) {
         <CurrentMatchLink player={session} yourMatch />
       </section>
 
-      <Suspense
-        fallback={
-          <PlayerLastMatchesSkeleton player={session} size={1} self={true} />
-        }
-      >
+      <Suspense fallback={<PlayerLastMatchesSkeleton size={1} />}>
         <PlayerLastMatches player={session} size={1} self={true} />
       </Suspense>
 

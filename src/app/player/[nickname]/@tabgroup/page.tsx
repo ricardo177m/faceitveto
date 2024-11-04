@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
 
 import { config } from "@/config/config";
 import getServerSession from "@/lib/getServerSession";
 import { fetchPlayerByNickname } from "@/lib/player";
+import CurrentMatchLink from "@/components/CurrentMatchLink";
 import PlayerLastMatches from "@/components/Player/PlayerLastMatches";
+import PlayerLastMatchesSkeleton from "@/components/Player/PlayerLastMatchesSkeleton";
 
 interface PageProps {
   params: Promise<{
@@ -22,7 +24,12 @@ export default async function Page(props: PageProps) {
   const session = await getServerSession();
   const self = !!session && player.id === session.id;
 
-  return <PlayerLastMatches player={player} self={self} />;
+  return (
+    <Suspense fallback={<PlayerLastMatchesSkeleton />}>
+      <CurrentMatchLink player={player} />
+      <PlayerLastMatches player={player} self={self} />
+    </Suspense>
+  );
 }
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {

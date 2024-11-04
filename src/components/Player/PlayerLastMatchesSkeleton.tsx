@@ -1,25 +1,11 @@
+import Skeleton from "react-loading-skeleton";
+
 import RowItemSkeleton from "../ui/RowItemSkeleton";
 
-interface PlayerLastMatchesProps {
-  player: {
-    id: string;
-    nickname: string;
-  };
-  self: boolean;
-  size?: number;
-}
-
-export default function PlayerLastMatchesSkeleton({
-  player,
-  self,
-  size = 5,
-}: PlayerLastMatchesProps) {
+export default function PlayerLastMatchesSkeleton() {
   return (
     <section>
-      <h2 className="text-2xl font-bold">
-        {self ? "Your" : player.nickname + "'s"} Latest Match
-        {size > 1 ? "es" : ""}
-      </h2>
+      <Skeleton className="text-2xl" />
       <div className="mt-4 flex flex-col [&>div]:border-b [&>div]:border-b-gray-700 last:[&>div]:border-b-0">
         {Array(5)
           .fill(0)

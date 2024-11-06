@@ -29,3 +29,12 @@
     rgba(255, 255, 255, 0) 100%
   );
 }
+
+svg[fill],
+svg *[fill] {
+  fill-opacity: initial;
+}
+svg[fill="none"],
+svg *[fill="none"] {
+  fill-opacity: 0;
+}

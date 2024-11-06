@@ -42,6 +42,9 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      transitionProperty: {
+        size: "width, height",
+      },
     },
   },
   plugins: [require("tailwind-scrollbar")({ nocompatible: true })],

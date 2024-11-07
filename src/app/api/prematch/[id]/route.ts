@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
+import { get } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { MatchAnalysis } from "@/types/prematch";
-import { config } from "@/config/config";
 import { collection, db } from "@/lib/firebaseAdmin";
 import getServerSession from "@/lib/getServerSession";
 import {
@@ -28,20 +27,25 @@ export async function POST(req: Request, props: MatchParams) {
   const params = await props.params;
   const { id } = params;
 
-  const session = await getServerSession();
-  if (!session)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { allowedUsers, restricted } = (await get(
+    "prematch"
+  )) as EdgePrematchCfg;
 
-  const { allowedUsers } = config.prematch;
+  if (restricted) {
+    const session = await getServerSession();
+    if (!session)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  if (!allowedUsers.includes(session.id))
-    return NextResponse.json(
-      {
-        error:
-          "Sorry, this feature is currently restricted to a small set of players.",
-      },
-      { status: 403 }
-    );
+    if (!allowedUsers.includes(session.id)) {
+      return NextResponse.json(
+        {
+          error:
+            "Sorry, this feature is currently restricted to a small set of players.",
+        },
+        { status: 403 }
+      );
+    }
+  }
 
   const body = await req.json();
   const parsed = schema.safeParse(body);

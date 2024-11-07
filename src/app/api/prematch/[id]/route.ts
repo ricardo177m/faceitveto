@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { CuratedPlayer } from "@/types/curated-match";
+import { MatchAnalysis } from "@/types/prematch";
 import { config } from "@/config/config";
 import { collection, db } from "@/lib/firebaseAdmin";
 import getServerSession from "@/lib/getServerSession";
@@ -35,7 +35,13 @@ export async function POST(req: Request, props: MatchParams) {
   const { allowedUsers } = config.prematch;
 
   if (!allowedUsers.includes(session.id))
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json(
+      {
+        error:
+          "Sorry, this feature is currently restricted to a small set of players.",
+      },
+      { status: 403 }
+    );
 
   const body = await req.json();
   const parsed = schema.safeParse(body);
@@ -77,12 +83,17 @@ export async function POST(req: Request, props: MatchParams) {
 
     const matchIds = teamstats.matches.map((m) => m.match_id);
 
-    matchIds.forEach(async (matchId) => {
+    const existingData: { [key: string]: MatchAnalysis } = {};
+
+    for (const matchId of matchIds) {
       const docRef = collection.doc(matchId);
 
-      db.runTransaction(async (t) => {
+      await db.runTransaction(async (t) => {
         const doc = await t.get(docRef);
-        if (doc.exists) return;
+        if (doc.exists) {
+          existingData[matchId] = doc.data() as MatchAnalysis;
+          return;
+        }
 
         const demoUrl = await fetchDemoUrl(matchId);
         if (!demoUrl) {
@@ -99,9 +110,15 @@ export async function POST(req: Request, props: MatchParams) {
 
         t.create(docRef, data);
       });
-    });
+    }
 
-    return NextResponse.json({ teamstats, premade: core, map, matchIds });
+    return NextResponse.json({
+      teamstats,
+      premade: core,
+      map,
+      matchIds,
+      data: existingData,
+    });
   } catch (error) {
     if (error instanceof Error)
       return NextResponse.json({ error: error.message }, { status: 400 });

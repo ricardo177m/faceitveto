@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import data from "@/data.json";
+import { MatchAnalysis } from "@/types/prematch";
 import { gameUnitsToRadar } from "@/utils/radar";
 
 import C4 from "../icons/C4";
@@ -11,21 +11,25 @@ import Molotov from "../icons/Molotov";
 import SmokeGrenade from "../icons/SmokeGrenade";
 
 interface RadarProps {
-  map: string;
+  data?: MatchAnalysis;
+  round: number;
 }
 
-export default function Radar({ map }: RadarProps) {
-  const round = 1;
+export default function Radar({ data, round }: RadarProps) {
+  if (!data || !data.processed) return null;
 
-  const { plants, grenades } = data;
+  const { map } = data;
+  const { plants, grenades } = data.data;
+
+  const size = 700;
 
   return (
     <div className="flex justify-center">
       <div className="relative">
         <Image
           src={`/assets/radars/${map}.png`}
-          width={768}
-          height={768}
+          width={size}
+          height={size}
           alt="Radar"
           unoptimized
           className="opacity-75"
@@ -33,7 +37,8 @@ export default function Radar({ map }: RadarProps) {
         {grenades
           .filter((e) => e.round === round)
           .map((i, k) => {
-            const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, 768);
+            if (i.thrownBy.team !== "T") return null;
+            const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, size);
             if (!coords) return null;
 
             const icon =
@@ -67,7 +72,7 @@ export default function Radar({ map }: RadarProps) {
             return (
               <div
                 key={k}
-                className="[&>svg]:transition-size group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:duration-300 [&>svg]:ease-in-out"
+                className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
                 style={{
                   top: coords.y + "px",
                   left: coords.x + "px",
@@ -80,12 +85,12 @@ export default function Radar({ map }: RadarProps) {
         {plants
           .filter((e) => e.round === round)
           .map((i, k) => {
-            const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, 768);
+            const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, size);
             if (!coords) return null;
             return (
               <div
                 key={k}
-                className="[&>svg]:transition-size group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:duration-300 [&>svg]:ease-in-out"
+                className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
                 style={{
                   top: coords.y + "px",
                   left: coords.x + "px",

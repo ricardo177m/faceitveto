@@ -43,4 +43,5 @@ export const config = {
     "#ffffff",
   ],
   defaultAvatarAsset: "/assets/default-avatar.svg",
+  roundTime: 115,
 };

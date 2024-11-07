@@ -3,13 +3,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { documentId, onSnapshot, query, where } from "firebase/firestore";
 
-import { PrematchPost } from "@/types/prematch";
+import { MatchAnalysis, PrematchPost } from "@/types/prematch";
 import { db } from "@/lib/firebase";
 
 import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
 import Radar from "../Radar/Radar";
 import RowItem from "../ui/RowItem";
+import MatchButton from "./MatchButton";
+import { MatchData } from "./MatchData";
 
 interface PrematchProps {
   matchId: string;
@@ -18,8 +20,13 @@ interface PrematchProps {
 
 export default function Prematch({ matchId, faction }: PrematchProps) {
   const [prematchPost, setPrematchPost] = useState<PrematchPost | null>(null);
+  const [analysis, setAnalysis] = useState<Map<string, MatchAnalysis>>(
+    new Map()
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
+  const [selectedRound, setSelectedRound] = useState<number>(1);
 
   const fetchPrematch = useCallback(async () => {
     const res = await fetch(`/api/prematch/${matchId}`, {
@@ -32,7 +39,11 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
       return setError(data.error);
     }
 
+    const existingData = (data as PrematchPost).data;
+
     setPrematchPost(data);
+    setAnalysis(new Map(Object.entries(existingData)));
+    setIsLoading(false);
   }, [matchId]);
 
   useEffect(() => {
@@ -43,12 +54,14 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
     if (!prematchPost) return;
 
     const { matchIds } = prematchPost;
-    // match analysis
     const q = query(db, where(documentId(), "in", matchIds));
 
     const unsub = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        console.log("A change occurred", change.doc.data());
+        const id = change.doc.id;
+        const data = change.doc.data() as MatchAnalysis;
+        setAnalysis((prev) => new Map(prev.set(id, data)));
+        if (!selectedMatch) setSelectedMatch(id);
       });
     });
 
@@ -68,7 +81,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   return (
     <section className="my-4">
       {prematchPost && (
-        <>
+        <div className="mb-8">
           <h2 className="text-2xl font-bold">Players in the same premade</h2>
           <div className="my-4 flex flex-col gap-4 md:flex-row">
             <div className="flex w-full flex-col gap-1 md:w-2/3">
@@ -106,14 +119,43 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
               </p>
             </div>
           </div>
-        </>
+        </div>
       )}
       {isLoading ? (
         <p>Loading matches data...</p>
       ) : error ? (
         <p>⚠️ Error: {error}</p>
       ) : (
-        <Radar map={"de_mirage"} />
+        prematchPost && (
+          <>
+            <div className="mb-4 flex flex-row flex-wrap gap-4">
+              {prematchPost.matchIds.length > 0 ? (
+                prematchPost.teamstats.matches.map((m, i) => {
+                  const matchAnalysis = analysis.get(m.match_id);
+                  return (
+                    <MatchButton
+                      key={m.match_id}
+                      match={m}
+                      analysis={matchAnalysis}
+                      isSelected={selectedMatch === m.match_id}
+                      setSelected={setSelectedMatch}
+                      i={i}
+                    />
+                  );
+                })
+              ) : (
+                <p>No matches found.</p>
+              )}
+            </div>
+            {selectedMatch && (
+              <MatchData
+                selectedRound={selectedRound}
+                setSelectedRound={setSelectedRound}
+                matchAnalysis={analysis.get(selectedMatch)}
+              />
+            )}
+          </>
+        )
       )}
     </section>
   );

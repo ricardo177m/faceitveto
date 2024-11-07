@@ -1,4 +1,4 @@
-interface EdgeEventType {
+interface FaceitEdgeEventType {
   name: string;
   pattern: string;
   jsondata: boolean;

@@ -1,6 +1,6 @@
-import { incoming } from "./edgeEvents";
+import { incoming } from "./faceitEdgeEvents";
 
-function checkEvent(eventType: EdgeEventType, msg: Buffer) {
+function checkEvent(eventType: FaceitEdgeEventType, msg: Buffer) {
   // <left_bytes> + <event> + <right_bytes> + <json_payload>
   const bytesLeft = eventType.padding.l;
   const bytesRight = eventType.padding.r;

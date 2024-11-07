@@ -42,11 +42,11 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
     setPrematchPost(data);
     setAnalysis(new Map(Object.entries(existingData)));
     setIsLoading(false);
-  }, [matchId]);
+  }, [matchId, faction]);
 
   useEffect(() => {
     fetchPrematch();
-  }, []);
+  }, [fetchPrematch]);
 
   useEffect(() => {
     if (!prematchPost) return;

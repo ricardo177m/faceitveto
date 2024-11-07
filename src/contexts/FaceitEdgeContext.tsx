@@ -4,11 +4,11 @@ import { createContext, useEffect, useState } from "react";
 import useWebSocket, { SendMessage } from "react-use-websocket";
 
 import { faceit } from "@/config/endpoints";
-import { outgoing } from "@/lib/edgeEvents";
-import { parseEvent } from "@/lib/edgeParser";
 import { eventEmitter } from "@/lib/eventEmitter";
+import { outgoing } from "@/lib/faceitEdgeEvents";
+import { parseEvent } from "@/lib/faceitEdgeParser";
 
-interface EdgeContextData {
+interface FaceitEdgeContextData {
   sendMessage: SendMessage;
   subscribeDemocracy: (
     matchId: string,
@@ -29,16 +29,18 @@ interface EdgeContextData {
   version: string | null;
 }
 
-interface EdgeContextProviderProps {
+interface FaceitEdgeContextProviderProps {
   children: React.ReactNode;
 }
 
-const EdgeContext = createContext<EdgeContextData>({} as EdgeContextData);
+const FaceitEdgeContext = createContext<FaceitEdgeContextData>(
+  {} as FaceitEdgeContextData
+);
 
-export function EdgeContextProvider({
+export function FaceitEdgeContextProvider({
   children,
   ...props
-}: EdgeContextProviderProps) {
+}: FaceitEdgeContextProviderProps) {
   const { sendMessage } = useWebSocket(faceit.edge, {
     onMessage: handleMessage,
   });
@@ -112,7 +114,7 @@ export function EdgeContextProvider({
   }, []);
 
   return (
-    <EdgeContext.Provider
+    <FaceitEdgeContext.Provider
       value={{
         sendMessage,
         subscribeDemocracy,
@@ -124,8 +126,8 @@ export function EdgeContextProvider({
       {...props}
     >
       {children}
-    </EdgeContext.Provider>
+    </FaceitEdgeContext.Provider>
   );
 }
 
-export default EdgeContext;
+export default FaceitEdgeContext;

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { get } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { collection, db } from "@/lib/firebaseAdmin";
+import { db, firestore } from "@/lib/firebaseAdmin";
 import getServerSession from "@/lib/getServerSession";
 import {
   chosenMap,
@@ -90,9 +90,9 @@ export async function POST(req: Request, props: MatchParams) {
     const existingData: { [key: string]: MatchAnalysis } = {};
 
     for (const matchId of matchIds) {
-      const docRef = collection.doc(matchId);
+      const docRef = db.doc(matchId);
 
-      await db.runTransaction(async (t) => {
+      await firestore.runTransaction(async (t) => {
         const doc = await t.get(docRef);
         if (doc.exists) {
           existingData[matchId] = doc.data() as MatchAnalysis;

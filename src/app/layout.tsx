@@ -10,7 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { SkeletonTheme } from "react-loading-skeleton";
 
-import { EdgeContextProvider } from "@/contexts/EdgeContext";
+import { FaceitEdgeContextProvider } from "@/contexts/FaceitEdgeContext";
 import NewsPopup from "@/components/NewsPopup";
 
 const inter = Inter({
@@ -35,13 +35,13 @@ export default function RootLayout({
       </head>
       <body className={`bg-dark-300 text-white ${inter.className}`}>
         <AuthContextProvider>
-          <EdgeContextProvider>
+          <FaceitEdgeContextProvider>
             <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
               <NavBar />
               {children}
               <NewsPopup />
             </SkeletonTheme>
-          </EdgeContextProvider>
+          </FaceitEdgeContextProvider>
         </AuthContextProvider>
       </body>
       <Analytics />

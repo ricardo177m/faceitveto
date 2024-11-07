@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { config } from "@/config/config";
 import { useLocalStorage } from "@/hooks";
-import EdgeContext from "@/contexts/EdgeContext";
+import FaceitEdgeContext from "@/contexts/FaceitEdgeContext";
 
 import MatchHeader from "./MatchHeader";
 import MatchPlayerStats from "./MatchPlayerStats";
@@ -26,7 +26,7 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
     democracy
   );
 
-  const edgeContext = useContext(EdgeContext);
+  const edgeContext = useContext(FaceitEdgeContext);
 
   const handleUpdateMatch = (payload: MatchState) => {
     matchState.state = payload.state as unknown as MatchStates;

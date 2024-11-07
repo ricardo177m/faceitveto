@@ -11,7 +11,7 @@ if (!admin.apps.length) {
   });
 }
 
-const db = admin.firestore();
-const collection = db.collection("matches");
+const firestore = admin.firestore();
+const db = firestore.collection("matches");
 
-export { db, collection };
+export { firestore, db };

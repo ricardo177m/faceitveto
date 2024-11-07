@@ -1,4 +1,4 @@
-export const incoming: EdgeEventType[] = [
+export const incoming: FaceitEdgeEventType[] = [
   {
     name: "welcome",
     pattern: "FACEIT Edge <prod>",

@@ -13,7 +13,7 @@ import { GrFormNextLink } from "react-icons/gr";
 
 import { isPlayerFaction } from "@/lib/match";
 import { useSession } from "@/hooks";
-import EdgeContext from "@/contexts/EdgeContext";
+import FaceitEdgeContext from "@/contexts/FaceitEdgeContext";
 import Checkbox from "@/components/ui/Checkbox";
 import { formatDateTime } from "@/utils/dateFormat";
 
@@ -37,7 +37,7 @@ export default function MatchHeader({
 }: MatchHeaderProps) {
   const [countdown, setCountdown] = useState<number | undefined>();
 
-  const { version } = useContext(EdgeContext);
+  const { version } = useContext(FaceitEdgeContext);
 
   const session = useSession();
 

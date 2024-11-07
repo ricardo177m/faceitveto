@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { get } from "@vercel/edge-config";
 import { z } from "zod";
 
+import { config } from "@/config/config";
 import { db, firestore } from "@/lib/firebaseAdmin";
 import getServerSession from "@/lib/getServerSession";
 import {
@@ -110,6 +111,7 @@ export async function POST(req: Request, props: MatchParams) {
           createdAt: new Date(),
           map,
           processed: false,
+          expiresAt: new Date(Date.now() + config.prematchAnalysisExpiration),
         };
 
         t.create(docRef, data);

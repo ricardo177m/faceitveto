@@ -13,31 +13,52 @@ interface MatchAnalysis {
   processed: boolean;
   data: {
     halfTotalRounds: number;
-    grenades: MatchAnalysisGrenades[];
-    plants: MatchAnalysisPlants[];
+    rounds: MatchAnalysisRound[];
   };
 }
 
-interface MatchAnalysisGrenades {
-  pos: Position;
+interface MatchAnalysisRound {
   round: number;
-  roundTime: number;
-  type: "smokegrenade" | "flashbang" | "inferno" | "hegrenade" | "decoy";
-  // | "molotov"
-  // | "incgrenade";
-  thrownBy: {
-    name: string;
-    team: "T" | "CT";
-    steamid: string;
-    pos: Position;
-  };
+  grenades: MatchAnalysisGrenade[];
+  plants: MatchAnalysisPlant[];
+  equipment: MatchAnalysisEquipment[];
 }
 
-interface MatchAnalysisPlants {
-  pos: Position;
+interface MatchAnalysisGrenade {
   round: number;
   roundTime: number;
+  pos: Position;
+  type: MatchAnalysisGrenadeType;
+  thrownBy: MatchAnalysisPlayer;
+}
+
+type MatchAnalysisGrenadeType =
+  | "decoy"
+  | "inferno"
+  | "smokegrenade"
+  | "flashbang"
+  | "hegrenade";
+
+interface MatchAnalysisPlant {
+  round: number;
+  roundTime: number;
+  pos: Position;
   site: "A" | "B";
+}
+
+interface MatchAnalysisEquipment {
+  name: string;
+  steamid: string;
+  team: "T" | "CT";
+  round: number;
+  equipment: string[];
+}
+
+interface MatchAnalysisPlayer {
+  name: string;
+  steamid: string;
+  team: "T" | "CT";
+  pos?: Position;
 }
 
 interface Position {

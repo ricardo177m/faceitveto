@@ -1,27 +1,38 @@
+import { useEffect, useState } from "react";
+
 import { config } from "@/config/config";
 
-import Radar from "../Radar/Radar";
+import PlayerEquipment from "./PlayerEquipment";
+import Radar from "./Radar";
 
 interface MatchDataProps {
   matchAnalysis?: MatchAnalysis;
-  selectedRound: number;
-  setSelectedRound: React.Dispatch<React.SetStateAction<number>>;
+  premade: CuratedPlayer[];
 }
 
-export function MatchData({
-  matchAnalysis,
-  selectedRound,
-  setSelectedRound,
-}: MatchDataProps) {
-  if (!matchAnalysis) return null;
+export function MatchData({ matchAnalysis, premade }: MatchDataProps) {
+  const [selectedRound, setSelectedRound] = useState<number | null>(null);
 
-  const plant = matchAnalysis.data.plants.find(
+  if (!matchAnalysis || !matchAnalysis.processed || !matchAnalysis.data)
+    return null;
+
+  const { map, data } = matchAnalysis;
+
+  const premadeTSideRound = data.rounds.find((r) =>
+    r.equipment.find((e) => e.steamid === premade[0].gameId && e.team === "T")
+  )?.round;
+  if (premadeTSideRound && !selectedRound) setSelectedRound(premadeTSideRound);
+
+  const round = matchAnalysis.data.rounds.find(
     (p) => p.round === selectedRound
   );
-  const timer = plant
-    ? Math.floor((config.roundTime - plant.roundTime) / 60) +
+  if (!round) return null;
+  const { plants, equipment } = round;
+
+  const timer = plants.length
+    ? Math.floor((config.roundTime - plants[0].roundTime) / 60) +
       ":" +
-      Math.floor((config.roundTime - plant.roundTime) % 60)
+      Math.floor((config.roundTime - plants[0].roundTime) % 60)
         .toString()
         .padStart(2, "0")
     : "N/A";
@@ -29,29 +40,26 @@ export function MatchData({
   return (
     <div className="flex flex-col justify-between md:flex-row">
       <div className="flex flex-col">
-        <label htmlFor="round1" className="cursor-pointer">
-          <input
-            type="radio"
-            id="round1"
-            checked={selectedRound === 1}
-            onChange={() => setSelectedRound(1)}
-          />{" "}
-          1st Half Pistol
-        </label>
+        <p>T Side Data</p>
 
-        <label htmlFor="round2" className="cursor-pointer">
-          <input
-            type="radio"
-            id="round2"
-            checked={selectedRound === 13}
-            onChange={() => setSelectedRound(13)}
-          />{" "}
-          2nd Half Pistol
-        </label>
+        <p className="my-4">Plant time: {timer}</p>
 
-        <p className="mt-4">Bomb plant time: {timer}</p>
+        <div className="mb-4 flex flex-col gap-1">
+          {equipment
+            .filter((e) => e.team === "T")
+            .map((e) => (
+              <PlayerEquipment key={`${e.steamid}+${e.round}`} equipment={e} />
+            ))}
+        </div>
+        <div className="flex flex-col gap-1">
+          {equipment
+            .filter((e) => e.team === "CT")
+            .map((e) => (
+              <PlayerEquipment key={`${e.steamid}+${e.round}`} equipment={e} />
+            ))}
+        </div>
       </div>
-      <Radar data={matchAnalysis} round={selectedRound} />
+      <Radar round={round} map={map} />
     </div>
   );
 }

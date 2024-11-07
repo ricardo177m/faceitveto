@@ -24,7 +24,6 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
-  const [selectedRound, setSelectedRound] = useState<number>(1);
 
   const fetchPrematch = useCallback(async () => {
     const res = await fetch(`/api/prematch/${matchId}`, {
@@ -146,9 +145,8 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             </div>
             {selectedMatch && (
               <MatchData
-                selectedRound={selectedRound}
-                setSelectedRound={setSelectedRound}
                 matchAnalysis={analysis.get(selectedMatch)}
+                premade={prematchPost.premade}
               />
             )}
           </>

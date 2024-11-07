@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { CuratedMatch } from "@/types/curated-match";
-import { CuratedPlayerStats } from "@/types/curated-player-stats";
-import { Democracy } from "@/types/democracy";
 import { isPlayerFaction } from "@/lib/match";
 import { useSession } from "@/hooks";
 import TeamMaps from "@/components/Match/TeamMaps";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 interface MatchPlayerStatsProps {
   curatedMatch: CuratedMatch;

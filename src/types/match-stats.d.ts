@@ -1,4 +1,4 @@
-export interface MatchStats {
+interface MatchStats {
   _id: string;
   created_at: number;
   updated_at: number;
@@ -18,7 +18,7 @@ export interface MatchStats {
   teams: Team[];
 }
 
-export interface Team {
+interface Team {
   i19: string;
   players: Player[];
   teamId: string;
@@ -31,7 +31,7 @@ export interface Team {
   c9: string;
 }
 
-export interface Player {
+interface Player {
   i31: string;
   i30: string;
   i33: string;

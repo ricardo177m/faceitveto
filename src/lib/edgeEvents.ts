@@ -1,5 +1,3 @@
-import { EdgeEventType } from "@/types/edge";
-
 export const incoming: EdgeEventType[] = [
   {
     name: "welcome",

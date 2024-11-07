@@ -1,5 +1,5 @@
 import { faceit } from "@/config/endpoints";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import toBase64 from "@/utils/toBase64";
 
 export async function getOauthEndpoints(): Promise<FaceitOpenIdCfg> {

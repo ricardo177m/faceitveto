@@ -2,10 +2,6 @@
 
 import { useContext, useEffect, useState } from "react";
 
-import { CuratedMatch, States } from "@/types/curated-match";
-import { Democracy } from "@/types/democracy";
-import { MatchState } from "@/types/match-state";
-import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
 import { useLocalStorage } from "@/hooks";
 import EdgeContext from "@/contexts/EdgeContext";
@@ -33,7 +29,7 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
   const edgeContext = useContext(EdgeContext);
 
   const handleUpdateMatch = (payload: MatchState) => {
-    matchState.state = payload.state as unknown as States;
+    matchState.state = payload.state as unknown as MatchStates;
     setMatch(matchState);
   };
 

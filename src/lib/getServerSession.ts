@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
 import { config } from "@/config/config";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 const getServerSession = async () => {
   const cookieStore = await cookies();

@@ -3,10 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
-import { CuratedPlayerStats } from "@/types/curated-player-stats";
 import { config } from "@/config/config";
 import { useLocalStorage } from "@/hooks";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 import MapIcon from "../MapIcon";
 import Checkbox from "../ui/Checkbox";

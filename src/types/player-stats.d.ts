@@ -1,9 +1,9 @@
-export interface PlayerStats {
-  lifetime: Lifetime;
+interface PlayerStats {
+  lifetime: LifetimeStats;
   segments: Segment[];
 }
 
-interface Lifetime {
+interface LifetimeStats {
   _id: {
     game: string;
     playerId: string;

@@ -3,12 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { documentId, onSnapshot, query, where } from "firebase/firestore";
 
-import { MatchAnalysis, PrematchPost } from "@/types/prematch";
 import { db } from "@/lib/firebase";
 
 import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
-import Radar from "../Radar/Radar";
 import RowItem from "../ui/RowItem";
 import MatchButton from "./MatchButton";
 import { MatchData } from "./MatchData";
@@ -88,8 +86,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
               {prematchPost.premade.map((p) => (
                 <RowItem
                   key={p.id}
-                  href="/player/[nickname]"
-                  as={`/player/${p.nickname}`}
+                  href={`/player/${p.nickname}`}
                   className="flex flex-row items-center gap-4 border-l-2 border-gray-600 px-4 py-2"
                 >
                   <PlayerAvatar player={p} size={40} />

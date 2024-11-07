@@ -1,11 +1,5 @@
-import { Playtime } from "@/types/player";
-import {
-  PlayerSummary,
-  PlayerSummaryResult,
-  RecentPlayedGamesResult,
-} from "@/types/steam";
 import { steam } from "@/config/endpoints";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export async function playerSummaries(
   query: string[]
@@ -37,7 +31,9 @@ export async function resolveVanityUrl(query: string): Promise<string | null> {
   else return null;
 }
 
-export async function getPlaytime(steamid: string): Promise<Playtime | null> {
+export async function getPlaytime(
+  steamid: string
+): Promise<PlayerPlaytime | null> {
   const url = new URL(steam.recentPlayedGames);
   url.searchParams.set("key", env.STEAM_API_KEY);
   url.searchParams.set("steamid", steamid);

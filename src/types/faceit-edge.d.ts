@@ -1,4 +1,4 @@
-export interface EdgeEventType {
+interface EdgeEventType {
   name: string;
   pattern: string;
   jsondata: boolean;

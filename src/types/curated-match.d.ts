@@ -1,8 +1,8 @@
-export type CuratedMatch = {
+type CuratedMatch = {
   id: string;
   region: string;
   matchRanking: number;
-  state: States;
+  state: MatchStates;
   bestOf: number;
   maps: CuratedMap[];
   mapPicks?: CuratedMap[];
@@ -17,7 +17,7 @@ export type CuratedMatch = {
   finishedAt?: string;
 };
 
-export enum States {
+enum MatchStates {
   CHECK_IN,
   CAPTAIN_PICK,
   VOTING,

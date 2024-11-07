@@ -1,4 +1,4 @@
-export interface DetailedMatch {
+interface DetailedMatch {
   match_id: string;
   game_id: string;
   region: string;
@@ -6,7 +6,7 @@ export interface DetailedMatch {
   game_mode: string;
   max_players: number;
   teams_size: number;
-  teams: Teams;
+  teams: DetailedMatchTeams;
   playing_players: string[];
   competition_id: string;
   competition_name: string;
@@ -15,32 +15,32 @@ export interface DetailedMatch {
   status: string;
   started_at: number;
   finished_at: number;
-  results: Results;
+  results: DetailedMatchResults;
   faceit_url: string;
-  stats: MatchStats;
+  stats: DetailedMatchStats;
 }
 
-interface MatchStats {
+interface DetailedMatchStats {
   isWin: boolean;
   map: string;
   score: string;
   roundsWon: string;
 }
 
-interface Teams {
-  faction1: Faction1;
-  faction2: Faction2;
+interface DetailedMatchTeams {
+  faction1: DetailedMatchFaction1;
+  faction2: DetailedMatchFaction2;
 }
 
-interface Faction1 {
+interface DetailedMatchFaction1 {
   team_id: string;
   nickname: string;
   avatar: string;
   type: string;
-  players: Player[];
+  players: DetailedMatchPlayer[];
 }
 
-interface Player {
+interface DetailedMatchPlayer {
   player_id: string;
   nickname: string;
   avatar: string;
@@ -50,30 +50,20 @@ interface Player {
   faceit_url: string;
 }
 
-interface Faction2 {
+interface DetailedMatchFaction2 {
   team_id: string;
   nickname: string;
   avatar: string;
   type: string;
-  players: Player2[];
+  players: DetailedMatchPlayer[];
 }
 
-interface Player2 {
-  player_id: string;
-  nickname: string;
-  avatar: string;
-  skill_level: number;
-  game_player_id: string;
-  game_player_name: string;
-  faceit_url: string;
-}
-
-interface Results {
+interface DetailedMatchResults {
   winner: string;
-  score: Score;
+  score: DetailedMatchScore;
 }
 
-interface Score {
+interface DetailedMatchScore {
   faction2: number;
   faction1: number;
 }

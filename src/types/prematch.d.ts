@@ -1,7 +1,4 @@
-import { CuratedPlayer } from "./curated-match";
-import { TeamStatsData } from "./team-stats";
-
-export interface PrematchPost {
+interface PrematchPost {
   teamstats: TeamStatsData;
   premade: CuratedPlayer[];
   map: string;
@@ -9,7 +6,7 @@ export interface PrematchPost {
   data: { [key: string]: MatchAnalysis };
 }
 
-export interface MatchAnalysis {
+interface MatchAnalysis {
   createdAt: FirestoreDate;
   demoUrl: string | null;
   map: string;
@@ -21,7 +18,7 @@ export interface MatchAnalysis {
   };
 }
 
-export interface MatchAnalysisGrenades {
+interface MatchAnalysisGrenades {
   pos: Position;
   round: number;
   roundTime: number;
@@ -36,7 +33,7 @@ export interface MatchAnalysisGrenades {
   };
 }
 
-export interface MatchAnalysisPlants {
+interface MatchAnalysisPlants {
   pos: Position;
   round: number;
   roundTime: number;

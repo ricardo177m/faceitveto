@@ -1,13 +1,6 @@
-import { IMaps, IntervalPlayerStats } from "@/types/curated-player-stats";
-import { DetailedMatch } from "@/types/detailed-match";
-import { PartialMatchState } from "@/types/match-state";
-import { Player } from "@/types/player";
-import { PlayerListResponse } from "@/types/player-list";
-import { PlayerMatchStats } from "@/types/player-match-stats";
-import { PlayerStats } from "@/types/player-stats";
 import { config } from "@/config/config";
 import { faceit, faceitopen } from "@/config/endpoints";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export async function fetchPlayerById(
   playerId: string

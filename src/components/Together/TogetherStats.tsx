@@ -1,8 +1,6 @@
 import { useState } from "react";
 import moment from "moment";
 
-import { TogetherStatsData } from "@/types/team-stats";
-
 import MapIcon from "../MapIcon";
 import Checkbox from "../ui/Checkbox";
 import RowItem from "../ui/RowItem";
@@ -52,8 +50,7 @@ export default function TogetherStats({ stats }: TogetherStatsProps) {
               return (
                 <RowItem
                   key={match.match_id}
-                  href="/match/[id]"
-                  as={`/match/${match.match_id}`}
+                  href={`/match/${match.match_id}`}
                   className={`border-l-2 ${isWin ? "border-l-green-500" : "border-l-red-600"}`}
                 >
                   <div className="my-auto ml-4">

@@ -1,4 +1,4 @@
-export interface Democracy {
+interface Democracy {
   match_id: string;
   voters: {
     faction1: string[];
@@ -15,7 +15,7 @@ export interface Democracy {
   vote_complete?: boolean;
 }
 
-export interface Ticket {
+interface Ticket {
   entities: Entity[];
   entity_type: "location" | "map";
   vote_type?: string;
@@ -23,7 +23,7 @@ export interface Ticket {
   timeout?: number;
 }
 
-export interface Entity {
+interface Entity {
   status: "open" | "pick" | "drop";
   selected_by: "faction1" | "faction2" | "n/a";
   properties: {

@@ -2,11 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { Player } from "@/types/player";
-import { PlayerSearch } from "@/types/player-search-result";
-import { TeamStatsData } from "@/types/team-stats";
 import { useSession } from "@/hooks";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 import Search from "../Search";
 import PrimaryButton from "../ui/PrimaryButton";

@@ -1,7 +1,5 @@
 import { IoMdClose } from "react-icons/io";
 
-import { Player } from "@/types/player";
-
 import CountryFlag from "../CountryFlag";
 import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";

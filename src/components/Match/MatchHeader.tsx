@@ -5,13 +5,12 @@ import {
   useEffect,
   useState,
 } from "react";
+import Link from "next/link";
 import moment from "moment";
 import Countdown from "react-countdown";
 import { FaClock, FaExternalLinkAlt } from "react-icons/fa";
+import { GrFormNextLink } from "react-icons/gr";
 
-import { CuratedMatch } from "@/types/curated-match";
-import { Democracy } from "@/types/democracy";
-import { MatchStats } from "@/types/match-stats";
 import { isPlayerFaction } from "@/lib/match";
 import { useSession } from "@/hooks";
 import EdgeContext from "@/contexts/EdgeContext";
@@ -69,6 +68,17 @@ export default function MatchHeader({
     if (democracy?.conditions?.time_left_to_vote)
       setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
   }, [democracy]);
+
+  const enemyFaction = userFaction === "faction1" ? 2 : 1;
+  const prematchUrl = `/match/${match.id}/prematch?faction=${enemyFaction}`;
+
+  const showPrematch = [
+    "CONFIGURING",
+    "READY",
+    "ONGOING",
+    "FINISHED",
+    "SCHEDULED",
+  ].includes(match.state.toString());
 
   return (
     <div className="flex flex-col px-4">
@@ -167,6 +177,20 @@ export default function MatchHeader({
             </p>
           )}
         </div>
+        {showPrematch && (
+          <div className="inline-flex items-center gap-4">
+            <span className="rounded-full bg-primary px-2 py-[2px] text-xs font-bold uppercase">
+              New
+            </span>
+            <Link
+              href={prematchUrl}
+              className="inline-flex items-center gap-1 underline"
+            >
+              Prematch Analysis
+              <GrFormNextLink />
+            </Link>
+          </div>
+        )}
       </div>
       <div className="flex flex-wrap items-center gap-y-2 pb-1 text-sm">
         {match.finishedAt && (

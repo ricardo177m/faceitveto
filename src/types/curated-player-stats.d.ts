@@ -1,19 +1,19 @@
-export interface MapStats {
+interface MapStats {
   matches: number;
   wins: number;
   kdr: number;
 }
 
-export interface IMaps {
+interface IMaps {
   [name: string]: MapStats;
 }
 
-export interface CuratedPlayerStats {
+interface CuratedPlayerStats {
   total: IntervalPlayerStats;
   mostRecent: IntervalPlayerStats;
 }
 
-export interface IntervalPlayerStats {
+interface IntervalPlayerStats {
   playerId: string;
   overall: MapStats;
   maps: IMaps;

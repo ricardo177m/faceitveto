@@ -37,11 +37,11 @@ export default async function Page(props: PageProps) {
         </h2>
         <div className="text-justify text-gray-300">
           <p>
-            Prematch Analysis works by getting the enemy team's party that has
-            at least 3 players in it. It then fetches the matches where the core
-            (at least 3 players from the party) played together in the map of
-            the current match. For example: if there is a party with 4 players,
-            it will fetch matches where any 3 of those 4 players played
+            Prematch Analysis works by getting the enemy team&apos;s party that
+            has at least 3 players in it. It then fetches the matches where the
+            core (at least 3 players from the party) played together in the map
+            of the current match. For example: if there is a party with 4
+            players, it will fetch matches where any 3 of those 4 players played
             together.
           </p>
           <p>

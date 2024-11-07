@@ -1,4 +1,3 @@
-import { SkillGroupMapping } from "@/types/skills";
 import { faceit } from "@/config/endpoints";
 
 export async function fetchSkillGroups(): Promise<SkillGroupMapping[]> {

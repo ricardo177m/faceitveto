@@ -8,7 +8,7 @@ import {
   getUserInfo,
 } from "@/lib/faceitOauth";
 import { fetchPlayerById } from "@/lib/player";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export async function GET(request: Request) {
   const code = request.url.match(/code=([^&]*)/);

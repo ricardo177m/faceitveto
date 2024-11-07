@@ -1,7 +1,5 @@
 import { useRouter } from "next/navigation";
 
-import { PlayerSearch } from "@/types/player-search-result";
-
 import CountryFlag from "./CountryFlag";
 import Level from "./Level";
 import PlayerAvatar from "./PlayerAvatar";

@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { DetailedMatch } from "@/types/detailed-match";
-import { PlayerMatchStats } from "@/types/player-match-stats";
 import {
   fetchPlayerDetailedMatches,
   fetchPlayerMatches,

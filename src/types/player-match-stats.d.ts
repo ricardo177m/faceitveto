@@ -1,4 +1,4 @@
-export interface PlayerMatchStats {
+interface PlayerMatchStats {
   _id: ID;
   created_at: number;
   updated_at: number;
@@ -41,7 +41,7 @@ export interface PlayerMatchStats {
   elo: string;
 }
 
-export interface ID {
+interface ID {
   matchId: string;
   playerId: string;
 }

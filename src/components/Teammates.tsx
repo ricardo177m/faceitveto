@@ -4,10 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 
-import { Player } from "@/types/player";
-import { PlayerListResponse, PlayerListResult } from "@/types/player-list";
-import { TeammatesData } from "@/types/teammates";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 import CountryFlag from "./CountryFlag";
 import LevelElo from "./LevelElo";
@@ -168,8 +165,7 @@ export default function Teammates({ player, self }: TeammatesProps) {
                   >
                     <td>
                       <Link
-                        href={"/player/[nickname]"}
-                        as={`/player/${player.nickname}`}
+                        href={`/player/${player.nickname}`}
                         key={p.playerId}
                         className="flex flex-row items-center gap-4 px-6 py-3"
                       >

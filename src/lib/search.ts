@@ -1,4 +1,3 @@
-import { PlayerSearchResult } from "@/types/player-search-result";
 import { faceit } from "@/config/endpoints";
 
 export async function fetchPlayerSearch(

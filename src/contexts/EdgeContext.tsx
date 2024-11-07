@@ -3,14 +3,12 @@
 import { createContext, useEffect, useState } from "react";
 import useWebSocket, { SendMessage } from "react-use-websocket";
 
-import { Democracy } from "@/types/democracy";
-import { MatchState } from "@/types/match-state";
 import { faceit } from "@/config/endpoints";
 import { outgoing } from "@/lib/edgeEvents";
 import { parseEvent } from "@/lib/edgeParser";
 import { eventEmitter } from "@/lib/eventEmitter";
 
-export interface EdgeContextData {
+interface EdgeContextData {
   sendMessage: SendMessage;
   subscribeDemocracy: (
     matchId: string,

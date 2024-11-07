@@ -19,8 +19,7 @@ export default async function NavBar() {
         {session ? (
           <>
             <Link
-              href={`/player/[nickname]`}
-              as={`/player/${session.nickname}`}
+              href={`/player/${session.nickname}`}
               className="inline-flex items-center gap-2 rounded-md px-2 py-1 transition-colors duration-200 ease-in-out hover:bg-gray-700"
             >
               <PlayerAvatar player={session} size={32} />

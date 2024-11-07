@@ -1,5 +1,3 @@
-import { EdgeEventType } from "@/types/edge";
-
 import { incoming } from "./edgeEvents";
 
 function checkEvent(eventType: EdgeEventType, msg: Buffer) {

@@ -1,4 +1,3 @@
-import { MatchAnalysis } from "@/types/prematch";
 import { config } from "@/config/config";
 
 import Radar from "../Radar/Radar";

@@ -44,8 +44,7 @@ export default async function PlayerLastMatches({
             return (
               <RowItem
                 key={match.matchId}
-                href="/match/[id]"
-                as={`/match/${match.matchId}`}
+                href={`/match/${match.matchId}`}
                 className={`border-l-2 ${isWin ? "border-l-green-500" : "border-l-red-600"}`}
               >
                 <div className="my-auto ml-4">

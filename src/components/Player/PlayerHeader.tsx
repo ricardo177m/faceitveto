@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { Player } from "@/types/player";
-
 import CountryFlag from "../CountryFlag";
 import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";

@@ -3,7 +3,7 @@ interface Game {
   skill_level: number;
 }
 
-export interface PlayerSearch {
+interface PlayerSearch {
   id: string;
   guid: string;
   nickname: string;
@@ -15,7 +15,7 @@ export interface PlayerSearch {
   verification_level?: number;
 }
 
-export interface PlayerSearchResult {
+interface PlayerSearchResult {
   total_count: number;
   results: PlayerSearch[];
 }

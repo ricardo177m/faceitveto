@@ -1,21 +1,21 @@
-export interface PlayerListResult {
+interface PlayerListResult {
   id: string;
   nickname: string;
   avatar: string;
   verification_level: number;
   country: string;
-  games: Game[];
+  games: PlayerListGame[];
   subscriber_badges: SubscriberBadge[];
   cover_image_url: string;
 }
 
-export interface Game {
+interface PlayerListGame {
   game: string;
   elo: number;
   skill_level: number;
 }
 
-export interface SubscriberBadge {
+interface SubscriberBadge {
   badge_url: string;
   entity_id: string;
   entity_type: string;
@@ -24,6 +24,6 @@ export interface SubscriberBadge {
   tiers: number[];
 }
 
-export interface PlayerListResponse {
+interface PlayerListResponse {
   [key: string]: PlayerListResult;
 }

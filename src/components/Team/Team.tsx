@@ -1,5 +1,3 @@
-import { Player } from "@/types/player";
-
 import TeamPlayer from "./TeamPlayer";
 import TeamPlayerSkeleton from "./TeamPlayerSkeleton";
 

@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { MatchAnalysis } from "@/types/prematch";
 import { gameUnitsToRadar } from "@/utils/radar";
 
 import C4 from "../icons/C4";

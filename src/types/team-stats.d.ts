@@ -1,6 +1,4 @@
-import { DetailedMatch } from "./detailed-match";
-
-export interface TeamStatsData {
+interface TeamStatsData {
   stats: {
     total: number;
     wins: number;
@@ -8,7 +6,7 @@ export interface TeamStatsData {
   matches: DetailedMatch[];
 }
 
-export interface TogetherStatsData {
+interface TogetherStatsData {
   asTeammates: TeamStatsData;
   asOpponents: TeamStatsData;
 }

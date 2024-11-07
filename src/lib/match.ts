@@ -1,16 +1,7 @@
-import {
-  CuratedFaction,
-  CuratedMap,
-  CuratedMatch,
-  CuratedPlayer,
-} from "@/types/curated-match";
-import { Democracy } from "@/types/democracy";
-import { Element, Faction, Match } from "@/types/match";
-import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
 import { faceit, faceitopen } from "@/config/endpoints";
 import { NotFoundError } from "@/lib/exceptions";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const response = await fetch(faceit.match(matchId), {
@@ -25,7 +16,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
 
   const partyIds: string[] = [];
 
-  const buildFaction = (faction: Faction) => ({
+  const buildFaction = (faction: MatchFaction) => ({
     name: faction.name,
     avatar:
       faction.avatar === null ? config.defaultAvatarAsset : faction.avatar,
@@ -49,7 +40,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
     }),
   });
 
-  const mapFilter = (map: Element) => ({
+  const mapFilter = (map: MatchElement) => ({
     name: map.name,
     id: map.guid,
     image: map.image_sm,

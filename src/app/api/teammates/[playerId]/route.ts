@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { DetailedMatch } from "@/types/detailed-match";
-import { Teammate } from "@/types/teammates";
 import { fetchPlayerDetailedMatches, fetchPlayerStats } from "@/lib/player";
 
 interface TeammatesParams {

@@ -1,4 +1,4 @@
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 const getSession = async () => {
   const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/auth/session`, {

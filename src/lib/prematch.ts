@@ -1,7 +1,3 @@
-import { DetailedMatch } from "@/types/detailed-match";
-import { PlayerMatchStats } from "@/types/player-match-stats";
-import { TeamStatsData } from "@/types/team-stats";
-
 import {
   fetchPlayerDetailedMatches,
   fetchPlayerMatches,

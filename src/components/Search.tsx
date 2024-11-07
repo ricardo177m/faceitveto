@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 
-import { PlayerSearch, PlayerSearchResult } from "@/types/player-search-result";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 import SearchResult from "./SearchResult";
 import SearchResultSkeleton from "./SearchResultSkeleton";

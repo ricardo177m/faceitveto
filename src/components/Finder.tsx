@@ -2,8 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { PlayerListResult } from "@/types/player-list";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 import CountryFlag from "./CountryFlag";
 import LevelElo from "./LevelElo";
@@ -73,8 +72,7 @@ export default function Finder({ className }: FinderProps) {
             return (
               <RowItem
                 key={p.id}
-                href="/player/[nickname]"
-                as={`/player/${p.nickname}`}
+                href={`/player/${p.nickname}`}
                 className="flex flex-row items-center gap-4 border-l-2 border-gray-600 px-4 py-2"
               >
                 <PlayerAvatar player={p} size={40} />

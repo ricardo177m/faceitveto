@@ -1,5 +1,3 @@
-import { Overviews } from "@/types/overviews";
-
 export const overviews: Overviews = {
   de_ancient: {
     pos_x: -2953,

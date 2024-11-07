@@ -1,11 +1,11 @@
-export interface RecentPlayedGamesResult {
+interface RecentPlayedGamesResult {
   response: {
     total_count: number;
-    games: Game[];
+    games: SteamGame[];
   };
 }
 
-interface Game {
+interface SteamGame {
   appid: number;
   name: string;
   playtime_2weeks: number;
@@ -17,11 +17,11 @@ interface Game {
   playtime_deck_forever?: number;
 }
 
-export interface PlayerSummaryResult {
+interface PlayerSummaryResult {
   response: { players: PlayerSummary[] };
 }
 
-export interface PlayerSummary {
+interface PlayerSummary {
   steamid: string;
   communityvisibilitystate: number;
   profilestate: number;

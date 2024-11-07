@@ -1,9 +1,6 @@
 import React from "react";
 import { ImSpinner8 } from "react-icons/im";
 
-import { DetailedMatch } from "@/types/detailed-match";
-import { MatchAnalysis } from "@/types/prematch";
-
 interface MatchButtonProps {
   match: DetailedMatch;
   analysis?: MatchAnalysis;

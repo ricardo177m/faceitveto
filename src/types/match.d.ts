@@ -1,11 +1,11 @@
-export interface Match {
+interface Match {
   id: string;
   type: string;
   game: string;
   region: string;
   organizerId: string;
-  entity: Entity;
-  entityCustom: EntityCustom;
+  entity: MatchEntity;
+  entityCustom: MatchEntityCustom;
   allowOngoingJoin: boolean;
   anticheatRequired: boolean;
   anticheatMode: string;
@@ -14,18 +14,18 @@ export interface Match {
   afkAction: string;
   fbiManagement: boolean;
   adminTool: boolean;
-  checkIn: CheckIn;
-  state: States;
+  checkIn: MatchCheckIn;
+  state: MatchStates;
   status: string;
-  states: States[];
-  teams: Factions<Faction>;
+  states: MatchStates[];
+  teams: MatchFactions<MatchFaction>;
   spectators: object[];
   matchCustom: MatchCustom;
-  voting?: Voting;
-  maps: Element[];
-  locations: Element[];
-  summaryResults?: SummaryResults;
-  results?: SummaryResults[];
+  voting?: MatchVoting;
+  maps: MatchElement[];
+  locations: MatchElement[];
+  summaryResults?: MatchSummaryResults;
+  results?: MatchSummaryResults[];
   demoURLs?: string[];
   startedAt?: string;
   configuredAt?: string;
@@ -34,21 +34,10 @@ export interface Match {
   version: number;
   createdAt: string;
   lastModified: string;
-  parties: Party[];
+  parties: MatchParty[];
 }
 
-enum States {
-  CHECK_IN,
-  CAPTAIN_PICK,
-  VOTING,
-  CONFIGURING,
-  READY,
-  ONGOING,
-  CANCELED,
-  FINISHED,
-}
-
-export interface CheckIn {
+interface MatchCheckIn {
   time: number;
   totalCheckedIn: number;
   totalPlayers: number;
@@ -56,13 +45,13 @@ export interface CheckIn {
   checkedIn: boolean;
 }
 
-export interface Entity {
+interface MatchEntity {
   type: string;
   id: string;
   name: string;
 }
 
-export interface EntityCustom {
+interface MatchEntityCustom {
   effectiveRanking: number;
   matcherMatchId: string;
   parties: { [key: string]: string[] };
@@ -70,7 +59,7 @@ export interface EntityCustom {
   queueId: string;
 }
 
-export interface Element {
+interface MatchElement {
   class_name: string;
   game_location_id?: string;
   guid: string;
@@ -80,20 +69,20 @@ export interface Element {
   game_map_id?: string;
 }
 
-export interface MatchCustom {
+interface MatchCustom {
   id: string;
-  overview: Overview;
-  tree: Tree;
+  overview: MatchOverview;
+  tree: MatchTree;
 }
 
-export interface Overview {
-  description: Description;
+interface MatchOverview {
+  description: MatchDescription;
   game: Game;
-  label: Description;
+  label: MatchDescription;
   name: string;
   region: string;
-  round: Round;
-  detections: Detections;
+  round: MatchRound;
+  detections: MatchDetections;
   spectators: boolean;
   elo_mode: string;
   expire_seconds: number;
@@ -110,229 +99,229 @@ export interface Overview {
   game_type: string;
 }
 
-export interface Description {
+interface MatchDescription {
   en: string;
 }
 
-export interface Detections {
+interface MatchDetections {
   afk: boolean;
   leavers: boolean;
 }
 
-export interface MatchType {
+interface MatchType {
   value: string;
-  label: Description;
+  label: MatchDescription;
 }
 
-export interface Round {
-  label: Description;
+interface MatchRound {
+  label: MatchDescription;
   id: string;
   type: string;
   to_play: number;
   to_win: number;
 }
 
-export interface Tree {
-  game_config: GameConfig;
-  location: TreeLocation;
-  map: Map;
-  server_config: ServerConfig;
-  stream: Stream;
+interface MatchTree {
+  game_config: MatchGameConfig;
+  location: MatchTreeLocation;
+  map: MatchMap;
+  server_config: MatchServerConfig;
+  stream: MatchStream;
 }
 
-export interface GameConfig {
+interface MatchGameConfig {
   data_type: string;
   flags: object;
   id: string;
   leaf_node: boolean;
-  values: GameConfigValues;
+  values: MatchGameConfigValues;
 }
 
-export interface GameConfigValues {
+interface MatchGameConfigValues {
   value: string;
 }
 
-export interface TreeLocation {
+interface MatchTreeLocation {
   data_type: string;
-  display: Display;
-  flags: LocationFlags;
+  display: MatchDisplay;
+  flags: MatchLocationFlags;
   id: string;
-  label: Description;
+  label: MatchDescription;
   leaf_node: boolean;
   name: string;
-  values: LocationValues;
+  values: MatchLocationValues;
 }
 
-export interface Display {
+interface MatchDisplay {
   priority: number;
 }
 
-export interface LocationFlags {
+interface MatchLocationFlags {
   votable: boolean;
 }
 
-export interface LocationValues {
-  value: Element[];
+interface MatchLocationValues {
+  value: MatchElement[];
   voting_steps: string[];
 }
 
-export interface Map {
+interface MatchMap {
   data_type: string;
-  display: Display;
-  flags: LocationFlags;
+  display: MatchDisplay;
+  flags: MatchLocationFlags;
   id: string;
-  label: Description;
+  label: MatchDescription;
   leaf_node: boolean;
   name: string;
-  values: MapValues;
+  values: MatchMapValues;
 }
 
-export interface MapValues {
-  multi_select: MultiSelect;
-  value: Element[];
+interface MatchMapValues {
+  multi_select: MatchMultiSelect;
+  value: MatchElement[];
   voting_steps: string[];
 }
 
-export interface MultiSelect {
+interface MatchMultiSelect {
   memberships: string[];
   minimum: number;
 }
 
-export interface ServerConfig {
-  children: Children;
+interface MatchServerConfig {
+  children: MatchChildren;
   id: string;
 }
 
-export interface Children {
-  bots: Stream;
-  botsDifficulty: BotsDifficulty;
-  deadTalk: DeadTalk;
-  freezeTime: FreezeTime;
-  friendlyFire: Stream;
-  gameMode: FreezeTime;
-  gameType: BotsDifficulty;
-  knifeRound: Stream;
-  maxRounds: BotsDifficulty;
-  overtimeHalftimePausetimer: Stream;
-  overtimeMaxRounds: BotsDifficulty;
-  overtimeStartMoney: FreezeTime;
-  pause: Stream;
-  pauseTime: BotsDifficulty;
-  respawnImmunityTime: FreezeTime;
-  startMoney: BotsDifficulty;
-  startOnReady: Stream;
-  timeToConnect: TimeToConnect;
-  timeoutMax: Timeout;
-  timeoutTime: Timeout;
-  tvDelay: BotsDifficulty;
-  voteKick: Stream;
+interface MatchChildren {
+  bots: MatchStream;
+  botsDifficulty: MatchBotsDifficulty;
+  deadTalk: MatchDeadTalk;
+  freezeTime: MatchFreezeTime;
+  friendlyFire: MatchStream;
+  gameMode: MatchFreezeTime;
+  gameType: MatchBotsDifficulty;
+  knifeRound: MatchStream;
+  maxRounds: MatchBotsDifficulty;
+  overtimeHalftimePausetimer: MatchStream;
+  overtimeMaxRounds: MatchBotsDifficulty;
+  overtimeStartMoney: MatchFreezeTime;
+  pause: MatchStream;
+  pauseTime: MatchBotsDifficulty;
+  respawnImmunityTime: MatchFreezeTime;
+  startMoney: MatchBotsDifficulty;
+  startOnReady: MatchStream;
+  timeToConnect: MatchTimeToConnect;
+  timeoutMax: MatchTimeout;
+  timeoutTime: MatchTimeout;
+  tvDelay: MatchBotsDifficulty;
+  voteKick: MatchStream;
 }
 
-export interface Stream {
+interface MatchStream {
   data_type: string;
   flags: object;
   id: string;
   leaf_node: boolean;
-  values: StreamValues;
+  values: MatchStreamValues;
 }
 
-export interface StreamValues {
+interface MatchStreamValues {
   value: boolean;
 }
 
-export interface BotsDifficulty {
+interface MatchBotsDifficulty {
   data_type: string;
   flags: object;
   id: string;
   leaf_node: boolean;
-  values: PurpleValues;
+  values: MatchPurpleValues;
 }
 
-export interface PurpleValues {
+interface MatchPurpleValues {
   max_value: number;
   min_value: number;
   value: number;
 }
 
-export interface DeadTalk {
+interface MatchDeadTalk {
   data_type: string;
-  display: Display;
+  display: MatchDisplay;
   flags: object;
   id: string;
-  label: Description;
+  label: MatchDescription;
   leaf_node: boolean;
   name: string;
-  values: StreamValues;
+  values: MatchStreamValues;
 }
 
-export interface FreezeTime {
+interface MatchFreezeTime {
   data_type: string;
   flags: object;
   id: string;
   leaf_node: boolean;
-  values: FreezeTimeValues;
+  values: MatchFreezeTimeValues;
   optional?: boolean;
 }
 
-export interface FreezeTimeValues {
+interface MatchFreezeTimeValues {
   value: number;
 }
 
-export interface TimeToConnect {
+interface MatchTimeToConnect {
   data_type: string;
   flags: object;
   id: string;
   leaf_node: boolean;
   link: string;
   optional: boolean;
-  values: PurpleValues;
+  values: MatchPurpleValues;
 }
 
-export interface Timeout {
+interface MatchTimeout {
   data_type: string;
-  display: Display;
+  display: MatchDisplay;
   flags: object;
   id: string;
-  label: Description;
+  label: MatchDescription;
   leaf_node: boolean;
   name: string;
-  values: PurpleValues;
+  values: MatchPurpleValues;
 }
 
-export interface Party {
+interface MatchParty {
   partyId: string;
   users: string[];
 }
 
-export interface SummaryResults {
+interface MatchSummaryResults {
   ascScore: boolean;
   winner: string;
   leavers: string[];
   afk: string[];
-  factions: Factions<FactionResult>;
+  factions: MatchFactions<MatchFactionResult>;
 }
 
-export interface Factions<T> {
+interface MatchFactions<T> {
   faction1: T;
   faction2: T;
 }
 
-export interface FactionResult {
+interface MatchFactionResult {
   score: number;
 }
 
-export interface Faction {
+interface MatchFaction {
   id: string;
   type?: string;
   name: string;
   avatar: string;
   leader: string;
-  roster: RosterPlayer[];
-  stats?: Stats;
+  roster: Match[];
+  stats?: MatchStats;
   substituted: boolean;
 }
 
-export interface RosterPlayer {
+interface Match {
   id: string;
   nickname: string;
   avatar: string;
@@ -345,29 +334,29 @@ export interface RosterPlayer {
   partyId: string;
 }
 
-export interface Stats {
+interface MatchStats {
   winProbability: number;
-  skillLevel: SkillLevel;
+  skillLevel: MatchSkillLevel;
   rating: number;
 }
 
-export interface SkillLevel {
+interface MatchSkillLevel {
   average: number;
-  range: Range;
+  range: MatchRange;
 }
 
-export interface Range {
+interface MatchRange {
   min: number;
   max: number;
 }
 
-export interface Voting {
+interface MatchVoting {
   voted_entity_types: string[];
-  location: VotingEntity;
-  map: VotingEntity;
+  location: MatchVotingEntity;
+  map: MatchVotingEntity;
 }
 
-export interface VotingEntity {
-  entities: Element[];
+interface MatchVotingEntity {
+  entities: MatchElement[];
   pick: string[];
 }

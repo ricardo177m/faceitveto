@@ -8,7 +8,7 @@ import { MdLogout } from "react-icons/md";
 
 import { useSession } from "@/hooks";
 import FaceitIcon from "@/components/icons/Faceit";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 
 export function SignOut() {
   const router = useRouter();

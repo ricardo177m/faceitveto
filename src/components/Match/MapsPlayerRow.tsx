@@ -2,8 +2,6 @@ import Link from "next/link";
 import { FaCrown } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 
-import { CuratedMap, CuratedPlayer } from "@/types/curated-match";
-import { IntervalPlayerStats } from "@/types/curated-player-stats";
 import { config } from "@/config/config";
 
 import LevelElo from "../LevelElo";
@@ -37,8 +35,7 @@ export default function MapsPlayerRow({
       >
         <PlayerAvatar player={player} />
         <Link
-          href={`/player/[nickname]`}
-          as={`/player/${player.nickname}`}
+          href={`/player/${player.nickname}`}
           className="inline-flex items-center gap-2 transition-colors hover:text-primary"
         >
           {player.nickname}

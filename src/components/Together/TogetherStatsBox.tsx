@@ -1,5 +1,3 @@
-import { TeamStatsData } from "@/types/team-stats";
-
 interface TogetherStatsBoxProps {
   stats: TeamStatsData;
   title: string;

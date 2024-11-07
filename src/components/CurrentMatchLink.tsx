@@ -20,8 +20,7 @@ export default async function CurrentMatchLink({
 
   return (
     <Link
-      href={`/match/[id]`}
-      as={`/match/${state}`}
+      href={`/match/${state}`}
       className="inline-flex w-full cursor-pointer items-center gap-4 rounded-lg bg-primary px-6 py-4"
     >
       <FaceitIcon className="w-6" />

@@ -1,9 +1,5 @@
 import Image from "next/image";
 
-import { CuratedFaction, CuratedMap } from "@/types/curated-match";
-import { IntervalPlayerStats } from "@/types/curated-player-stats";
-import { Ticket } from "@/types/democracy";
-
 import MapsPlayerRow from "./MapsPlayerRow";
 
 interface TeamMapsProps {

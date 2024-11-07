@@ -2,9 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 
-import { Player } from "@/types/player";
-import { SkillGroupMapping } from "@/types/skills";
-
 import Level from "../Level";
 
 interface PlayerEloProps {

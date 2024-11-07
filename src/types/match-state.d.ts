@@ -1,4 +1,4 @@
-export interface MatchState {
+interface MatchState {
   configuredAt: string;
   createdAt: string;
   entity: Entity;
@@ -21,7 +21,7 @@ interface Entity {
   type: string;
 }
 
-export interface EntityCustom {
+interface EntityCustom {
   effectiveRanking: number;
   matcherMatchId: string;
   parties: {
@@ -33,7 +33,7 @@ export interface EntityCustom {
   queueId: string;
 }
 
-export interface PartialMatchState {
+interface PartialMatchState {
   payload: {
     [key: string]: {
       id: string;

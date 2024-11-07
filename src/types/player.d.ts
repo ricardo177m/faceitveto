@@ -1,4 +1,4 @@
-export interface Player {
+interface Player {
   id: string;
   activated_at: string;
   avatar: string;
@@ -7,7 +7,7 @@ export interface Player {
   created_at: string;
   flag: string;
   friends: string[];
-  games: Games;
+  games: PlayerGames;
   gender: string;
   guest_info: object;
   matching_sound: string;
@@ -16,21 +16,21 @@ export interface Player {
   phone_verified: boolean;
   registration_status: string;
   status: string;
-  streaming: Streaming;
+  streaming: PlayerStreaming;
   tags: string[];
   updated_by: string;
   user_type: string;
   verified: boolean;
   version: number;
-  platforms?: Platforms;
+  platforms?: PlayerPlatforms;
 }
 
-export interface Games {
-  csgo?: Csgo;
-  cs2?: Csgo;
+interface PlayerGames {
+  csgo?: PlayerGame;
+  cs2?: PlayerGame;
 }
 
-export interface Csgo {
+interface PlayerGame {
   game_id: string;
   game_name: string;
   faceit_elo: number;
@@ -42,21 +42,21 @@ export interface Csgo {
   elo_refreshed_by_user_at: string;
 }
 
-export interface Platforms {
-  steam?: Steam;
+interface PlayerPlatforms {
+  steam?: SteamPlatform;
 }
 
-export interface Steam {
+interface SteamPlatform {
   id: string;
   nickname: string;
   id64: string;
 }
 
-export interface Streaming {
+interface PlayerStreaming {
   twitch_id: string;
 }
 
-export interface Playtime {
+interface PlayerPlaytime {
   "2weeks": number;
   forever: number;
 }

@@ -2,13 +2,15 @@ import {
   CuratedFaction,
   CuratedMap,
   CuratedMatch,
+  CuratedPlayer,
 } from "@/types/curated-match";
 import { Democracy } from "@/types/democracy";
 import { Element, Faction, Match } from "@/types/match";
 import { MatchStats } from "@/types/match-stats";
 import { config } from "@/config/config";
-import { faceit } from "@/config/endpoints";
+import { faceit, faceitopen } from "@/config/endpoints";
 import { NotFoundError } from "@/lib/exceptions";
+import { env } from "@/env.mjs";
 
 export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const response = await fetch(faceit.match(matchId), {
@@ -70,6 +72,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
       faction1: buildFaction(match.teams.faction1),
       faction2: buildFaction(match.teams.faction2),
     },
+    demoURLs: match.demoURLs,
     winner: match.summaryResults?.winner,
     createdAt: match.createdAt,
     startedAt: match.startedAt,
@@ -105,6 +108,60 @@ export async function fetchDemocracy(
   else return undefined;
 }
 
+export async function fetchDemoUrl(matchId: string): Promise<string | null> {
+  const data = await fetch(faceit.match(matchId), {
+    next: { revalidate: 5 },
+  }).then((res) => res.json());
+
+  if (data.payload === undefined) return null;
+
+  const match: Match = data.payload;
+
+  if (!match.demoURLs || !match.demoURLs.length) return null;
+  const demoResourceUrl = match.demoURLs[0];
+
+  const demores = await fetch(faceitopen.demos, {
+    method: "POST",
+    body: JSON.stringify({ resource_url: demoResourceUrl }),
+    headers: { Authorization: `Bearer ${env.FACEIT_DEMOS_API_TOKEN}` },
+  });
+
+  if (!demores.ok) return null;
+  const demo = await demores.json();
+
+  return demo.payload.download_url;
+}
+
 export function isPlayerFaction(faction: CuratedFaction, playerId: string) {
   return faction.players.some((player) => player.id === playerId);
+}
+
+export function chosenMap(democracy: Democracy) {
+  const mapTickets =
+    democracy && democracy.tickets.find((t) => t.entity_type === "map");
+  if (!mapTickets) return;
+  const map = mapTickets.entities.find((e) => e.status === "pick");
+  return map ? map.properties.game_map_id : undefined;
+}
+
+export function getCore(faction: CuratedFaction) {
+  const parties = {} as Record<string, CuratedPlayer[]>;
+  faction.players.forEach((p) => {
+    if (!parties[p.partyId.toString()]) parties[p.partyId.toString()] = [];
+    parties[p.partyId].push(p);
+  });
+
+  // get the number of players in the biggest party
+  const maxPartySize = Math.max(
+    ...Object.values(parties).map((party) => party.length)
+  );
+  if (maxPartySize < 3) return null;
+
+  // get the party with the biggest size
+  const core = Object.values(parties).find(
+    (party) => party.length === maxPartySize
+  );
+
+  if (!core) return null;
+  return core;
 }

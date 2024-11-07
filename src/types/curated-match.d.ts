@@ -10,6 +10,7 @@ export type CuratedMatch = {
     faction1: CuratedFaction;
     faction2: CuratedFaction;
   };
+  demoURLs?: string[];
   winner?: string;
   createdAt: string;
   startedAt?: string;

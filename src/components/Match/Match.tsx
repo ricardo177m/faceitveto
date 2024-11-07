@@ -44,6 +44,7 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
   useEffect(() => {
     edgeContext.subscribeMatchState(match.id, handleUpdateMatch);
     edgeContext.subscribeDemocracy(match.id, handleUpdateDemocracy);
+
     return () => {
       edgeContext.unsubscribeMatchState(match.id, handleUpdateMatch);
       edgeContext.unsubscribeDemocracy(match.id, handleUpdateDemocracy);

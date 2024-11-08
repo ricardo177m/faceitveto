@@ -51,6 +51,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
     if (!prematchPost) return;
 
     const { matchIds } = prematchPost;
+    if (matchIds.length === 0) return;
     const q = query(db, where(documentId(), "in", matchIds));
 
     const unsub = onSnapshot(q, (snapshot) => {

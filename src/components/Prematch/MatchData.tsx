@@ -18,8 +18,10 @@ export function MatchData({ matchAnalysis, premade }: MatchDataProps) {
 
   const { map, data } = matchAnalysis;
 
+  const gameIds = premade.map((p) => p.gameId);
+
   const premadeTSideRound = data.rounds.find((r) =>
-    r.equipment.find((e) => e.steamid === premade[0].gameId && e.team === "T")
+    r.equipment.find((e) => gameIds.includes(e.steamid) && e.team === "T")
   )?.round;
   if (premadeTSideRound && !selectedRound) setSelectedRound(premadeTSideRound);
 

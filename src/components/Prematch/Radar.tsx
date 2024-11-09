@@ -69,7 +69,7 @@ export default function Radar({ round, map }: RadarProps) {
 
           return (
             <div
-              key={k}
+              key={"grenades-" + k}
               className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
               style={{
                 top: coords.y + "px",
@@ -85,7 +85,7 @@ export default function Radar({ round, map }: RadarProps) {
           if (!coords) return null;
           return (
             <div
-              key={k}
+              key={"plants-" + k}
               className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
               style={{
                 top: coords.y + "px",
@@ -113,9 +113,8 @@ export default function Radar({ round, map }: RadarProps) {
           );
           if (!coords) return null;
           return (
-            <>
+            <div className="group" key={"frags-" + k}>
               <div
-                key={k}
                 className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
                 style={{
                   top: coords.y + "px",
@@ -128,17 +127,17 @@ export default function Radar({ round, map }: RadarProps) {
                 />
               </div>
               <div
-                key={`attacker-${k}`}
                 className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
                 style={{
                   top: attackerCoords!.y + "px",
                   left: attackerCoords!.x + "px",
                 }}
               >
-                {/* draw a filled circle */}
-                <div className="absolute left-0 top-0 hidden h-2 w-2 rounded-full bg-white"></div>
+                <div
+                  className={`absolute left-0 top-0 hidden h-2 w-2 rounded-full group-hover:block ${i.attacker.team === "T" ? "bg-yellow-400" : "bg-blue-400"}`}
+                ></div>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

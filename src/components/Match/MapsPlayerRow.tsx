@@ -6,6 +6,7 @@ import { config } from "@/config/config";
 
 import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
+import Tooltip from "../Tooltip";
 
 interface MapsPlayerRowProps {
   player: CuratedPlayer;
@@ -22,6 +23,10 @@ export default function MapsPlayerRow({
   captain,
   drops,
 }: MapsPlayerRowProps) {
+  const overallWinRate = stats
+    ? Math.round((stats.overall.wins / stats.overall.matches) * 100)
+    : 0;
+
   return (
     <tr
       key={player.id}
@@ -52,15 +57,20 @@ export default function MapsPlayerRow({
           <Skeleton />
         </td>
       ) : (
-        <td
-          className="min-w-[3.2rem] cursor-help px-2 text-center text-xs font-bold text-neutral-400"
-          title={`${Math.round(
-            (stats.overall.wins / stats.overall.matches) * 100
-          )}% (${stats.overall.wins} win${
-            stats.overall.wins !== 1 ? "s" : ""
-          }) - ${stats.overall.kdr} K/D`}
-        >
-          {stats?.overall.matches}
+        <td className="min-w-[3.2rem] px-2 text-center text-xs font-bold text-neutral-400">
+          <Tooltip
+            text={
+              <>
+                <span
+                  className={`font-bold ${overallWinRate >= 50 ? "text-green-500" : "text-red-600"}`}
+                >{`${overallWinRate}%`}</span>{" "}
+                ({stats.overall.wins} win{stats.overall.wins !== 1 ? "s" : ""})
+                - {stats.overall.kdr} K/D
+              </>
+            }
+          >
+            {stats?.overall.matches}
+          </Tooltip>
         </td>
       )}
       {maps.map((map) => {
@@ -83,15 +93,12 @@ export default function MapsPlayerRow({
               key={map.id}
               className={`min-w-[6.5rem] px-4 text-center font-bold transition-opacity ${drop ? "opacity-30" : ""}`}
             >
-              <span className="mr-2 cursor-help text-red-600" title="0 wins">
-                0%
-              </span>
-              <span
-                className="cursor-help text-xs text-neutral-400"
-                title="0 K/D"
-              >
-                0
-              </span>
+              <Tooltip text="0 wins">
+                <span className="mr-2 text-red-600">0%</span>
+              </Tooltip>
+              <Tooltip text="0 K/D">
+                <span className="text-xs text-neutral-400">0</span>
+              </Tooltip>
             </td>
           );
         }
@@ -106,13 +113,16 @@ export default function MapsPlayerRow({
             <span
               className={`${
                 winRate < 50 ? "text-red-600" : "text-green-500"
-              } mr-2 cursor-help`}
-              title={`${mapStats.wins} win${mapStats.wins !== 1 ? "s" : ""}`}
+              } mr-2`}
             >
-              {winRate}%
+              <Tooltip
+                text={`${mapStats.wins} win${mapStats.wins !== 1 ? "s" : ""}`}
+              >
+                <span>{winRate}%</span>
+              </Tooltip>
             </span>
             <span
-              className="cursor-help text-xs text-neutral-400"
+              className="top-7 text-xs text-neutral-400"
               title={`${mapStats.kdr} K/D`}
             >
               {mapStats.matches}

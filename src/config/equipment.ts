@@ -1,0 +1,16 @@
+export const equipmentMap = {
+  "Glock-18": "glock",
+  "USP-S": "usp_silencer",
+  "Dual Berettas": "elite",
+  P250: "p250",
+  "Tec-9": "tec9",
+  "Five-SeveN": "fiveseven",
+  "CZ75-Auto": "cz75a",
+  "Desert Eagle": "deagle",
+  "Decoy Grenade": "decoy",
+  Flashbang: "flashbang",
+  "High Explosive Grenade": "hegrenade",
+  Molotov: "molotov",
+  "Smoke Grenade": "smokegrenade",
+  "Incendiary Grenade": "incgrenade",
+};

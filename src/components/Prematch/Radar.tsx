@@ -3,6 +3,7 @@ import Image from "next/image";
 import { gameUnitsToRadar } from "@/utils/radar";
 
 import C4 from "../icons/C4";
+import DeathPos from "../icons/DeathPos";
 import Decoy from "../icons/Decoy";
 import Flashbang from "../icons/Flashbang";
 import HEGrenade from "../icons/HEGrenade";
@@ -15,7 +16,7 @@ interface RadarProps {
 }
 
 export default function Radar({ round, map }: RadarProps) {
-  const { plants, grenades } = round;
+  const { plants, grenades, frags } = round;
 
   const size = 700;
 
@@ -95,8 +96,49 @@ export default function Radar({ round, map }: RadarProps) {
                 size={18}
                 className="absolute top-0 -z-10 animate-ping text-yellow-400 group-hover:size-6"
               />
-              <C4 size={18} className="text-yellow-400 group-hover:size-6" />
+              <C4
+                size={18}
+                className="z-20 text-yellow-400 group-hover:size-6"
+              />
             </div>
+          );
+        })}
+        {frags.map((i, k) => {
+          const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, size);
+          const attackerCoords = gameUnitsToRadar(
+            i.attacker.pos.x,
+            i.attacker.pos.y,
+            map,
+            size
+          );
+          if (!coords) return null;
+          return (
+            <>
+              <div
+                key={k}
+                className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
+                style={{
+                  top: coords.y + "px",
+                  left: coords.x + "px",
+                }}
+              >
+                <DeathPos
+                  size={14}
+                  className={`${i.team === "T" ? "text-yellow-400" : "text-blue-400"} group-hover:size-6`}
+                />
+              </div>
+              <div
+                key={`attacker-${k}`}
+                className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
+                style={{
+                  top: attackerCoords!.y + "px",
+                  left: attackerCoords!.x + "px",
+                }}
+              >
+                {/* draw a filled circle */}
+                <div className="absolute left-0 top-0 hidden h-2 w-2 rounded-full bg-white"></div>
+              </div>
+            </>
           );
         })}
       </div>

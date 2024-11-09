@@ -22,6 +22,7 @@ interface MatchAnalysisRound {
   grenades: MatchAnalysisGrenade[];
   plants: MatchAnalysisPlant[];
   equipment: MatchAnalysisEquipment[];
+  frags: MatchAnalysisFrag[];
 }
 
 interface MatchAnalysisGrenade {
@@ -29,7 +30,12 @@ interface MatchAnalysisGrenade {
   roundTime: number;
   pos: Position;
   type: MatchAnalysisGrenadeType;
-  thrownBy: MatchAnalysisPlayer;
+  thrownBy: {
+    name: string;
+    steamid: string;
+    team: "T" | "CT";
+    pos?: Position;
+  };
 }
 
 type MatchAnalysisGrenadeType =
@@ -52,13 +58,45 @@ interface MatchAnalysisEquipment {
   team: "T" | "CT";
   round: number;
   equipment: string[];
+  armor: number;
+  hasHelmet: boolean;
+  hasDefuser: boolean;
 }
 
-interface MatchAnalysisPlayer {
+interface MatchAnalysisFrag {
+  round: number;
+  roundTime: number;
   name: string;
   steamid: string;
   team: "T" | "CT";
-  pos?: Position;
+  pos: Position;
+  attacker: Attacker;
+  assist: Assist | null;
+  headshot: boolean;
+  penetrated: boolean;
+  thruSmoke: boolean;
+  weapon: string;
+  dmgHealth: number;
+  dmgArmor: number;
+  lastPlaceName: string;
+}
+
+interface MatchAnalysisAttacker {
+  name: string;
+  steamid: string;
+  team: "T" | "CT";
+  pos: Position;
+  blind: boolean;
+  inAir: boolean;
+  lastPlaceName: string;
+}
+
+interface MatchAnalysisAssist {
+  name: string;
+  steamid: string;
+  team: "T" | "CT";
+  pos: Position;
+  assistedFlash: boolean;
 }
 
 interface Position {

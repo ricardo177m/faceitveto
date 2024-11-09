@@ -11,8 +11,6 @@ interface MatchDataProps {
 }
 
 export function MatchData({ matchAnalysis, premade }: MatchDataProps) {
-  const [selectedRound, setSelectedRound] = useState<number | null>(null);
-
   if (!matchAnalysis || !matchAnalysis.processed || !matchAnalysis.data)
     return null;
 
@@ -23,7 +21,7 @@ export function MatchData({ matchAnalysis, premade }: MatchDataProps) {
   const premadeTSideRound = data.rounds.find((r) =>
     r.equipment.find((e) => gameIds.includes(e.steamid) && e.team === "T")
   )?.round;
-  if (premadeTSideRound && !selectedRound) setSelectedRound(premadeTSideRound);
+  const selectedRound = premadeTSideRound || data.rounds[0].round;
 
   const round = matchAnalysis.data.rounds.find(
     (p) => p.round === selectedRound

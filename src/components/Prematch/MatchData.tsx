@@ -61,7 +61,7 @@ export function MatchData({
           isChecked={selectedRound === tSideRound}
           setIsChecked={() =>
             setSelectedRound((r) =>
-              selectedRound === tSideRound
+              r === tSideRound
                 ? tSideRound === 1
                   ? 13
                   : 1

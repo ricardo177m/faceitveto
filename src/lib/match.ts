@@ -1,5 +1,3 @@
-import { unstable_noStore as noStore } from "next/cache";
-
 import { config } from "@/config/config";
 import { faceit, faceitopen } from "@/config/endpoints";
 import { NotFoundError } from "@/lib/exceptions";

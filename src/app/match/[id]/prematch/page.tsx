@@ -21,9 +21,6 @@ export default async function Page(props: PageProps) {
   const { faction } = searchParams;
   const parsed = schema.safeParse(faction);
 
-  return !parsed.success ? (
-    <p>Invalid faction.</p>
-  ) : (
-    <Prematch matchId={id} faction={parseInt(parsed.data)} />
-  );
+  if (!parsed.success) return <p>Invalid faction.</p>;
+  return <Prematch matchId={id} faction={parseInt(parsed.data)} />;
 }

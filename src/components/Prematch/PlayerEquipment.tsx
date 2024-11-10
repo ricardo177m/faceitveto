@@ -22,7 +22,7 @@ export default function PlayerEquipment({
     >
       <div className="inline-flex items-center gap-2">
         {isCore && (
-          <Tooltip text="Core Player" className="top-4">
+          <Tooltip text="Core Player" className="!top-4">
             <div
               className="size-2 rounded-full bg-primary"
               title="Core Player"
@@ -32,7 +32,7 @@ export default function PlayerEquipment({
         <p>{equipment.name}</p>
       </div>
       <div className="inline-flex items-center gap-2">
-        {equipment.armor ? (
+        {!!equipment.armor && (
           <Tooltip text="Kevlar" className="top-7">
             <Image
               width={4}
@@ -43,7 +43,19 @@ export default function PlayerEquipment({
               unoptimized
             />
           </Tooltip>
-        ) : null}
+        )}
+        {equipment.hasHelmet && (
+          <Tooltip className="top-7" text="Helmet">
+            <Image
+              width={4}
+              height={4}
+              alt={"Helmet"}
+              src="/assets/equipment/helmet.svg"
+              className="size-5"
+              unoptimized
+            />
+          </Tooltip>
+        )}
         {eq.map((e, i) => {
           const asset = equipmentMap[e] || e;
 
@@ -61,7 +73,7 @@ export default function PlayerEquipment({
             </Tooltip>
           );
         })}
-        {equipment.hasDefuser ? (
+        {equipment.hasDefuser && (
           <Tooltip className="top-7" text="Defuser">
             <Image
               width={4}
@@ -72,19 +84,7 @@ export default function PlayerEquipment({
               unoptimized
             />
           </Tooltip>
-        ) : null}
-        {equipment.hasHelmet ? (
-          <Tooltip className="top-7" text="Helmet">
-            <Image
-              width={4}
-              height={4}
-              alt={"Helmet"}
-              src="/assets/equipment/helmet.svg"
-              className="size-5"
-              unoptimized
-            />
-          </Tooltip>
-        ) : null}
+        )}
       </div>
     </div>
   );

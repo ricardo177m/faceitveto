@@ -65,7 +65,7 @@ export default function MapsPlayerRow({
                   className={`font-bold ${overallWinRate >= 50 ? "text-green-500" : "text-red-600"}`}
                 >{`${overallWinRate}%`}</span>{" "}
                 ({stats.overall.wins} win{stats.overall.wins !== 1 ? "s" : ""})
-                - {stats.overall.kdr} K/D
+                | {stats.overall.kdr} K/D
               </>
             }
           >
@@ -93,12 +93,10 @@ export default function MapsPlayerRow({
               key={map.id}
               className={`min-w-[6.5rem] px-4 text-center font-bold transition-opacity ${drop ? "opacity-30" : ""}`}
             >
-              <Tooltip text="0 wins">
+              <Tooltip text="0 wins | 0 K/D" className="text-xs">
                 <span className="mr-2 text-red-600">0%</span>
               </Tooltip>
-              <Tooltip text="0 K/D">
-                <span className="text-xs text-neutral-400">0</span>
-              </Tooltip>
+              <span className="text-xs text-neutral-400">0</span>
             </td>
           );
         }
@@ -116,15 +114,13 @@ export default function MapsPlayerRow({
               } mr-2`}
             >
               <Tooltip
-                text={`${mapStats.wins} win${mapStats.wins !== 1 ? "s" : ""}`}
+                text={`${mapStats.wins} win${mapStats.wins !== 1 ? "s" : ""} | ${mapStats.kdr} K/D`}
+                className="text-xs"
               >
                 <span>{winRate}%</span>
               </Tooltip>
             </span>
-            <span
-              className="top-7 text-xs text-neutral-400"
-              title={`${mapStats.kdr} K/D`}
-            >
+            <span className="top-7 text-xs text-neutral-400">
               {mapStats.matches}
             </span>
           </td>

@@ -81,7 +81,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
         ) / 10);
 
   return (
-    <section className="my-4">
+    <>
       {prematchPost && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold">Players in the same premade</h2>
@@ -158,6 +158,6 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
           </>
         )
       )}
-    </section>
+    </>
   );
 }

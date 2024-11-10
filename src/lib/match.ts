@@ -1,3 +1,5 @@
+import { unstable_noStore as noStore } from "next/cache";
+
 import { config } from "@/config/config";
 import { faceit, faceitopen } from "@/config/endpoints";
 import { NotFoundError } from "@/lib/exceptions";
@@ -75,7 +77,7 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
 
 export async function fetchMatchStats(matchId: string): Promise<MatchStats[]> {
   const response = await fetch(faceit.matchStats(matchId), {
-    next: { revalidate: 5 },
+    next: { revalidate: 5 * 60 },
   });
 
   const data: MatchStats[] = await response.json();
@@ -85,13 +87,9 @@ export async function fetchMatchStats(matchId: string): Promise<MatchStats[]> {
 export async function fetchDemocracy(
   matchId: string
 ): Promise<Democracy | undefined> {
-  const response = await fetch(faceit.democracy(matchId), {
-    cache: "no-store",
-    headers: {
-      "Cache-Control": "no-cache",
-      pragma: "no-cache",
-    },
-  });
+  const url = new URL(faceit.democracy(matchId));
+  url.searchParams.append("_", Date.now().toString());
+  const response = await fetch(url, { cache: "no-store" });
 
   const data = await response.json();
 

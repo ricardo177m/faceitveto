@@ -18,6 +18,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import { formatDateTime } from "@/utils/dateFormat";
 
 import Elo from "../icons/Elo";
+import Tooltip from "../Tooltip";
 import NextImageWithFallback from "../ui/NextImageWithFallback";
 
 interface MatchHeaderProps {
@@ -194,22 +195,27 @@ export default function MatchHeader({
       </div>
       <div className="flex flex-wrap items-center gap-y-2 pb-1 text-sm">
         {match.finishedAt && (
-          <div
-            title={formatDateTime(match.finishedAt)}
-            className="mx-2 inline-flex items-center gap-2"
-            suppressHydrationWarning // client & server timezones may differ
+          <Tooltip
+            text={formatDateTime(match.finishedAt)}
+            className="top-8 w-min"
           >
-            <FaClock className="text-dark-800" />
-            <span>{moment(match.finishedAt).fromNow()}</span>
-          </div>
+            <div
+              className="mx-2 inline-flex items-center gap-2"
+              suppressHydrationWarning // client & server timezones may differ
+            >
+              <FaClock className="text-dark-800" />
+              <span>{moment(match.finishedAt).fromNow()}</span>
+            </div>
+          </Tooltip>
         )}
-        <div
-          className="mx-2 inline-flex items-center gap-2"
-          title="Match Average Elo"
-        >
-          <Elo className="w-4 fill-dark-800" />
-          <span>{Math.round(match.matchRanking)}</span>
-        </div>
+        {match.matchRanking && (
+          <Tooltip text="Match Average Elo" className="top-8 w-min">
+            <div className="mx-2 inline-flex items-center gap-2">
+              <Elo className="w-4 fill-dark-800" />
+              <span>{Math.round(match.matchRanking)}</span>
+            </div>
+          </Tooltip>
+        )}
         <Checkbox
           isChecked={showMostRecent}
           setIsChecked={setShowMostRecent}

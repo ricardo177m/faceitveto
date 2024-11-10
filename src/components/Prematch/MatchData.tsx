@@ -5,6 +5,7 @@ import { FaClock } from "react-icons/fa";
 import { config } from "@/config/config";
 import { formatDateTime } from "@/utils/dateFormat";
 
+import Tooltip from "../Tooltip";
 import Checkbox from "../ui/Checkbox";
 import PlayerEquipment from "./PlayerEquipment";
 import Radar from "./Radar";
@@ -70,19 +71,23 @@ export function MatchData({
             )
           }
           label="T Side Data"
-          className="inline-flex items-center gap-2"
+          className="my-2 inline-flex items-center gap-2"
         />
 
-        <div
-          title={formatDateTime(matchDetails.finished_at)}
-          className="mx-2 my-4 inline-flex items-center gap-2"
-          suppressHydrationWarning // client & server timezones may differ
+        <Tooltip
+          text={formatDateTime(matchDetails.finished_at * 1000)}
+          className="top-8 w-min"
         >
-          <FaClock className="text-dark-800" />
-          <span>{moment(matchDetails.finished_at).fromNow()}</span>
-        </div>
+          <div
+            className="mb-2 inline-flex items-center gap-2"
+            suppressHydrationWarning // client & server timezones may differ
+          >
+            <FaClock className="text-dark-800" />
+            <span>{moment(matchDetails.finished_at * 1000).fromNow()}</span>
+          </div>
+        </Tooltip>
 
-        <p className="my-4">Plant time: {timer}</p>
+        <p className="mb-2">Plant time: {timer}</p>
 
         <div className="mb-4 flex flex-col gap-1">
           {equipment

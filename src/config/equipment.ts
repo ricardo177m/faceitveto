@@ -1,6 +1,7 @@
 export const equipmentMap = {
   "Glock-18": "glock",
   "USP-S": "usp_silencer",
+  P2000: "hkp2000",
   "Dual Berettas": "elite",
   P250: "p250",
   "Tec-9": "tec9",

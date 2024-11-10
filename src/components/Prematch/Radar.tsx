@@ -134,7 +134,7 @@ export default function Radar({ round, map }: RadarProps) {
                 }}
               >
                 <div
-                  className={`absolute left-0 top-0 hidden h-2 w-2 rounded-full group-hover:block ${i.attacker.team === "T" ? "bg-yellow-400" : "bg-blue-400"}`}
+                  className={`absolute left-0 top-0 hidden size-2 rounded-full group-hover:block ${i.attacker.team === "T" ? "bg-yellow-400" : "bg-blue-400"}`}
                 ></div>
               </div>
             </div>

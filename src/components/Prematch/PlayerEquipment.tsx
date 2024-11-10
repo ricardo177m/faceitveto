@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { equipmentMap } from "@/config/equipment";
 
 import Tooltip from "../Tooltip";
@@ -22,7 +24,7 @@ export default function PlayerEquipment({
         {isCore && (
           <Tooltip text="Core Player" className="top-4">
             <div
-              className="h-2 w-2 rounded-full bg-primary"
+              className="size-2 rounded-full bg-primary"
               title="Core Player"
             ></div>
           </Tooltip>
@@ -32,7 +34,14 @@ export default function PlayerEquipment({
       <div className="inline-flex items-center gap-2">
         {equipment.armor ? (
           <Tooltip text="Kevlar" className="top-7">
-            <img src="/assets/equipment/kevlar.svg" className="h-5 w-5" />
+            <Image
+              width={4}
+              height={4}
+              alt={"Kevlar"}
+              src="/assets/equipment/kevlar.svg"
+              className="size-5"
+              unoptimized
+            />
           </Tooltip>
         ) : null}
         {eq.map((e, i) => {
@@ -41,18 +50,39 @@ export default function PlayerEquipment({
           if (ignore.includes(asset) || asset.startsWith("knife")) return null;
           return (
             <Tooltip className="top-7" text={e} key={i}>
-              <img src={`/assets/equipment/${asset}.svg`} className="h-5 w-5" />
+              <Image
+                width={4}
+                height={4}
+                alt={e}
+                src={`/assets/equipment/${asset}.svg`}
+                className="size-5"
+                unoptimized
+              />
             </Tooltip>
           );
         })}
         {equipment.hasDefuser ? (
           <Tooltip className="top-7" text="Defuser">
-            <img src="/assets/equipment/defuser.svg" className="h-5 w-5" />
+            <Image
+              width={4}
+              height={4}
+              alt={"Defuser"}
+              src="/assets/equipment/defuser.svg"
+              className="size-5"
+              unoptimized
+            />
           </Tooltip>
         ) : null}
         {equipment.hasHelmet ? (
           <Tooltip className="top-7" text="Helmet">
-            <img src="/assets/equipment/helmet.svg" className="h-5 w-5" />
+            <Image
+              width={4}
+              height={4}
+              alt={"Helmet"}
+              src="/assets/equipment/helmet.svg"
+              className="size-5"
+              unoptimized
+            />
           </Tooltip>
         ) : null}
       </div>

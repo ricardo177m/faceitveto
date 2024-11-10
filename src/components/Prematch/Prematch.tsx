@@ -66,6 +66,10 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
     return () => unsub();
   }, [prematchPost]);
 
+  const matchDetails = prematchPost?.teamstats.matches.find(
+    (m) => m.match_id === selectedMatch
+  )!;
+
   const winrate =
     prematchPost &&
     (prematchPost.teamstats.stats.total === 0
@@ -148,6 +152,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
               <MatchData
                 matchAnalysis={analysis.get(selectedMatch)}
                 premade={prematchPost.premade}
+                matchDetails={matchDetails}
               />
             )}
           </>

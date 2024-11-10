@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import moment from "moment";
+import { FaClock } from "react-icons/fa";
 
 import { config } from "@/config/config";
+import { formatDateTime } from "@/utils/dateFormat";
 
 import Checkbox from "../ui/Checkbox";
 import PlayerEquipment from "./PlayerEquipment";
@@ -9,9 +12,14 @@ import Radar from "./Radar";
 interface MatchDataProps {
   matchAnalysis?: MatchAnalysis;
   premade: CuratedPlayer[];
+  matchDetails: DetailedMatch;
 }
 
-export function MatchData({ matchAnalysis, premade }: MatchDataProps) {
+export function MatchData({
+  matchAnalysis,
+  premade,
+  matchDetails,
+}: MatchDataProps) {
   const [tSideRound, setTSideRound] = useState<number | null>(null);
   const [selectedRound, setSelectedRound] = useState<number | null>(null);
 
@@ -64,6 +72,15 @@ export function MatchData({ matchAnalysis, premade }: MatchDataProps) {
           label="T Side Data"
           className="inline-flex items-center gap-2"
         />
+
+        <div
+          title={formatDateTime(matchDetails.finished_at)}
+          className="mx-2 my-4 inline-flex items-center gap-2"
+          suppressHydrationWarning // client & server timezones may differ
+        >
+          <FaClock className="text-dark-800" />
+          <span>{moment(matchDetails.finished_at).fromNow()}</span>
+        </div>
 
         <p className="my-4">Plant time: {timer}</p>
 

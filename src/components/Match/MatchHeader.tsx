@@ -37,6 +37,7 @@ export default function MatchHeader({
   setShowMostRecent,
 }: MatchHeaderProps) {
   const [countdown, setCountdown] = useState<number | undefined>();
+  const [matchState, setMatchState] = useState<string>(match.state.toString());
 
   const { version } = useContext(FaceitEdgeContext);
 
@@ -68,6 +69,8 @@ export default function MatchHeader({
   useEffect(() => {
     if (democracy?.conditions?.time_left_to_vote)
       setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
+    if (democracy?.vote_complete && match.state.toString() === "VOTING")
+      setMatchState("CONFIGURING");
   }, [democracy]);
 
   const enemyFaction = userFaction === "faction1" ? 2 : 1;
@@ -79,7 +82,7 @@ export default function MatchHeader({
     "ONGOING",
     "FINISHED",
     "SCHEDULED",
-  ].includes(match.state.toString());
+  ].includes(matchState);
 
   return (
     <div className="flex flex-col px-4">
@@ -139,18 +142,16 @@ export default function MatchHeader({
         <div className="inline-flex items-center gap-4">
           <span
             className={`size-3 rounded-full ${
-              ["VOTING", "CONFIGURING"].includes(match.state.toString())
+              ["VOTING", "CONFIGURING"].includes(matchState)
                 ? "bg-yellow-400"
-                : ["READY", "ONGOING"].includes(match.state.toString())
+                : ["READY", "ONGOING"].includes(matchState)
                   ? "bg-green-500"
                   : "bg-gray-600"
             } ${
-              ["FINISHED", "CANCELLED"].includes(match.state.toString())
-                ? ""
-                : "blinking"
+              ["FINISHED", "CANCELLED"].includes(matchState) ? "" : "blinking"
             }`}
           ></span>
-          {match.state.toString() === "VOTING" ? (
+          {matchState === "VOTING" ? (
             democracy && democracy.conditions && isVotingTime && isMapVoting ? (
               <div className="inline-flex items-center gap-4">
                 <p className={userVoting ? "text-yellow-500" : ""}>
@@ -173,9 +174,7 @@ export default function MatchHeader({
               </div>
             )
           ) : (
-            <p className="mr-4 capitalize">
-              {match.state.toString().toLowerCase()}
-            </p>
+            <p className="mr-4 capitalize">{matchState.toLowerCase()}</p>
           )}
         </div>
         {showPrematch && (

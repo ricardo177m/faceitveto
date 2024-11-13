@@ -99,6 +99,8 @@ export async function fetchPlayerStatsLastMatches(
   });
   const data = await response.json();
 
+  if (response.status !== 200) throw new Error(data.errors[0].message);
+
   const payload: PlayerMatchStats[] = data;
 
   const result: IntervalPlayerStats = {

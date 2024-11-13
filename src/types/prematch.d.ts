@@ -15,6 +15,13 @@ interface MatchAnalysis {
     halfTotalRounds: number;
     rounds: MatchAnalysisRound[];
   };
+  progress: string;
+  error?: string;
+  expiresAt: FirestoreDate;
+  metrics: {
+    dlDc: number;
+    parse: number;
+  };
 }
 
 interface MatchAnalysisRound {

@@ -59,7 +59,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
         const id = change.doc.id;
         const data = change.doc.data() as MatchAnalysis;
         setAnalysis((prev) => new Map(prev.set(id, data)));
-        if (!selectedMatch) setSelectedMatch(id);
+        if (data.processed && !selectedMatch) setSelectedMatch(id);
       });
     });
 

@@ -111,7 +111,10 @@ export async function POST(req: Request, props: MatchParams) {
           createdAt: new Date(),
           map,
           processed: false,
-          expiresAt: new Date(Date.now() + config.prematchAnalysisExpiration),
+          progress: "In queue",
+          expiresAt: new Date(
+            Date.now() + config.prematchAnalysisUnprocessedExpiration
+          ),
         };
 
         t.create(docRef, data);

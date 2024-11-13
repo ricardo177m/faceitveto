@@ -32,8 +32,8 @@ export async function POST(req: Request, props: MatchParams) {
     "prematch"
   )) as EdgePrematchCfg;
 
+  const session = await getServerSession();
   if (restricted) {
-    const session = await getServerSession();
     if (!session)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -115,6 +115,7 @@ export async function POST(req: Request, props: MatchParams) {
           expiresAt: new Date(
             Date.now() + config.prematchAnalysisUnprocessedExpiration
           ),
+          requestedBy: session?.id,
         };
 
         t.create(docRef, data);

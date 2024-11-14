@@ -31,5 +31,8 @@ export const config = {
   ],
   defaultAvatarAsset: "/assets/default-avatar.svg",
   roundTime: 115,
-  prematchAnalysisUnprocessedExpiration: 1000 * 60 * 10,
+  prematchAnalysis: {
+    unprocessedExpiration: 1000 * 60 * 10,
+    defaultExpiration: 1000 * 60 * 60 * 24 * 7,
+  },
 };

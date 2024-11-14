@@ -5,6 +5,7 @@ interface TooltipProps {
 }
 
 export default function Tooltip({ text, children, className }: TooltipProps) {
+  if (!text) return children;
   return (
     <span className="group relative">
       {children}

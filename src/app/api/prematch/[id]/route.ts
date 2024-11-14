@@ -102,6 +102,20 @@ export async function POST(req: Request, props: MatchParams) {
 
         const demoUrl = await fetchDemoUrl(matchId);
         if (!demoUrl) {
+          const data = {
+            demoUrl,
+            createdAt: new Date(),
+            map,
+            processed: false,
+            error:
+              "Demo not available (might have expired or not uploaded yet)",
+            progress: "Error",
+            expiresAt: new Date(
+              Date.now() + config.prematchAnalysis.defaultExpiration
+            ),
+            requestedBy: session?.id,
+          };
+          t.create(docRef, data);
           matchIds.splice(matchIds.indexOf(matchId), 1);
           return;
         }
@@ -113,7 +127,7 @@ export async function POST(req: Request, props: MatchParams) {
           processed: false,
           progress: "In queue",
           expiresAt: new Date(
-            Date.now() + config.prematchAnalysisUnprocessedExpiration
+            Date.now() + config.prematchAnalysis.unprocessedExpiration
           ),
           requestedBy: session?.id,
         };

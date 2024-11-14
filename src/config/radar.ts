@@ -28,7 +28,18 @@ export const overviews: Overviews = {
     pos_x: -3453,
     pos_y: 2887,
     scale: 7,
-    lowerz: -495,
+    offsets: {
+      lowerz: -495,
+      zoom: 1,
+      lower: {
+        x: -350,
+        y: 225,
+      },
+      upper: {
+        x: 0,
+        y: -200,
+      },
+    },
   },
   de_overpass: {
     pos_x: -4831,
@@ -39,6 +50,25 @@ export const overviews: Overviews = {
     pos_x: -3168,
     pos_y: 1762,
     scale: 4,
-    lowerz: 11700,
+    offsets: {
+      lowerz: 11700,
+      zoom: 0.8,
+      lower: {
+        x: 538,
+        y: 367,
+      },
+      upper: {
+        x: -53,
+        y: -86,
+      },
+    },
+  },
+  de_train: {
+    pos_x: -2308,
+    pos_y: 2078,
+    scale: 4.082077,
+    // offsets: {
+    //   lowerz: -50,
+    // }
   },
 };

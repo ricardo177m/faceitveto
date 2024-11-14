@@ -3,6 +3,17 @@ interface Overviews {
     pos_x: number;
     pos_y: number;
     scale: number;
-    lowerz?: number;
+    offsets?: {
+      lowerz: number;
+      zoom: number;
+      lower: {
+        x: number;
+        y: number;
+      };
+      upper: {
+        x: number;
+        y: number;
+      };
+    };
   };
 }

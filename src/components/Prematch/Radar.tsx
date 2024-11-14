@@ -33,7 +33,7 @@ export default function Radar({ round, map }: RadarProps) {
         />
         {grenades.map((i, k) => {
           if (i.thrownBy.team !== "T") return null;
-          const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, size);
+          const coords = gameUnitsToRadar(i.pos, map, size);
           if (!coords) return null;
 
           const icon =
@@ -81,7 +81,7 @@ export default function Radar({ round, map }: RadarProps) {
           );
         })}
         {plants.map((i, k) => {
-          const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, size);
+          const coords = gameUnitsToRadar(i.pos, map, size);
           if (!coords) return null;
           return (
             <div
@@ -104,13 +104,8 @@ export default function Radar({ round, map }: RadarProps) {
           );
         })}
         {frags.map((i, k) => {
-          const coords = gameUnitsToRadar(i.pos.x, i.pos.y, map, size);
-          const attackerCoords = gameUnitsToRadar(
-            i.attacker.pos.x,
-            i.attacker.pos.y,
-            map,
-            size
-          );
+          const coords = gameUnitsToRadar(i.pos, map, size);
+          const attackerCoords = gameUnitsToRadar(i.attacker.pos, map, size);
           if (!coords) return null;
           return (
             <div className="group" key={"frags-" + k}>

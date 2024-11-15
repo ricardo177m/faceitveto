@@ -22,7 +22,7 @@ export function MatchData({
   matchDetails,
 }: MatchDataProps) {
   const [tSideRound, setTSideRound] = useState<number | null>(null);
-  const [selectedRound, setSelectedRound] = useState<number | null>(null);
+  const [selectedRound, setSelectedRound] = useState<number>(1);
 
   const gameIds = premade.map((p) => p.gameId);
 
@@ -55,8 +55,8 @@ export function MatchData({
     : "N/A";
 
   return (
-    <div className="flex flex-col justify-between md:flex-row">
-      <div className="flex flex-col">
+    <div className="flex flex-col-reverse justify-between gap-2 md:flex-row md:gap-8">
+      <div className="flex w-full flex-col md:w-1/3">
         <Checkbox
           isChecked={selectedRound === tSideRound}
           setIsChecked={() =>
@@ -112,7 +112,13 @@ export function MatchData({
             ))}
         </div>
       </div>
-      <Radar round={round} map={map} />
+      <div className="w-full md:w-2/3">
+        <Radar
+          data={matchAnalysis}
+          round={selectedRound}
+          className={"aspect-square w-full border border-gray-600"}
+        />
+      </div>
     </div>
   );
 }

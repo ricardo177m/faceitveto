@@ -1,141 +1,44 @@
-import Image from "next/image";
+import React, { useEffect } from "react";
 
-import { gameUnitsToRadar } from "@/utils/radar";
-
-import C4 from "../icons/C4";
-import DeathPos from "../icons/DeathPos";
-import Decoy from "../icons/Decoy";
-import Flashbang from "../icons/Flashbang";
-import HEGrenade from "../icons/HEGrenade";
-import Molotov from "../icons/Molotov";
-import SmokeGrenade from "../icons/SmokeGrenade";
+import { RadarCanvas } from "@/scripts/RadarCanvas";
 
 interface RadarProps {
-  round: MatchAnalysisRound;
-  map: string;
+  data: MatchAnalysis;
+  round: number;
+  className?: string;
 }
 
-export default function Radar({ round, map }: RadarProps) {
-  const { plants, grenades, frags } = round;
+const Radar: React.FC<RadarProps> = ({ data, round, className }) => {
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const [radar, setRadar] = React.useState<RadarCanvas | null>(null);
 
-  const size = 700;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-  return (
-    <div className="flex justify-center">
-      <div className="relative">
-        <Image
-          src={`/assets/radars/${map}.png`}
-          width={size}
-          height={size}
-          alt="Radar"
-          unoptimized
-          className="opacity-75"
-        />
-        {grenades.map((i, k) => {
-          if (i.thrownBy.team !== "T") return null;
-          const coords = gameUnitsToRadar(i.pos, map, size);
-          if (!coords) return null;
+    const size = { x: canvas.clientWidth, y: canvas.clientHeight };
+    const radar = new RadarCanvas(canvas, data, size);
+    setRadar(radar);
+    radar.start();
 
-          const icon =
-            i.type === "smokegrenade" ? (
-              <>
-                <div className="absolute left-1/2 top-1/2 -z-10 size-16 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-slate-400 opacity-65"></div>
-                <SmokeGrenade
-                  size={18}
-                  className="text-lime-200 group-hover:size-6"
-                />
-              </>
-            ) : i.type === "flashbang" ? (
-              <Flashbang
-                size={18}
-                className="text-cyan-100 group-hover:size-6"
-              />
-            ) : i.type === "inferno" ? (
-              <>
-                <div className="absolute left-1/2 top-1/2 -z-10 size-12 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-red-200 opacity-40"></div>
-                <Molotov
-                  size={20}
-                  className="text-orange-200 group-hover:size-6"
-                />
-              </>
-            ) : i.type === "hegrenade" ? (
-              <HEGrenade
-                size={18}
-                className="text-red-200 group-hover:size-6"
-              />
-            ) : i.type === "decoy" ? (
-              <Decoy size={18} className="text-gray-100 group-hover:size-6" />
-            ) : null;
+    const handleResize = () => {
+      const size = { x: canvas.clientWidth, y: canvas.clientHeight };
+      radar.resize(size);
+    };
 
-          return (
-            <div
-              key={"grenades-" + k}
-              className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
-              style={{
-                top: coords.y + "px",
-                left: coords.x + "px",
-              }}
-            >
-              {icon}
-            </div>
-          );
-        })}
-        {plants.map((i, k) => {
-          const coords = gameUnitsToRadar(i.pos, map, size);
-          if (!coords) return null;
-          return (
-            <div
-              key={"plants-" + k}
-              className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
-              style={{
-                top: coords.y + "px",
-                left: coords.x + "px",
-              }}
-            >
-              <C4
-                size={18}
-                className="absolute top-0 -z-10 animate-ping text-yellow-400 group-hover:size-6"
-              />
-              <C4
-                size={18}
-                className="z-20 text-yellow-400 group-hover:size-6"
-              />
-            </div>
-          );
-        })}
-        {frags.map((i, k) => {
-          const coords = gameUnitsToRadar(i.pos, map, size);
-          const attackerCoords = gameUnitsToRadar(i.attacker.pos, map, size);
-          if (!coords) return null;
-          return (
-            <div className="group" key={"frags-" + k}>
-              <div
-                className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
-                style={{
-                  top: coords.y + "px",
-                  left: coords.x + "px",
-                }}
-              >
-                <DeathPos
-                  size={14}
-                  className={`${i.team === "T" ? "text-yellow-400" : "text-blue-400"} group-hover:size-6`}
-                />
-              </div>
-              <div
-                className="group absolute -translate-x-1/2 -translate-y-1/2 [&>svg]:transition-size [&>svg]:duration-300 [&>svg]:ease-in-out"
-                style={{
-                  top: attackerCoords!.y + "px",
-                  left: attackerCoords!.x + "px",
-                }}
-              >
-                <div
-                  className={`absolute left-0 top-0 hidden size-2 rounded-full group-hover:block ${i.attacker.team === "T" ? "bg-yellow-400" : "bg-blue-400"}`}
-                ></div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      radar.stop();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [data]);
+
+  useEffect(() => {
+    if (radar) radar.setRound(round);
+  }, [radar, round]);
+
+  return <canvas ref={canvasRef} className={className} />;
+};
+
+export default Radar;

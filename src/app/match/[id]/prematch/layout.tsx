@@ -6,7 +6,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <main className="mx-auto mb-16 mt-6 max-w-6xl px-4">
+    <>
       <h1 className="text-3xl font-bold">Prematch Analysis</h1>
       <section className="my-4">{children}</section>
       <hr className="mt-16 border-slate-700" />
@@ -29,6 +29,6 @@ export default function Layout({ children }: LayoutProps) {
           </p>
         </div>
       </div>
-    </main>
+    </>
   );
 }

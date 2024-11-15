@@ -19,7 +19,7 @@ export default function TeamMaps({
     ? []
     : democracyMapEntities.entities
         .filter((e) => e.status === "drop")
-        .map((e) => e.properties.class_name);
+        .map((e) => e.properties.game_map_id as string);
 
   return (
     <div className="py-1">

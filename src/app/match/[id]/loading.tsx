@@ -6,7 +6,7 @@ export default function MatchPageLoading() {
   return (
     <div>
       <MatchHeaderSkeleton />
-      <div className="mb-4 mt-3 space-y-4 overflow-x-auto py-4 scrollbar scrollbar-track-transparent scrollbar-thumb-slate-600 scrollbar-thumb-rounded-xl scrollbar-h-1">
+      <div className="mt-6 space-y-3 overflow-x-auto scrollbar scrollbar-track-transparent scrollbar-thumb-slate-600 scrollbar-thumb-rounded-xl scrollbar-h-1">
         <TeamMapsSkeleton />
         <TeamMapsSkeleton />
       </div>

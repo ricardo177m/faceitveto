@@ -2,7 +2,7 @@ import Skeleton from "react-loading-skeleton";
 
 export default function MatchHeaderSkeleton() {
   return (
-    <div className="flex flex-col px-4">
+    <div className="flex flex-col">
       <div className="py-2 text-3xl">
         <Skeleton className="w-full" />
       </div>

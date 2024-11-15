@@ -12,7 +12,7 @@ interface UserHomeProps {
 
 export default function UserHome({ session }: UserHomeProps) {
   return (
-    <main className="mx-auto mb-16 mt-6 max-w-6xl px-4">
+    <>
       <h1 className="text-3xl font-bold">Hello {session.nickname}</h1>
 
       <section className="my-4">
@@ -33,6 +33,6 @@ export default function UserHome({ session }: UserHomeProps) {
       </section>
 
       <OtherFeaturesSection />
-    </main>
+    </>
   );
 }

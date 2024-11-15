@@ -17,14 +17,12 @@ export default async function Layout(props: LayoutProps) {
   const { nickname } = params;
 
   return (
-    <div className="mx-auto mt-2 max-w-6xl">
-      <div className="mb-16 flex flex-col gap-8 px-4">
-        <Suspense fallback={<PlayerHeaderSkeleton />}>
-          <PlayerLayout nickname={nickname} />
-        </Suspense>
-        {tabgroup}
-        {children}
-      </div>
+    <div className="flex flex-col gap-8">
+      <Suspense fallback={<PlayerHeaderSkeleton />}>
+        <PlayerLayout nickname={nickname} />
+      </Suspense>
+      {tabgroup}
+      {children}
     </div>
   );
 }

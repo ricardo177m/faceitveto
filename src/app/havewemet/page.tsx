@@ -3,10 +3,10 @@ import HaveWeMet from "@/components/Together/HaveWeMet";
 
 export default function HaveWeMetPage() {
   return (
-    <main className="mx-auto mb-16 mt-6 max-w-6xl px-4">
+    <>
       <h1 className="text-3xl font-bold">Have We Met</h1>
       <HaveWeMet className="mt-6" />
-    </main>
+    </>
   );
 }
 

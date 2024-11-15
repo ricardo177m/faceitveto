@@ -10,7 +10,7 @@ export default async function NavBar() {
   const session = await getServerSession();
 
   return (
-    <nav className="mb-4 flex h-16 w-full flex-row items-center gap-4 border-b border-b-dark-600 px-4">
+    <nav className="flex h-16 w-full flex-row items-center gap-4 border-b border-b-dark-600 px-4">
       <Logo />
       {/* <div>
         <span className="rounded-md bg-dark-600 px-2 py-1 text-sm">Beta</span>

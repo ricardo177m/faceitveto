@@ -53,7 +53,7 @@ export default function MatchPlayerStats({
   );
 
   return (
-    <div className="mx-4 mb-4 mt-2 space-y-4 overflow-x-auto overflow-y-hidden py-4 pb-5 scrollbar scrollbar-track-transparent scrollbar-thumb-slate-600 scrollbar-thumb-rounded-xl scrollbar-h-1">
+    <div className="mt-2 space-y-4 overflow-x-auto overflow-y-hidden py-4 pb-5 scrollbar scrollbar-track-transparent scrollbar-thumb-slate-600 scrollbar-thumb-rounded-xl scrollbar-h-1">
       <TeamMaps
         team={factions[0]}
         maps={curatedMatch.maps}

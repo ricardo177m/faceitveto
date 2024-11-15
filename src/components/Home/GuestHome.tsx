@@ -5,7 +5,7 @@ import Search from "../Search";
 
 export default function GuestHome() {
   return (
-    <main className="mx-auto max-w-6xl">
+    <>
       <div className="my-32 flex items-center justify-center">
         <div className="flex flex-col items-center gap-6 rounded-lg bg-dark-500 px-8 py-12 shadow-xl">
           <Image
@@ -22,6 +22,6 @@ export default function GuestHome() {
         </div>
       </div>
       <OtherFeaturesSection />
-    </main>
+    </>
   );
 }

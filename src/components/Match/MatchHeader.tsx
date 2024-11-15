@@ -85,9 +85,9 @@ export default function MatchHeader({
   ].includes(matchState);
 
   return (
-    <div className="flex flex-col px-4">
+    <div className="flex flex-col">
       <div className="flex flex-col items-center gap-1 md:flex-row md:gap-6">
-        <div className="py-2 text-3xl">
+        <div className="pb-2 text-3xl">
           <span>{match.teams.faction1.name}</span>
           {stats.length > 0 && match.bestOf === 1 ? (
             <span className="mx-3">

@@ -32,7 +32,7 @@ export default function TogetherStats({ stats }: TogetherStatsProps) {
           className="inline-flex items-center gap-2"
         />
       </div>
-      <div className="mb-8 flex flex-col justify-center gap-4 md:flex-row">
+      <div className="flex flex-col justify-center gap-4 md:flex-row">
         <div className="flex w-full flex-col [&>a]:border-b [&>a]:border-b-gray-700 last:[&>a]:border-b-0">
           {stats && matches.length === 0 ? (
             <p>No matches to display.</p>

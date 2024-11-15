@@ -38,7 +38,9 @@ export default function RootLayout({
           <FaceitEdgeContextProvider>
             <SkeletonTheme baseColor="#24292e" highlightColor="#3f4448">
               <NavBar />
-              {children}
+              <div className="mx-auto mb-12 mt-6 max-w-7xl px-4">
+                {children}
+              </div>
               <NewsPopup />
             </SkeletonTheme>
           </FaceitEdgeContextProvider>

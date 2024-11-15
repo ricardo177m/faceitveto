@@ -4,7 +4,7 @@ import type { RadarCanvas } from "../RadarCanvas";
 import { RadarMap } from "../RadarMap";
 import { RadarObject } from "./RadarObject";
 
-const size = 30;
+const size = 18;
 
 export abstract class Grenade extends RadarObject {
   grenade: MatchAnalysisGrenade;
@@ -21,7 +21,7 @@ export abstract class Grenade extends RadarObject {
     super(
       radar,
       new Point3D(grenade.pos.x, grenade.pos.y, grenade.pos.z),
-      new Point2D(map.size.x / size, map.size.y / size),
+      new Point2D(size, size),
       sprite.src,
       renderPriority
     );
@@ -31,8 +31,8 @@ export abstract class Grenade extends RadarObject {
   }
 
   update(): void {
-    this.size.x = this.map.size.x / size;
-    this.size.y = this.map.size.y / size;
+    // this.size.x = this.map.size.x;
+    // this.size.y = this.map.size.y;
 
     this.worldPos = this.map.gameUnitsToRadar(this.pos);
     if (this.radar.showDebugInfo) {
@@ -44,7 +44,7 @@ export abstract class Grenade extends RadarObject {
           `${this.grenade.type} (${this.worldPos.x.toFixed(1)}, ${this.worldPos.y.toFixed(1)})`
         );
         debug.push(
-          ` - size: (${this.size.x.toFixed(1)}, ${this.size.y.toFixed(1)})`
+          ` - size: (${this.size.x.toFixed(1)}, ${this.size.y.toFixed(1)}) (${((this.size.x / this.map.size.x) * 100).toFixed(1)}, ${((this.size.y / this.map.size.y) * 100).toFixed(1)})`
         );
       }
     }

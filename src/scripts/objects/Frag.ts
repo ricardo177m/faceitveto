@@ -30,14 +30,16 @@ export class Frag extends RadarObject {
     this.frag = frag;
     this.color = color[frag.team];
     this.map = map;
-    this.attackerWorldPos = this.map.gameUnitsToRadar(
-      new Point3D(frag.attacker.pos.x, frag.attacker.pos.y, frag.attacker.pos.z)
-    );
+    this.attackerWorldPos = this.map.gameUnitsToRadar(frag.attacker.pos);
     this.attackerColor = color[frag.attacker.team as "T" | "CT"];
   }
 
   update(): void {
+    // this.size.x = size;
+    // this.size.y = size;
+
     this.worldPos = this.map.gameUnitsToRadar(this.pos);
+    this.attackerWorldPos = this.map.gameUnitsToRadar(this.frag.attacker.pos);
 
     const { hover } = this.radar.camera;
     this.showAttacker = hover === this;

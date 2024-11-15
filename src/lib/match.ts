@@ -49,7 +49,10 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const curatedMatch: CuratedMatch = {
     id: match.id,
     region: match.region,
-    matchRanking: match.entityCustom.effectiveRanking,
+    matchRanking:
+      match.entityCustom &&
+      match.entityCustom.effectiveRanking &&
+      match.entityCustom.effectiveRanking,
     state: match.state,
     bestOf: match.matchCustom.overview.round.to_play,
     maps: match.matchCustom.tree.map.values.value.map(mapFilter),

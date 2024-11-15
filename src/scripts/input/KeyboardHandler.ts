@@ -57,7 +57,8 @@ export class KeyboardHandler extends InputHandler {
         case "P":
         case "p":
           event.preventDefault();
-          if (inputState.dev1 !== state && state) target.radar.showDebugInfo = !target.radar.showDebugInfo;
+          if (inputState.dev1 !== state && state)
+            target.radar.showDebugInfo = !target.radar.showDebugInfo;
           inputState.dev1 = state;
           break;
       }

@@ -1,4 +1,10 @@
-function cubicBezier(t: number, initial: number, p1: number, p2: number, final: number) {
+function cubicBezier(
+  t: number,
+  initial: number,
+  p1: number,
+  p2: number,
+  final: number
+) {
   const u = 1 - t;
   const tt = t * t;
   const uu = u * u;

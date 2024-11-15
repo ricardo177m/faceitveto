@@ -17,7 +17,8 @@ export class MouseHandler extends InputHandler {
     const inputState = target.input;
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (e.deltaY > 0) target.zoomIn(1 / ZOOM_SENSITIVITY, true); // zoom out
+      if (e.deltaY > 0)
+        target.zoomIn(1 / ZOOM_SENSITIVITY, true); // zoom out
       else target.zoomIn(ZOOM_SENSITIVITY, true); // zoom in
       inputState.cursor = { x: e.offsetX, y: e.offsetY };
     };
@@ -33,7 +34,10 @@ export class MouseHandler extends InputHandler {
     const onPointerMove = (e: MouseEvent) => {
       inputState.cursor = { x: e.offsetX, y: e.offsetY };
       if (this.isDragging) {
-        target.move({ x: -e.movementX / target.zoom, y: -e.movementY / target.zoom });
+        target.move({
+          x: -e.movementX / target.zoom,
+          y: -e.movementY / target.zoom,
+        });
       }
     };
 

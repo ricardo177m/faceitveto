@@ -7,6 +7,7 @@ interface TeamMapsProps {
   maps: CuratedMap[];
   playerStats?: IntervalPlayerStats[];
   democracyMapEntities?: Ticket;
+  playerCache: Map<string, PlayerListResult>;
 }
 
 export default function TeamMaps({
@@ -14,6 +15,7 @@ export default function TeamMaps({
   maps,
   playerStats,
   democracyMapEntities,
+  playerCache,
 }: TeamMapsProps) {
   const drops = !democracyMapEntities
     ? []
@@ -61,6 +63,7 @@ export default function TeamMaps({
               maps={maps}
               captain={team.captain}
               drops={drops}
+              fromCache={playerCache.get(player.id)}
             />
           ))}
         </tbody>

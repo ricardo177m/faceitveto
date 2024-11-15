@@ -9,7 +9,7 @@ export default function MatchHeaderSkeleton() {
       <div className="flex flex-row flex-wrap items-center gap-4 py-4 text-2xl sm:gap-12">
         <Skeleton containerClassName="flex-1" />
       </div>
-      <div className="pb-2 text-sm">
+      <div className="pb-1 text-sm">
         <span className="mx-2 inline-flex items-center gap-2">
           <Skeleton containerClassName="w-12" />
         </span>

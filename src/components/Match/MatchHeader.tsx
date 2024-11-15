@@ -192,7 +192,7 @@ export default function MatchHeader({
           </div>
         )}
       </div>
-      <div className="flex flex-wrap items-center gap-y-2 pb-1 text-sm">
+      <div className="flex flex-wrap items-center gap-y-2 text-sm">
         {match.finishedAt && (
           <Tooltip
             text={formatDateTime(match.finishedAt)}

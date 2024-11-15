@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 
+import usePlayerCache from "@/hooks/usePlayerCache.hook";
 import { env } from "@/env";
 
 import CountryFlag from "./CountryFlag";
@@ -24,11 +25,10 @@ export default function Teammates({ player, self }: TeammatesProps) {
   const [teammatesData, setTeammatesData] = useState<TeammatesData | null>(
     null
   );
-  const [playerList, setPlayerList] = useState<Map<string, PlayerListResult>>(
-    new Map()
-  );
   const [isEnemies, setIsEnemies] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
+
+  const { playerList, fetchPlayers } = usePlayerCache();
 
   const selectedData = (
     isEnemies ? teammatesData?.enemies : teammatesData?.teammates
@@ -44,27 +44,24 @@ export default function Teammates({ player, self }: TeammatesProps) {
     setTeammatesData(data);
   };
 
-  const fetchPlayerList = async (list: string[]) => {
+  const fetchPlayerList = async (ids: string[]) => {
     if (!teammatesData) return;
     setIsLoading(true);
-    const url = new URL(`${env.NEXT_PUBLIC_API_URL}/list`);
-    list.forEach((p) => url.searchParams.append("playerid[]", p));
-    const listres = await fetch(url);
-    const listdata = (await listres.json()) as PlayerListResponse;
-    const newlist = new Map([...playerList, ...Object.entries(listdata)]);
+
+    const data = await fetchPlayers(ids);
+    const newlist = new Map([...playerList, ...Object.entries(data)]);
 
     // remove from teammates any players that were not found
-    if (Object.keys(listdata).length !== list.length) {
+    if (Object.keys(data).length !== ids.length) {
       const newteammates = teammatesData.teammates.filter(
-        (p) => listdata[p.playerId] !== undefined || newlist.has(p.playerId)
+        (p) => data[p.playerId] !== undefined || newlist.has(p.playerId)
       );
       const newenemies = teammatesData.enemies.filter(
-        (p) => listdata[p.playerId] !== undefined || newlist.has(p.playerId)
+        (p) => data[p.playerId] !== undefined || newlist.has(p.playerId)
       );
       setTeammatesData({ teammates: newteammates, enemies: newenemies });
     }
 
-    setPlayerList(newlist);
     setIsLoading(false);
   };
 

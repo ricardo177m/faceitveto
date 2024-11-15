@@ -14,6 +14,7 @@ interface MapsPlayerRowProps {
   maps: CuratedMap[];
   captain: string;
   drops: string[];
+  fromCache?: PlayerListResult;
 }
 
 export default function MapsPlayerRow({
@@ -22,10 +23,14 @@ export default function MapsPlayerRow({
   maps,
   captain,
   drops,
+  fromCache,
 }: MapsPlayerRowProps) {
   const overallWinRate = stats
     ? Math.round((stats.overall.wins / stats.overall.matches) * 100)
     : 0;
+
+  const hasChangedNickname =
+    fromCache && fromCache.nickname !== player.nickname;
 
   return (
     <tr
@@ -33,15 +38,20 @@ export default function MapsPlayerRow({
       className="h-14 rounded-md border-t-2 border-dark-300 bg-dark-500"
     >
       <td
-        className="inline-flex h-14 w-56 items-center gap-4 overflow-hidden text-ellipsis border-l-2 pl-4"
+        className="inline-flex h-14 w-56 items-center gap-4 truncate border-l-2 pl-4"
         style={{
           borderLeftColor: config.premadeColors[player.partyId] ?? "gray",
         }}
       >
         <PlayerAvatar player={player} />
         <Link
-          href={`/player/${player.nickname}`}
-          className="inline-flex items-center gap-2 transition-colors hover:text-primary"
+          href={`/player/${hasChangedNickname ? fromCache.nickname : player.nickname}`}
+          className={`inline-flex items-center gap-2 transition-colors hover:text-primary ${hasChangedNickname && "italic text-gray-400"}`}
+          title={
+            hasChangedNickname
+              ? `Previously known as ${player.nickname}\nCurrent nickname: ${fromCache.nickname}`
+              : undefined
+          }
         >
           {player.nickname}
           {captain === player.id ? (

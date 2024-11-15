@@ -21,7 +21,7 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
     false
   );
 
-  const [matchState, setMatch] = useState<CuratedMatch>(match);
+  const [matchData, setMatch] = useState<CuratedMatch>(match);
   const [democracyState, setDemocracy] = useState<Democracy | undefined>(
     democracy
   );
@@ -29,8 +29,8 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
   const edgeContext = useContext(FaceitEdgeContext);
 
   const handleUpdateMatch = (payload: MatchState) => {
-    matchState.state = payload.state as unknown as MatchStates;
-    setMatch(matchState);
+    matchData.state = payload.state as unknown as MatchStates;
+    setMatch(matchData);
   };
 
   const handleUpdateDemocracy = (payload: Democracy) => {
@@ -50,7 +50,7 @@ export default function Match({ match, stats, democracy }: MapsPlayerRowProps) {
   return (
     <div>
       <MatchHeader
-        match={matchState}
+        match={matchData}
         stats={stats}
         showMostRecent={showMostRecent}
         setShowMostRecent={setShowMostRecent}

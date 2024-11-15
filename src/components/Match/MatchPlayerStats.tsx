@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { isPlayerFaction } from "@/lib/match";
 import { useSession } from "@/hooks";
+import usePlayerCache from "@/hooks/usePlayerCache.hook";
 import TeamMaps from "@/components/Match/TeamMaps";
 import { env } from "@/env";
 
@@ -22,15 +23,23 @@ export default function MatchPlayerStats({
 
   const session = useSession();
 
+  // matches keep the nicknames at the time of the match
+  // so we fetch the player list to get the current ones
+  const { playerList, fetchPlayers } = usePlayerCache();
+
+  const ids = [
+    ...curatedMatch.teams.faction1.players,
+    ...curatedMatch.teams.faction2.players,
+  ].map((p) => p.id);
+
+  useEffect(() => {
+    fetchPlayers(ids);
+  }, [fetchPlayers]);
+
   const fetchPlayerStats = useCallback(async () => {
-    const fetchPromises = [
-      ...curatedMatch.teams.faction1.players.map((p) =>
-        fetch(`${env.NEXT_PUBLIC_API_URL}/player/${p.id}/stats`)
-      ),
-      ...curatedMatch.teams.faction2.players.map((p) =>
-        fetch(`${env.NEXT_PUBLIC_API_URL}/player/${p.id}/stats`)
-      ),
-    ];
+    const fetchPromises = ids.map((id) =>
+      fetch(`${env.NEXT_PUBLIC_API_URL}/player/${id}/stats`)
+    );
 
     const results = await Promise.all(fetchPromises);
     const stats: CuratedPlayerStats[] = await Promise.all(
@@ -61,6 +70,7 @@ export default function MatchPlayerStats({
           showMostRecent ? p.mostRecent : p.total
         )}
         democracyMapEntities={democracyMapEntities}
+        playerCache={playerList}
       />
       <TeamMaps
         team={factions[1]}
@@ -69,6 +79,7 @@ export default function MatchPlayerStats({
           showMostRecent ? p.mostRecent : p.total
         )}
         democracyMapEntities={democracyMapEntities}
+        playerCache={playerList}
       />
     </div>
   );

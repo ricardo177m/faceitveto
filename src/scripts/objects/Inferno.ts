@@ -7,34 +7,26 @@ const sprite = {
   color: "#fed7aa",
 };
 
-const circleSize = 2.2;
+const circleSize = 2.18;
 
 export class Inferno extends Grenade {
-  circleRadius: number;
-
   constructor(
     radar: RadarCanvas,
     grenade: MatchAnalysisGrenade,
     map: RadarMap
   ) {
     super(radar, grenade, map, sprite);
-    this.circleRadius = (this.size.x / 2) * circleSize;
   }
 
   drawExtra(ctx: CanvasRenderingContext2D): void {
     if (!this.worldPos) return;
+    const circleRadius = (this.size.x / 2) * circleSize;
 
     ctx.fillStyle = this.color;
     ctx.globalAlpha = 0.5;
 
     ctx.beginPath();
-    ctx.arc(
-      this.worldPos.x,
-      this.worldPos.y,
-      this.circleRadius,
-      0,
-      2 * Math.PI
-    );
+    ctx.arc(this.worldPos.x, this.worldPos.y, circleRadius, 0, 2 * Math.PI);
     ctx.fill();
 
     ctx.globalAlpha = 1;

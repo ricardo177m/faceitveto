@@ -12,12 +12,14 @@ const maxZoom = 3;
 export class Camera {
   radar: RadarCanvas;
   zoom: number;
+  scale: number;
   pos: Point2D;
   input: InputState;
   inputHandlers: InputHandler[] = [];
   cursorWorldPos: Point2D = { x: 0, y: 0 };
   isLoaded: boolean = false;
 
+  private _initialSize: Point2D;
   private _hover: RadarObject | null = null;
 
   constructor(radar: RadarCanvas, ...inputHandlers: InputHandler[]) {
@@ -26,6 +28,9 @@ export class Camera {
 
     this.pos = { x: 0, y: 0 };
     this.zoom = 1;
+    this.scale = 1;
+
+    this._initialSize = new Point2D(radar.canvas.width, radar.canvas.height);
 
     this.inputHandlers.push(...inputHandlers);
   }
@@ -56,21 +61,25 @@ export class Camera {
     if (this.radar.showDebugInfo) {
       const { debug } = this.radar;
       debug.push(
-        `Camera (${this.pos.x.toFixed(1)}, ${this.pos.y.toFixed(1)}) scale: ${this.zoom.toFixed(2)} center: (${center.x.toFixed(1)}, ${center.y.toFixed(
-          1
-        )}) view: ${view.x.toFixed(0)} ${view.y.toFixed(0)}`
+        `Camera(${this.pos.x.toFixed(1)},${this.pos.y.toFixed(1)}) zoom(${this.zoom.toFixed(2)}) scale(${this.scale.toFixed(2)})`
       );
       debug.push(
-        `Cursor (${this.cursorWorldPos.x.toFixed(1)}, ${this.cursorWorldPos.y.toFixed(1)})`
+        ` > center(${center.x.toFixed(1)},${center.y.toFixed(
+          1
+        )}) view(${view.x.toFixed(0)},${view.y.toFixed(0)})`
       );
-      debug.push(`Hover: ${this.hover ? this.hover.constructor.name : "none"}`);
+      debug.push(
+        ` > cursor(${this.cursorWorldPos.x.toFixed(1)},${this.cursorWorldPos.y.toFixed(1)})`
+      );
+      debug.push(
+        ` > hover: ${this.hover ? this.hover.constructor.name : "none"}`
+      );
     }
   }
 
   render(ctx: CanvasRenderingContext2D, objects: SortedList<RadarObject>) {
     const { width, height } = this.radar.canvas;
 
-    // clear canvas
     ctx.clearRect(0, 0, width, height);
 
     ctx.save();
@@ -82,10 +91,12 @@ export class Camera {
     objects.forEach((o) => o.render(ctx));
 
     if (this.radar.showDebugInfo) {
+      // draw camera center
       ctx.fillStyle = "cyan";
       const center = this.center();
       ctx.fillRect(center.x - 2, center.y - 2, 4, 4);
 
+      // draw cursor pos
       ctx.fillStyle = "red";
       ctx.fillRect(this.cursorWorldPos.x - 2, this.cursorWorldPos.y - 2, 4, 4);
     }
@@ -168,6 +179,7 @@ export class Camera {
   }
 
   resize(size: Point2D) {
+    this.scale = size.x / this._initialSize.x;
     this.pos.x *= size.x / this.radar.canvas.width;
     this.pos.y *= size.y / this.radar.canvas.height;
   }

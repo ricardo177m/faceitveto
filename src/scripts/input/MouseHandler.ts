@@ -32,7 +32,10 @@ export class MouseHandler extends InputHandler {
     };
 
     const onPointerMove = (e: MouseEvent) => {
-      inputState.cursor = { x: e.offsetX, y: e.offsetY };
+      inputState.cursor = {
+        x: e.offsetX,
+        y: e.offsetY,
+      };
       if (this.isDragging) {
         target.move({
           x: -e.movementX / target.zoom,

@@ -76,7 +76,7 @@ export class RadarCanvas {
 
   render() {
     this.camera.render(this.ctx, this.radarObjects);
-    drawDebugInfo(this.ctx, this.debug);
+    if (this.showDebugInfo) drawDebugInfo(this.ctx, this.debug);
   }
 
   stop() {

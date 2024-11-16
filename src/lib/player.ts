@@ -37,7 +37,7 @@ export async function fetchPlayerState(
   const data: PartialMatchState = await response.json();
 
   const match = Object.values(data.payload)[0];
-  return match === undefined || match[0].state === "CHECK-IN"
+  return match === undefined || match[0].state === "CHECK_IN"
     ? null
     : match[0].id;
 }

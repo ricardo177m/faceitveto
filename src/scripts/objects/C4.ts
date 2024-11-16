@@ -11,14 +11,13 @@ const sprite = {
   color: "#f3f4f6",
 };
 
-const size = 18;
+const size = 0.028;
 
 const blinkDuration = 1000;
 
 export class C4 extends RadarObject {
   c4: MatchAnalysisPlant;
   color: string;
-  map: RadarMap;
 
   blinkProgress: number = 0;
 
@@ -26,17 +25,20 @@ export class C4 extends RadarObject {
     super(
       radar,
       new Point3D(c4.pos.x, c4.pos.y, c4.pos.z),
-      new Point2D(size, size),
+      new Point2D(map.size.x / size, map.size.y / size),
       sprite.src,
+      map,
       25
     );
     this.c4 = c4;
     this.color = sprite.color;
-    this.map = map;
   }
 
   update(delta: number): void {
-    this.worldPos = this.map.gameUnitsToRadar(this.pos);
+    this.setSizeP(
+      new Point2D(this.map!.size.x * size, this.map!.size.y * size)
+    );
+    this.worldPos = this.map!.gameUnitsToRadar(this.pos);
 
     this.blinkProgress = (this.blinkProgress + delta) % blinkDuration;
 

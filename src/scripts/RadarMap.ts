@@ -5,7 +5,6 @@ import { Point2D, Point3D } from "./Point";
 import { RadarCanvas } from "./RadarCanvas";
 
 export class RadarMap extends RadarObject {
-  map: string;
   overview: Overview;
 
   constructor(radar: RadarCanvas, map: string) {
@@ -13,15 +12,21 @@ export class RadarMap extends RadarObject {
     const size = Math.max(width, height);
 
     const spritesrc = `/assets/radars/${map}.png`;
-    super(radar, new Point3D(0, 0, 0), new Point2D(size, size), spritesrc, -1);
-    this.map = map;
+    super(
+      radar,
+      new Point3D(0, 0, 0),
+      new Point2D(size, size),
+      spritesrc,
+      null,
+      -1
+    );
     this.overview = overviews[map];
   }
 
   update() {
     if (this.radar.showDebugInfo)
       this.radar.debug.push(
-        `${this.map} pos: (${this.pos.x.toFixed(1)}, ${this.pos.y.toFixed(1)}) size: (${this.size.x.toFixed(0)}, ${this.size.y.toFixed(0)})`
+        `${this.map}(${this.pos.x.toFixed(1)},${this.pos.y.toFixed(1)}) size(${this.size.x.toFixed(0)},${this.size.y.toFixed(0)})`
       );
   }
 

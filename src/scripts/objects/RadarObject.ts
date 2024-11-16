@@ -1,11 +1,14 @@
 import { Point2D, Point3D } from "../Point";
 import type { RadarCanvas } from "../RadarCanvas";
+import { RadarMap } from "../RadarMap";
 
 export abstract class RadarObject {
   radar: RadarCanvas;
   size: Point2D;
+  private _initialSize: Point2D;
   pos: Point3D;
-  readonly initialPos: Point2D;
+  private _initialPos: Point2D;
+  map: RadarMap | null;
 
   sprite: HTMLImageElement;
   spriteSrc: string | null;
@@ -20,15 +23,18 @@ export abstract class RadarObject {
     pos: Point3D,
     size: Point2D,
     sprite: string | null,
+    map: RadarMap | null,
     renderPriority: number = 0
   ) {
     this.radar = radar;
     this.pos = pos;
-    this.initialPos = pos;
+    this._initialPos = pos;
     this.size = size;
+    this._initialSize = size;
     this.spriteSrc = sprite;
     this.sprite = new Image();
     this.renderPriority = renderPriority;
+    this.map = map;
   }
 
   remove(): void {
@@ -64,6 +70,11 @@ export abstract class RadarObject {
     );
   }
 
+  setSizeP(size: Point2D): void {
+    this.size = size;
+    this._initialSize = size;
+  }
+
   private _onLoad(): void {
     this.isLoaded = true;
   }
@@ -71,4 +82,12 @@ export abstract class RadarObject {
   abstract start(): void;
   abstract update(delta: number): void;
   abstract render(ctx: CanvasRenderingContext2D): void;
+
+  get initialPos(): Point2D {
+    return this._initialPos;
+  }
+
+  get initialSize(): Point2D {
+    return this._initialSize;
+  }
 }

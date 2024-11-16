@@ -4,12 +4,11 @@ import type { RadarCanvas } from "../RadarCanvas";
 import { RadarMap } from "../RadarMap";
 import { RadarObject } from "./RadarObject";
 
-const size = 18;
+const size = 0.028;
 
 export abstract class Grenade extends RadarObject {
   grenade: MatchAnalysisGrenade;
   color: string;
-  map: RadarMap;
 
   constructor(
     radar: RadarCanvas,
@@ -21,30 +20,30 @@ export abstract class Grenade extends RadarObject {
     super(
       radar,
       new Point3D(grenade.pos.x, grenade.pos.y, grenade.pos.z),
-      new Point2D(size, size),
+      new Point2D(map.size.x * size, map.size.y * size),
       sprite.src,
+      map,
       renderPriority
     );
     this.grenade = grenade;
     this.color = sprite.color;
-    this.map = map;
   }
 
   update(): void {
-    // this.size.x = this.map.size.x;
-    // this.size.y = this.map.size.y;
+    this.setSizeP(
+      new Point2D(this.map!.size.x * size, this.map!.size.y * size)
+    );
 
-    this.worldPos = this.map.gameUnitsToRadar(this.pos);
+    this.worldPos = this.map!.gameUnitsToRadar(this.pos);
     if (this.radar.showDebugInfo) {
       const { debug } = this.radar;
-      if (!this.worldPos)
-        debug.push(`Grenade ${this.grenade.type} null radar pos!`);
+      if (!this.worldPos) debug.push(`${this.grenade.type} *null radar pos*`);
       else {
         debug.push(
-          `${this.grenade.type} (${this.worldPos.x.toFixed(1)}, ${this.worldPos.y.toFixed(1)})`
+          `${this.grenade.type}(${this.worldPos.x.toFixed(1)},${this.worldPos.y.toFixed(1)})`
         );
         debug.push(
-          ` - size: (${this.size.x.toFixed(1)}, ${this.size.y.toFixed(1)}) (${((this.size.x / this.map.size.x) * 100).toFixed(1)}, ${((this.size.y / this.map.size.y) * 100).toFixed(1)})`
+          ` > size(${this.size.x.toFixed(1)},${this.size.y.toFixed(1)}) initialSize(${this.initialSize.x.toFixed(1)},${this.initialSize.y.toFixed(1)})`
         );
       }
     }

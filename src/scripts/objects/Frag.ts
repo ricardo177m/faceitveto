@@ -8,13 +8,12 @@ const color = {
   T: "rgb(250, 204, 21)",
   CT: "rgb(96 165 250)",
 };
-const size = 14;
+const size = 0.02;
 const attackerSize = 4;
 
 export class Frag extends RadarObject {
   frag: MatchAnalysisFrag;
   color: string;
-  map: RadarMap;
   showAttacker: boolean = false;
   attackerColor: string;
   attackerWorldPos: Point2D | null;
@@ -23,34 +22,40 @@ export class Frag extends RadarObject {
     super(
       radar,
       new Point3D(frag.pos.x, frag.pos.y, frag.pos.z),
-      new Point2D(size, size),
+      new Point2D(map.size.x * size, map.size.y * size),
       null,
+      map,
       5
     );
     this.frag = frag;
     this.color = color[frag.team];
-    this.map = map;
-    this.attackerWorldPos = this.map.gameUnitsToRadar(frag.attacker.pos);
+    this.attackerWorldPos = this.map!.gameUnitsToRadar(frag.attacker.pos);
     this.attackerColor = color[frag.attacker.team as "T" | "CT"];
   }
 
   update(): void {
-    // this.size.x = size;
-    // this.size.y = size;
+    this.setSizeP(
+      new Point2D(this.map!.size.x * size, this.map!.size.y * size)
+    );
 
-    this.worldPos = this.map.gameUnitsToRadar(this.pos);
-    this.attackerWorldPos = this.map.gameUnitsToRadar(this.frag.attacker.pos);
+    this.worldPos = this.map!.gameUnitsToRadar(this.pos);
+    this.attackerWorldPos = this.map!.gameUnitsToRadar(this.frag.attacker.pos);
 
     const { hover } = this.radar.camera;
     this.showAttacker = hover === this;
 
-    if (this.radar.showDebugInfo)
-      if (!this.worldPos)
-        this.radar.debug.push(`Frag ${this.frag.name} null radar pos!`);
-      else
-        this.radar.debug.push(
-          `Frag ${this.frag.name} (${this.worldPos.x.toFixed(1)}, ${this.worldPos.y.toFixed(1)})`
+    if (this.radar.showDebugInfo) {
+      const { debug } = this.radar;
+      if (!this.worldPos) debug.push(`Frag ${this.frag.name} null radar pos!`);
+      else {
+        debug.push(
+          `Frag ${this.frag.name}(${this.worldPos.x.toFixed(1)},${this.worldPos.y.toFixed(1)})`
         );
+        debug.push(
+          ` > size(${this.size.x.toFixed(1)},${this.size.y.toFixed(1)})`
+        );
+      }
+    }
   }
 
   render(ctx: CanvasRenderingContext2D): void {

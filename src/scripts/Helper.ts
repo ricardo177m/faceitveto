@@ -26,9 +26,11 @@ function clearCanvas(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
 }
 
 function drawDebugInfo(ctx: CanvasRenderingContext2D, log: string[]) {
+  ctx.save();
   ctx.fillStyle = "#00ff00";
-  ctx.font = "16px Consolas";
+  ctx.font = "14px Cascadia Code";
   log.forEach((line, i) => ctx.fillText(line, 10, 20 + i * 20));
+  ctx.restore();
 }
 
 function buildObjects(

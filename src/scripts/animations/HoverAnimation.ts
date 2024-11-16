@@ -5,29 +5,26 @@ import { Point2D } from "../Point";
 import { RadarCanvas } from "../RadarCanvas";
 import { Animation } from "./Animation";
 
-const MAX_SIZE_DIFF = 2.2;
+const MAX_SIZE_DIFF = 1.2;
 
 const HOVER_ANIMATION_DURATION = 200;
 
 export class HoverAnimation extends Animation {
   target: RadarObject;
-  initialSize: Point2D;
-  targetSize: Point2D;
-
   hoverProgress: number = 0;
 
   constructor(radar: RadarCanvas, target: RadarObject) {
     super(radar);
     this.target = target;
-    this.initialSize = new Point2D(target.size.x, target.size.y);
-    this.targetSize = new Point2D(
-      target.size.x + MAX_SIZE_DIFF,
-      target.size.y + MAX_SIZE_DIFF
-    );
   }
 
   update(delta: number): void {
     const { hover } = this.radar.camera;
+
+    const targetSize = new Point2D(
+      this.target.initialSize.x * MAX_SIZE_DIFF,
+      this.target.initialSize.y * MAX_SIZE_DIFF
+    );
 
     if (hover === this.target) {
       this.hoverProgress += delta;
@@ -44,8 +41,10 @@ export class HoverAnimation extends Animation {
     const eased = cubicBezierEase(progress) * MAX_SIZE_DIFF;
 
     this.target.size.x =
-      this.initialSize.x + (this.targetSize.x - this.initialSize.x) * eased;
+      this.target.initialSize.x +
+      (targetSize.x - this.target.initialSize.x) * eased;
     this.target.size.y =
-      this.initialSize.y + (this.targetSize.y - this.initialSize.y) * eased;
+      this.target.initialSize.y +
+      (targetSize.y - this.target.initialSize.y) * eased;
   }
 }

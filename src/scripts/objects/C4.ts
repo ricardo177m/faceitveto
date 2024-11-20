@@ -104,4 +104,6 @@ export class C4 extends RadarObject {
   start(): void {
     new HoverAnimation(this.radar, this).start();
   }
+
+  stop(): void {}
 }

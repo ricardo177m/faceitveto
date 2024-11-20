@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import { RadarCanvas } from "@/scripts/RadarCanvas";
 
 interface RadarProps {
-  data: MatchAnalysis;
+  data: MatchData;
+  map: string;
   round: number;
   className?: string;
 }
 
-const Radar: React.FC<RadarProps> = ({ data, round, className }) => {
+const Radar: React.FC<RadarProps> = ({ data, map, round, className }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [radar, setRadar] = React.useState<RadarCanvas | null>(null);
 
@@ -17,7 +18,7 @@ const Radar: React.FC<RadarProps> = ({ data, round, className }) => {
     if (!canvas) return;
 
     const size = { x: canvas.clientWidth, y: canvas.clientHeight };
-    const radar = new RadarCanvas(canvas, data, size);
+    const radar = new RadarCanvas(canvas, data, map, size);
     setRadar(radar);
     radar.start();
 

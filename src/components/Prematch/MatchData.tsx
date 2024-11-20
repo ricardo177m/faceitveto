@@ -3,6 +3,7 @@ import moment from "moment";
 import { FaClock } from "react-icons/fa";
 
 import { config } from "@/config/config";
+import { fetchData } from "@/lib/data";
 import { formatDateTime } from "@/utils/dateFormat";
 
 import Tooltip from "../Tooltip";
@@ -26,19 +27,21 @@ export function MatchData({
 
   const gameIds = premade.map((p) => p.gameId);
 
-  useEffect(() => {
-    if (!matchAnalysis || !matchAnalysis.data) return;
-    const premadeTSideRound = data.rounds.find((r) =>
-      r.equipment.find((e) => gameIds.includes(e.steamid) && e.team === "T")
-    )?.round;
-    setTSideRound(premadeTSideRound || data.rounds[0].round);
-    setSelectedRound(premadeTSideRound || data.rounds[0].round);
-  }, [matchAnalysis, premade]);
+  // useEffect(() => {
+  //   if (!matchAnalysis || !matchAnalysis.data) return;
+  //   const premadeTSideRound = data.rounds.find((r) =>
+  //     r.equipment.find((e) => gameIds.includes(e.steamid) && e.team === "T")
+  //   )?.round;
+  //   setTSideRound(premadeTSideRound || data.rounds[0].round);
+  //   setSelectedRound(premadeTSideRound || data.rounds[0].round);
+  // }, [matchAnalysis, premade]);
 
   if (!matchAnalysis || !matchAnalysis.processed || !matchAnalysis.data)
     return null;
 
-  const { map, data } = matchAnalysis;
+  // const { map, data } = matchAnalysis;
+  const map = "de_anubis";
+  const data = fetchData();
 
   const round = matchAnalysis.data.rounds.find(
     (p) => p.round === selectedRound
@@ -114,7 +117,8 @@ export function MatchData({
       </div>
       <div className="w-full md:w-2/3">
         <Radar
-          data={matchAnalysis}
+          data={data}
+          map={map}
           round={selectedRound}
           className={"aspect-square w-full border border-gray-600"}
         />

@@ -58,6 +58,8 @@ export abstract class RadarObject {
       this.sprite.src = "";
       this.sprite.removeEventListener("load", this._onLoad.bind(this));
     }
+    this.isLoaded = false;
+    this.stop();
   }
 
   isInViewRect(coords: Point2D) {
@@ -75,6 +77,10 @@ export abstract class RadarObject {
     this._initialSize = size;
   }
 
+  setPos(pos: Point3D): void {
+    this.pos = pos;
+  }
+
   private _onLoad(): void {
     this.isLoaded = true;
   }
@@ -82,10 +88,7 @@ export abstract class RadarObject {
   abstract start(): void;
   abstract update(delta: number): void;
   abstract render(ctx: CanvasRenderingContext2D): void;
-
-  get initialPos(): Point2D {
-    return this._initialPos;
-  }
+  abstract stop(): void;
 
   get initialSize(): Point2D {
     return this._initialSize;

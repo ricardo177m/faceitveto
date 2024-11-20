@@ -8,8 +8,7 @@ import { MouseHandler } from "./input/MouseHandler";
 import { RadarObject } from "./objects/RadarObject";
 import { Point2D } from "./Point";
 import { RadarMap } from "./RadarMap";
-
-// const size = 750;
+import { Replay } from "./Replay";
 
 export class RadarCanvas {
   canvas: HTMLCanvasElement;
@@ -18,7 +17,6 @@ export class RadarCanvas {
   radarObjects: SortedList<RadarObject>;
   animations: Animation[] = [];
 
-  data: MatchAnalysis;
   camera: Camera;
   map: RadarMap;
 
@@ -27,11 +25,18 @@ export class RadarCanvas {
   debug: string[] = [];
   showDebugInfo: boolean = false;
 
+  replay: Replay;
+
   round: number = 1;
 
   private _lastframe: number = 0;
 
-  constructor(canvas: HTMLCanvasElement, data: MatchAnalysis, size: Point2D) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    data: MatchData,
+    map: string,
+    size: Point2D
+  ) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d")!;
 
@@ -43,32 +48,33 @@ export class RadarCanvas {
 
     this.radarObjects = new SortedList(comparator);
 
-    this.data = data;
+    this.replay = new Replay(this, data);
     this.camera = new Camera(this, new KeyboardHandler(), new MouseHandler());
 
-    this.map = new RadarMap(this, data.map);
+    this.map = new RadarMap(this, map);
     this.radarObjects.push(this.map);
 
     this.resize(size);
 
-    const roundData = this.data.data.rounds.find((r) => r.round === this.round);
-    if (!roundData) return;
+    // const roundData = this.data.data.rounds.find((r) => r.round === this.round);
+    // if (!roundData) return;
 
-    this.radarObjects.push(...buildObjects(roundData, this, this.map));
+    // this.radarObjects.push(...buildObjects(roundData, this, this.map));
   }
 
   start() {
-    this.radarObjects.forEach((o) => o.load());
+    this.replay.start();
     this.camera.start();
+    this.radarObjects.forEach((o) => o.load());
     window.requestAnimationFrame(this._loop);
   }
 
   update(delta: number) {
     this.debug = [];
     this.fps = 1000 / delta;
+    this.debug.push(`fps: ${Math.ceil(this.fps)}`);
 
-    if (this.showDebugInfo) this.debug.push(`fps: ${Math.ceil(this.fps)}`);
-
+    this.replay.update(delta);
     this.camera.update(delta);
     this.radarObjects.forEach((o) => o.update(delta));
     this.animations.forEach((o) => o._update(delta));
@@ -90,16 +96,16 @@ export class RadarCanvas {
   }
 
   setRound(round: number) {
-    this.round = round;
-    this.radarObjects.filter((o) => o instanceof RadarMap);
-    this.animations = [];
-
-    const { data } = this.data;
-    const roundData = data.rounds.find((r) => r.round === round);
-    if (!roundData) return;
-
-    this.radarObjects.push(...buildObjects(roundData, this, this.map));
-    this.radarObjects.forEach((o) => o.load());
+    // this.round = round;
+    // this.radarObjects.filter((o) => o instanceof RadarMap);
+    // this.animations = [];
+    //
+    // const { data } = this.data;
+    // const roundData = data.rounds.find((r) => r.round === round);
+    // if (!roundData) return;
+    //
+    // this.radarObjects.push(...buildObjects(roundData, this, this.map));
+    // this.radarObjects.forEach((o) => o.load());
   }
 
   resize(size: Point2D) {

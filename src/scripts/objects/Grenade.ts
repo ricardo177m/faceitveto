@@ -4,29 +4,30 @@ import type { RadarCanvas } from "../RadarCanvas";
 import { RadarMap } from "../RadarMap";
 import { RadarObject } from "./RadarObject";
 
-const size = 0.028;
+const size = 0.02;
 
 export abstract class Grenade extends RadarObject {
-  grenade: MatchAnalysisGrenade;
   color: string;
+  entityId: number;
 
   constructor(
     radar: RadarCanvas,
-    grenade: MatchAnalysisGrenade,
+    pos: Point3D,
+    entityId: number,
     map: RadarMap,
     sprite: Sprite,
     renderPriority: number = 30
   ) {
     super(
       radar,
-      new Point3D(grenade.pos.x, grenade.pos.y, grenade.pos.z),
+      new Point3D(pos.x, pos.y, pos.z),
       new Point2D(map.size.x * size, map.size.y * size),
       sprite.src,
       map,
       renderPriority
     );
-    this.grenade = grenade;
     this.color = sprite.color;
+    this.entityId = entityId;
   }
 
   update(): void {
@@ -35,17 +36,16 @@ export abstract class Grenade extends RadarObject {
     );
 
     this.worldPos = this.map!.gameUnitsToRadar(this.pos);
-    if (this.radar.showDebugInfo) {
-      const { debug } = this.radar;
-      if (!this.worldPos) debug.push(`${this.grenade.type} *null radar pos*`);
-      else {
-        debug.push(
-          `${this.grenade.type}(${this.worldPos.x.toFixed(1)},${this.worldPos.y.toFixed(1)})`
-        );
-        debug.push(
-          ` > size(${this.size.x.toFixed(1)},${this.size.y.toFixed(1)}) initialSize(${this.initialSize.x.toFixed(1)},${this.initialSize.y.toFixed(1)})`
-        );
-      }
+
+    const { debug } = this.radar;
+    if (!this.worldPos) debug.push(`${this.constructor.name} *null radar pos*`);
+    else {
+      debug.push(
+        `${this.constructor.name}(${this.worldPos.x.toFixed(1)},${this.worldPos.y.toFixed(1)})`
+      );
+      debug.push(
+        ` > size(${this.size.x.toFixed(1)},${this.size.y.toFixed(1)}) initialSize(${this.initialSize.x.toFixed(1)},${this.initialSize.y.toFixed(1)})`
+      );
     }
   }
 
@@ -72,4 +72,6 @@ export abstract class Grenade extends RadarObject {
   }
 
   abstract drawExtra(ctx: CanvasRenderingContext2D): void;
+
+  stop(): void {}
 }

@@ -71,4 +71,6 @@ export class RadarMap extends RadarObject {
   }
 
   start(): void {}
+
+  stop(): void {}
 }

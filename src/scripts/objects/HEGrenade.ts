@@ -1,3 +1,4 @@
+import { Point3D } from "../Point";
 import type { RadarCanvas } from "../RadarCanvas";
 import { RadarMap } from "../RadarMap";
 import { Grenade } from "./Grenade";
@@ -10,11 +11,14 @@ const sprite = {
 export class HEGrenade extends Grenade {
   constructor(
     radar: RadarCanvas,
-    grenade: MatchAnalysisGrenade,
+    pos: Point3D,
+    entityId: number,
     map: RadarMap
   ) {
-    super(radar, grenade, map, sprite);
+    super(radar, pos, entityId, map, sprite);
   }
 
   drawExtra(): void {}
+
+  stop(): void {}
 }

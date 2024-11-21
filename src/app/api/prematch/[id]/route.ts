@@ -3,7 +3,6 @@ import { get } from "@vercel/edge-config";
 import { z } from "zod";
 
 import { config } from "@/config/config";
-import { db, firestore } from "@/lib/firebaseAdmin";
 import getServerSession from "@/lib/getServerSession";
 import {
   chosenMap,
@@ -91,49 +90,45 @@ export async function POST(req: Request, props: MatchParams) {
     const existingData: { [key: string]: MatchAnalysis } = {};
 
     for (const matchId of matchIds) {
-      const docRef = db.doc(matchId);
-
-      await firestore.runTransaction(async (t) => {
-        const doc = await t.get(docRef);
-        if (doc.exists) {
-          existingData[matchId] = doc.data() as MatchAnalysis;
-          return;
-        }
-
-        const demoUrl = await fetchDemoUrl(matchId);
-        if (!demoUrl) {
-          const data = {
-            demoUrl,
-            createdAt: new Date(),
-            map,
-            processed: false,
-            error:
-              "Demo not available (might have expired or not uploaded yet)",
-            progress: "Error",
-            expiresAt: new Date(
-              Date.now() + config.prematchAnalysis.defaultExpiration
-            ),
-            requestedBy: session?.id,
-          };
-          t.create(docRef, data);
-          matchIds.splice(matchIds.indexOf(matchId), 1);
-          return;
-        }
-
-        const data = {
-          demoUrl,
-          createdAt: new Date(),
-          map,
-          processed: false,
-          progress: "In queue",
-          expiresAt: new Date(
-            Date.now() + config.prematchAnalysis.unprocessedExpiration
-          ),
-          requestedBy: session?.id,
-        };
-
-        t.create(docRef, data);
-      });
+      // const docRef = db.doc(matchId);
+      // await firestore.runTransaction(async (t) => {
+      //   const doc = await t.get(docRef);
+      //   if (doc.exists) {
+      //     existingData[matchId] = doc.data() as MatchAnalysis;
+      //     return;
+      //   }
+      //   const demoUrl = await fetchDemoUrl(matchId);
+      //   if (!demoUrl) {
+      //     const data = {
+      //       demoUrl,
+      //       createdAt: new Date(),
+      //       map,
+      //       processed: false,
+      //       error:
+      //         "Demo not available (might have expired or not uploaded yet)",
+      //       progress: "Error",
+      //       expiresAt: new Date(
+      //         Date.now() + config.prematchAnalysis.defaultExpiration
+      //       ),
+      //       requestedBy: session?.id,
+      //     };
+      //     t.create(docRef, data);
+      //     matchIds.splice(matchIds.indexOf(matchId), 1);
+      //     return;
+      //   }
+      //   const data = {
+      //     demoUrl,
+      //     createdAt: new Date(),
+      //     map,
+      //     processed: false,
+      //     progress: "In queue",
+      //     expiresAt: new Date(
+      //       Date.now() + config.prematchAnalysis.unprocessedExpiration
+      //     ),
+      //     requestedBy: session?.id,
+      //   };
+      //   t.create(docRef, data);
+      // });
     }
 
     return NextResponse.json({

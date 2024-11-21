@@ -1,9 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { documentId, onSnapshot, query, where } from "firebase/firestore";
 
-import { db } from "@/lib/firebase";
+import { env } from "@/env";
 
 import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
@@ -52,18 +51,31 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
 
     const { matchIds } = prematchPost;
     if (matchIds.length === 0) return;
-    const q = query(db, where(documentId(), "in", matchIds));
 
-    const unsub = onSnapshot(q, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        const id = change.doc.id;
-        const data = change.doc.data() as MatchAnalysis;
-        setAnalysis((prev) => new Map(prev.set(id, data)));
-        if (data.processed && !selectedMatch) setSelectedMatch(id);
-      });
+    const url = new URL(`${env.NEXT_PUBLIC_PARSER_URL}/events`);
+    matchIds.forEach((id) => url.searchParams.append("matchIds[]", id));
+    const eventSource = new EventSource(url, {
+      withCredentials: true,
     });
+    eventSource.onmessage = (event) => {
+      console.log("event", event.data);
+    };
+    return () => {
+      eventSource.close();
+    };
 
-    return () => unsub();
+    // const q = query(db, where(documentId(), "in", matchIds));
+
+    // const unsub = onSnapshot(q, (snapshot) => {
+    //   snapshot.docChanges().forEach((change) => {
+    //     const id = change.doc.id;
+    //     const data = change.doc.data() as MatchAnalysis;
+    //     setAnalysis((prev) => new Map(prev.set(id, data)));
+    //     if (data.processed && !selectedMatch) setSelectedMatch(id);
+    //   });
+    // });
+
+    // return () => unsub();
   }, [prematchPost]);
 
   const matchDetails = prematchPost?.teamstats.matches.find(

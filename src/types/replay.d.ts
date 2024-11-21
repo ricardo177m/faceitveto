@@ -33,8 +33,6 @@ interface MatchPlayerPosition {
   Y: (number | null)[];
   Z: (number | null)[];
   yaw: (number | null)[];
-  is_defusing: (boolean | null)[];
-  inventory: string[][];
 }
 
 interface MatchGrenade {

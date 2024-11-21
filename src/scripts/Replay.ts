@@ -19,8 +19,6 @@ interface ReplayGrenade {
   object: Grenade;
 }
 
-const tracerDuration = 2;
-
 export class Replay {
   radar: RadarCanvas;
 
@@ -69,7 +67,7 @@ export class Replay {
 
     if (this.isPaused) return;
 
-    const frameTime = (1000 / this.framerate) * this.speed;
+    const frameTime = 1000 / this.framerate / this.speed;
     this.lastFrameTime += delta;
 
     while (this.lastFrameTime >= frameTime) {
@@ -120,8 +118,6 @@ export class Replay {
       }
 
       obj.yaw = position.yaw[frameIndex];
-      obj.isDefusing = position.is_defusing[frameIndex] || false;
-      obj.inventory = position.inventory[frameIndex];
     });
 
     const objMap = {
@@ -194,6 +190,38 @@ export class Replay {
           );
           if (!player) return;
           player.playerObject.tracer.setTracer(this.currentFrame);
+          break;
+        }
+
+        case "bomb_begindefuse": {
+          const data = e.data as BeginDefuse;
+          const player = this.players.find(
+            (p) => p.steamid === data.user_steamid
+          );
+          if (!player) return;
+          player.playerObject.isDefusing = true;
+          // ...
+          break;
+        }
+
+        case "bomb_abortdefuse": {
+          const data = e.data as ReplayPlayerEvent;
+          const player = this.players.find(
+            (p) => p.steamid === data.user_steamid
+          );
+          if (!player) return;
+          player.playerObject.isDefusing = false;
+          // ...
+          break;
+        }
+
+        case "player_inv_change": {
+          const data = e.data as InvChange;
+          const player = this.players.find(
+            (p) => p.steamid === data.user_steamid
+          );
+          if (!player) return;
+          player.playerObject.inventory = data.inventory;
           break;
         }
       }

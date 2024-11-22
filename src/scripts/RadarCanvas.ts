@@ -2,7 +2,7 @@ import { SortedList } from "@/utils/SortedList";
 
 import { Animation } from "./animations/Animation";
 import { Camera } from "./Camera";
-import { buildObjects, clearCanvas, drawDebugInfo } from "./Helper";
+import { clearCanvas, drawDebugInfo } from "./Helper";
 import { KeyboardHandler } from "./input/KeyboardHandler";
 import { MouseHandler } from "./input/MouseHandler";
 import { RadarObject } from "./objects/RadarObject";

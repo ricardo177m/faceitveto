@@ -12,6 +12,7 @@ import {
   getCore,
 } from "@/lib/match";
 import { coreMatchesMap } from "@/lib/prematch";
+import { env } from "@/env";
 
 interface MatchParams {
   params: Promise<{
@@ -32,19 +33,17 @@ export async function POST(req: Request, props: MatchParams) {
   )) as EdgePrematchCfg;
 
   const session = await getServerSession();
-  if (restricted) {
-    if (!session)
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    if (!allowedUsers.includes(session.id)) {
-      return NextResponse.json(
-        {
-          error:
-            "Sorry, this feature is currently restricted to a small set of players.",
-        },
-        { status: 403 }
-      );
-    }
+  if (restricted && !allowedUsers.includes(session.id)) {
+    return NextResponse.json(
+      {
+        error:
+          "Sorry, this feature is currently restricted to a small set of players.",
+      },
+      { status: 403 }
+    );
   }
 
   const body = await req.json();
@@ -90,6 +89,12 @@ export async function POST(req: Request, props: MatchParams) {
     const existingData: { [key: string]: MatchAnalysis } = {};
 
     for (const matchId of matchIds) {
+      const res = await fetch(
+        env.NEXT_PUBLIC_PARSER_URL + "/matches/" + matchId
+      );
+
+      const data = await res.json();
+
       // const docRef = db.doc(matchId);
       // await firestore.runTransaction(async (t) => {
       //   const doc = await t.get(docRef);

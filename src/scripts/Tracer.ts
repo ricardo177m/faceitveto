@@ -1,5 +1,5 @@
 import { Player } from "./objects/Player";
-import { Point2D, Point3D } from "./Point";
+import { Point2D } from "./Point";
 
 const tracerDuration = 2;
 

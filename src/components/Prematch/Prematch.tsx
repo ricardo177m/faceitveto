@@ -25,10 +25,13 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
 
   const fetchPrematch = useCallback(async () => {
-    const res = await fetch(`/api/prematch/${matchId}`, {
-      method: "POST",
-      body: JSON.stringify({ faction }),
-    });
+    const res = await fetch(
+      `${env.NEXT_PUBLIC_API_URL}/api/prematch/${matchId}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ faction }),
+      }
+    );
     const data = await res.json();
     if (res.status !== 200) {
       setIsLoading(false);

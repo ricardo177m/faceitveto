@@ -46,6 +46,9 @@ export async function GET(request: Request) {
     const userToken = jwt.sign(data, jwtSecret, { expiresIn: "180d" });
     const response = new NextResponse(null, { status: 302 });
 
+    const host = request.headers.get("host");
+    if (!host) return NextResponse.json({ error: "🧐" }, { status: 400 });
+
     response.cookies.set({
       name: config.cookies.token,
       value: userToken,
@@ -54,6 +57,7 @@ export async function GET(request: Request) {
       sameSite: "lax",
       secure: true,
       httpOnly: true,
+      domain: host.includes("localhost") ? undefined : `.${host}`,
     });
 
     // redirect

@@ -1,3 +1,4 @@
+import { C4 } from "./objects/C4";
 import { Decoy } from "./objects/Decoy";
 import { Flashbang } from "./objects/Flashbang";
 import { Grenade } from "./objects/Grenade";
@@ -275,6 +276,15 @@ export class Replay {
           );
           if (!grenade) return;
           grenade.object.unload();
+          break;
+        }
+
+        case "bomb_planted": {
+          const data = e.data as BombEvent;
+          const objpos = new Point3D(data.x, data.y, data.z);
+          this.radar.radarObjects.push(
+            new C4(this.radar, objpos, this.radar.map)
+          );
           break;
         }
       }

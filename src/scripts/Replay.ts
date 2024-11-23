@@ -282,9 +282,9 @@ export class Replay {
         case "bomb_planted": {
           const data = e.data as BombEvent;
           const objpos = new Point3D(data.x, data.y, data.z);
-          this.radar.radarObjects.push(
-            new C4(this.radar, objpos, this.radar.map)
-          );
+          const obj = new C4(this.radar, objpos, this.radar.map);
+          this.radar.radarObjects.push(obj);
+          obj.load();
           break;
         }
       }

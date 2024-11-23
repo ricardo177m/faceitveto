@@ -38,7 +38,7 @@ interface GrenadeEvent extends ReplayPlayerEvent {
 
 interface BombEvent extends ReplayPlayerEvent {
   site: string;
-  x: number;
-  y: number;
-  z: number;
+  X: number;
+  Y: number;
+  Z: number;
 }

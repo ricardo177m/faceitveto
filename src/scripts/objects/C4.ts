@@ -17,19 +17,21 @@ const blinkDuration = 1000;
 
 export class C4 extends RadarObject {
   color: string;
+  site: string;
 
   blinkProgress: number = 0;
 
-  constructor(radar: RadarCanvas, pos: Point3D, map: RadarMap) {
+  constructor(radar: RadarCanvas, pos: Point3D, site: string, map: RadarMap) {
     super(
       radar,
       new Point3D(pos.x, pos.y, pos.z),
-      new Point2D(map.size.x / size, map.size.y / size),
+      new Point2D(map.size.x * size, map.size.y * size),
       sprite.src,
       map,
       25
     );
     this.color = sprite.color;
+    this.site = site;
   }
 
   update(delta: number): void {
@@ -41,11 +43,15 @@ export class C4 extends RadarObject {
     this.blinkProgress = (this.blinkProgress + delta) % blinkDuration;
 
     if (this.radar.showDebugInfo) {
-      if (!this.worldPos) this.radar.debug.push(`Plant *site* null radar pos!`);
+      if (!this.worldPos)
+        this.radar.debug.push(`Plant ${this.site} null radar pos!`);
       else
         this.radar.debug.push(
-          `Plant *site* (${this.worldPos.x.toFixed(1)}, ${this.worldPos.y.toFixed(1)})`
+          `Plant ${this.site} (${this.worldPos.x.toFixed(1)}, ${this.worldPos.y.toFixed(1)})`
         );
+      this.radar.debug.push(
+        ` > (${this.pos.x.toFixed(1)}, ${this.pos.y.toFixed(1)})`
+      );
     }
   }
 

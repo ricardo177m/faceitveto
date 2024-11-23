@@ -5,7 +5,7 @@ import Tooltip from "../Tooltip";
 
 interface MatchButtonProps {
   match: DetailedMatch;
-  analysis?: MatchAnalysis;
+  meta?: MatchMeta;
   i: number;
   isSelected: boolean;
   setSelected: React.Dispatch<React.SetStateAction<string | null>>;
@@ -13,13 +13,13 @@ interface MatchButtonProps {
 
 export default function MatchButton({
   match,
-  analysis,
+  meta,
   isSelected,
   i,
   setSelected,
 }: MatchButtonProps) {
-  const isLoading = !analysis || (!analysis.processed && !analysis.error);
-  const isError = !!(analysis && analysis.error);
+  const isLoading = !meta || (!meta.processed && !meta.error);
+  const isError = !!(meta && meta.error);
   return (
     <button
       className={`inline-flex items-center gap-3 border-l-2 border-l-gray-600 px-6 transition-colors ${
@@ -37,9 +37,9 @@ export default function MatchButton({
       {isLoading && !isError && <ImSpinner8 className="h-6 animate-spin" />}
       <span className="flex h-14 flex-col items-start justify-center">
         <span>Match {i + 1}</span>
-        <Tooltip text={isError && analysis.error} className="top-7 opacity-100">
+        <Tooltip text={isError && meta.error} className="top-7 opacity-100">
           <span className="text-sm text-gray-400">
-            {(isLoading || isError) && analysis?.progress}
+            {(isLoading || isError) && meta?.progress}
           </span>
         </Tooltip>
       </span>

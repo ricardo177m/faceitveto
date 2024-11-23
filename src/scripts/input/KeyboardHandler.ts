@@ -61,6 +61,11 @@ export class KeyboardHandler extends InputHandler {
             target.radar.showDebugInfo = !target.radar.showDebugInfo;
           inputState.dev1 = state;
           break;
+
+        case "Escape":
+          event.preventDefault();
+          target.radar.stop();
+          break;
       }
     };
 

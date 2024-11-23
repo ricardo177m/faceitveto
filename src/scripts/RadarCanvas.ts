@@ -27,9 +27,8 @@ export class RadarCanvas {
 
   replay: Replay;
 
-  round: number = 1;
-
   private _lastframe: number = 0;
+  private requestId: number | null = null;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -66,7 +65,7 @@ export class RadarCanvas {
     this.replay.start();
     this.camera.start();
     this.radarObjects.forEach((o) => o.load());
-    window.requestAnimationFrame(this._loop);
+    this.requestId = window.requestAnimationFrame(this._startLoop);
   }
 
   update(delta: number) {
@@ -81,6 +80,7 @@ export class RadarCanvas {
   }
 
   render() {
+    clearCanvas(this.ctx, this.canvas);
     this.camera.render(this.ctx, this.radarObjects);
     if (this.showDebugInfo) drawDebugInfo(this.ctx, this.debug);
   }
@@ -93,6 +93,7 @@ export class RadarCanvas {
     this.radarObjects.forEach((o) => o.unload());
     this.radarObjects.clear();
     this.animations = [];
+    window.cancelAnimationFrame(this.requestId!);
   }
 
   setRound(round: number) {
@@ -119,11 +120,14 @@ export class RadarCanvas {
     const delta = current - this._lastframe;
     this._lastframe = current;
 
-    clearCanvas(this.ctx, this.canvas);
-    if (this.ended) return;
-
     this.update(delta);
     this.render();
-    window.requestAnimationFrame(this._loop);
+    this.requestId = window.requestAnimationFrame(this._loop);
+  };
+
+  // skip first frame to avoid large deltas
+  private _startLoop = (current: number) => {
+    this._lastframe = current;
+    this.requestId = window.requestAnimationFrame(this._loop);
   };
 }

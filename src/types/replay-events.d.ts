@@ -28,3 +28,10 @@ interface BeginDefuse extends ReplayPlayerEvent {
 interface InvChange extends ReplayPlayerEvent {
   inventory: string[];
 }
+
+interface GrenadeEvent extends ReplayPlayerEvent {
+  entityid: number;
+  x: number;
+  y: number;
+  z: number;
+}

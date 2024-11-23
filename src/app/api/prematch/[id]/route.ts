@@ -86,54 +86,51 @@ export async function POST(req: Request, props: MatchParams) {
 
     const matchIds = teamstats.matches.map((m) => m.match_id);
 
-    const existingData: { [key: string]: MatchAnalysis } = {};
-
     for (const matchId of matchIds) {
       const res = await fetch(
-        env.NEXT_PUBLIC_PARSER_URL + "/matches/" + matchId
+        env.NEXT_PUBLIC_PARSER_URL + "/matches/" + matchId,
+        { headers: { Authorization: `Bearer ${env.PARSER_API_KEY}` } }
       );
 
-      const data = await res.json();
+      if (res.status === 404) {
+        const demoUrl = await fetchDemoUrl(matchId);
 
-      // const docRef = db.doc(matchId);
-      // await firestore.runTransaction(async (t) => {
-      //   const doc = await t.get(docRef);
-      //   if (doc.exists) {
-      //     existingData[matchId] = doc.data() as MatchAnalysis;
-      //     return;
-      //   }
-      //   const demoUrl = await fetchDemoUrl(matchId);
-      //   if (!demoUrl) {
-      //     const data = {
-      //       demoUrl,
-      //       createdAt: new Date(),
-      //       map,
-      //       processed: false,
-      //       error:
-      //         "Demo not available (might have expired or not uploaded yet)",
-      //       progress: "Error",
-      //       expiresAt: new Date(
-      //         Date.now() + config.prematchAnalysis.defaultExpiration
-      //       ),
-      //       requestedBy: session?.id,
-      //     };
-      //     t.create(docRef, data);
-      //     matchIds.splice(matchIds.indexOf(matchId), 1);
-      //     return;
-      //   }
-      //   const data = {
-      //     demoUrl,
-      //     createdAt: new Date(),
-      //     map,
-      //     processed: false,
-      //     progress: "In queue",
-      //     expiresAt: new Date(
-      //       Date.now() + config.prematchAnalysis.unprocessedExpiration
-      //     ),
-      //     requestedBy: session?.id,
-      //   };
-      //   t.create(docRef, data);
-      // });
+        if (!demoUrl) {
+          const data = {
+            map,
+            processed: false,
+            rounds: [],
+            progress: "Error",
+            error:
+              "Demo not available (might have expired or not uploaded yet)",
+            metrics: null,
+            createdAt: new Date().toISOString(),
+            requestedBy: session.id,
+          } as MatchMeta;
+
+          await fetch(`${env.NEXT_PUBLIC_PARSER_URL}/meta/${matchId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${env.PARSER_API_KEY}`,
+            },
+            body: JSON.stringify(data),
+          });
+
+          matchIds.splice(matchIds.indexOf(matchId), 1);
+          return;
+        }
+
+        const enqueueReq = { map, matchId, demoUrl };
+        await fetch(`${env.NEXT_PUBLIC_PARSER_URL}/enqueue`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${env.PARSER_API_KEY}`,
+          },
+          body: JSON.stringify(enqueueReq),
+        });
+      }
     }
 
     return NextResponse.json({
@@ -141,7 +138,6 @@ export async function POST(req: Request, props: MatchParams) {
       premade: core,
       map,
       matchIds,
-      data: existingData,
     });
   } catch (error) {
     if (error instanceof Error)

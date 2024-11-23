@@ -4,13 +4,13 @@ import { RadarMap } from "../RadarMap";
 import { Grenade } from "./Grenade";
 
 const sprite = {
-  src: "/assets/equipment/molotov.svg",
+  src: "/assets/equipment/incgrenade.svg",
   color: "#fed7aa",
 };
 
 const circleSize = 2.18;
 
-export class Inferno extends Grenade {
+export class Incendiary extends Grenade {
   constructor(
     radar: RadarCanvas,
     pos: Point3D,

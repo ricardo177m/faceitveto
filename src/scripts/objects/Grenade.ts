@@ -9,6 +9,7 @@ const size = 0.02;
 export abstract class Grenade extends RadarObject {
   color: string;
   entityId: number;
+  detonated: boolean = false;
 
   constructor(
     radar: RadarCanvas,
@@ -55,7 +56,7 @@ export abstract class Grenade extends RadarObject {
     const offsetX = this.size.x / 2;
     const offsetY = this.size.y / 2;
 
-    this.drawExtra(ctx);
+    if (this.detonated) this.drawExtra(ctx);
 
     ctx.drawImage(
       this.sprite,
@@ -64,6 +65,10 @@ export abstract class Grenade extends RadarObject {
       this.size.x,
       this.size.y
     );
+  }
+
+  setDetonated(): void {
+    this.detonated = true;
   }
 
   start(): void {

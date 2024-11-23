@@ -16,34 +16,38 @@ interface PrematchProps {
 }
 
 export default function Prematch({ matchId, faction }: PrematchProps) {
-  const [prematchPost, setPrematchPost] = useState<PrematchPost | null>(null);
-  const [analysis, setAnalysis] = useState<Map<string, MatchAnalysis>>(
-    new Map()
-  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
+  const [selectedRound, setSelectedRound] = useState<number>(0);
+
+  const [prematchPost, setPrematchPost] = useState<PrematchPost | null>(null);
+  const [meta, setMeta] = useState<Map<string, MatchMeta>>(new Map());
+  const [analysis, setAnalysis] = useState<Map<string, MatchData>>(new Map());
 
   const fetchPrematch = useCallback(async () => {
-    const res = await fetch(
-      `${env.NEXT_PUBLIC_API_URL}/api/prematch/${matchId}`,
-      {
-        method: "POST",
-        body: JSON.stringify({ faction }),
-      }
-    );
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/prematch/${matchId}`, {
+      method: "POST",
+      body: JSON.stringify({ faction }),
+    });
     const data = await res.json();
     if (res.status !== 200) {
       setIsLoading(false);
       return setError(data.error);
     }
 
-    const existingData = (data as PrematchPost).data;
-
     setPrematchPost(data);
-    setAnalysis(new Map(Object.entries(existingData)));
     setIsLoading(false);
   }, [matchId, faction]);
+
+  const fetchMatchData = useCallback(async (matchId: string, round: string) => {
+    const url = new URL(
+      `${env.NEXT_PUBLIC_PARSER_URL}/matches/${matchId}/${round}`
+    );
+    const res = await fetch(url, { credentials: "include" });
+    const data = await res.json();
+    setAnalysis((prev) => new Map(prev.set(matchId, data)));
+  }, []);
 
   useEffect(() => {
     fetchPrematch();
@@ -61,25 +65,28 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
       withCredentials: true,
     });
     eventSource.onmessage = (event) => {
-      console.log("event", event.data);
+      try {
+        const p1 = event.data.split("\t");
+        if (p1.length !== 2) return;
+        const matchId = p1[0].split(":").pop() as string;
+        if (!matchId) return;
+        const meta = JSON.parse(p1[1]) as MatchMeta;
+        setMeta((prev) => new Map(prev.set(matchId, meta)));
+        if (meta.processed && !selectedMatch) setSelectedMatch(matchId);
+      } catch (error) {
+        console.error(error);
+      }
     };
     return () => {
       eventSource.close();
     };
-
-    // const q = query(db, where(documentId(), "in", matchIds));
-
-    // const unsub = onSnapshot(q, (snapshot) => {
-    //   snapshot.docChanges().forEach((change) => {
-    //     const id = change.doc.id;
-    //     const data = change.doc.data() as MatchAnalysis;
-    //     setAnalysis((prev) => new Map(prev.set(id, data)));
-    //     if (data.processed && !selectedMatch) setSelectedMatch(id);
-    //   });
-    // });
-
-    // return () => unsub();
   }, [prematchPost]);
+
+  useEffect(() => {
+    if (!selectedMatch) return;
+    const round = meta.get(selectedMatch)?.rounds[selectedRound];
+    if (round) fetchMatchData(selectedMatch, round);
+  }, [selectedMatch, selectedRound]);
 
   const matchDetails = prematchPost?.teamstats.matches.find(
     (m) => m.match_id === selectedMatch
@@ -147,12 +154,11 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             <div className="mb-4 flex flex-row flex-wrap gap-4">
               {prematchPost.matchIds.length > 0 ? (
                 prematchPost.teamstats.matches.map((m, i) => {
-                  const matchAnalysis = analysis.get(m.match_id);
                   return (
                     <MatchButton
                       key={m.match_id}
                       match={m}
-                      analysis={matchAnalysis}
+                      meta={meta.get(m.match_id)}
                       isSelected={selectedMatch === m.match_id}
                       setSelected={setSelectedMatch}
                       i={i}
@@ -165,9 +171,12 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             </div>
             {selectedMatch && (
               <MatchData
+                meta={meta.get(selectedMatch)}
                 matchAnalysis={analysis.get(selectedMatch)}
                 premade={prematchPost.premade}
                 matchDetails={matchDetails}
+                selectedRound={selectedRound}
+                setSelectedRound={setSelectedRound}
               />
             )}
           </>

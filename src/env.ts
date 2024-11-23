@@ -10,6 +10,7 @@ export const env = createEnv({
     FACEIT_OPEN_API_TOKEN: z.string().min(1),
     FACEIT_DEMOS_API_TOKEN: z.string().min(1),
     EDGE_CONFIG: z.string().min(1),
+    PARSER_API_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_API_URL: z.string().url().default("/api"),

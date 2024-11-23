@@ -2,7 +2,8 @@ import { Decoy } from "./objects/Decoy";
 import { Flashbang } from "./objects/Flashbang";
 import { Grenade } from "./objects/Grenade";
 import { HEGrenade } from "./objects/HEGrenade";
-import { Inferno } from "./objects/Inferno";
+import { Incendiary } from "./objects/Incendiary";
+import { Molotov } from "./objects/Molotov";
 import { Player } from "./objects/Player";
 import { SmokeGrenade } from "./objects/SmokeGrenade";
 import { Point3D } from "./Point";
@@ -16,6 +17,7 @@ interface ReplayPlayer {
 interface ReplayGrenade {
   entityid: number;
   type: string;
+  thrownBy: string;
   object: Grenade;
 }
 
@@ -57,6 +59,7 @@ export class Replay {
       this.players.push({ steamid: p.steamid, playerObject: obj });
     });
 
+    this.lastFrameTime = 0;
     this.currentFrame = this.startFrame;
     this.isPaused = false;
   }
@@ -123,8 +126,9 @@ export class Replay {
     const objMap = {
       smoke: SmokeGrenade,
       flashbang: Flashbang,
-      hegrenade: HEGrenade,
-      inferno: Inferno, // ! molotov or incgrenade (check)
+      he_grenade: HEGrenade,
+      incendiary_grenade: Incendiary,
+      molotov: Molotov,
       decoy: Decoy,
     };
 
@@ -143,6 +147,7 @@ export class Replay {
         const newGrenade: ReplayGrenade = {
           entityid: g.entity_id,
           type: g.type,
+          thrownBy: g.thrower_steamid,
           object: new _class(this.radar, pos, g.entity_id, this.radar.map),
         };
         this.radar.radarObjects.push(newGrenade.object);
@@ -150,10 +155,6 @@ export class Replay {
         this.grenades.push(newGrenade);
       } else {
         grenade.object.pos = pos;
-
-        if (g.end_frame === this.currentFrame) {
-          grenade.object.unload();
-        }
       }
     });
 
@@ -222,6 +223,58 @@ export class Replay {
           );
           if (!player) return;
           player.playerObject.inventory = data.inventory;
+          break;
+        }
+
+        case "smokegrenade_detonate": {
+          const data = e.data as GrenadeEvent;
+          const grenade = this.grenades.find(
+            (g) => g.entityid === data.entityid
+          );
+          if (!grenade) return;
+          console.log(e.event_name, grenade);
+
+          grenade.object.setDetonated();
+          break;
+        }
+
+        // for infernos: event entityid differs from parsed grenade entityid
+        // not a good workaround
+        case "inferno_startburn": {
+          const data = e.data as GrenadeEvent;
+          const grenade = this.grenades.find(
+            (g) =>
+              g.thrownBy === data.user_steamid &&
+              (g.type === "molotov" || g.type === "incendiary_grenade")
+          );
+          if (!grenade) return;
+          grenade.object.setDetonated();
+          break;
+        }
+
+        case "inferno_extinguish":
+        case "inferno_expire": {
+          const data = e.data as GrenadeEvent;
+          const grenade = this.grenades.find(
+            (g) =>
+              g.thrownBy === data.user_steamid &&
+              (g.type === "molotov" || g.type === "incendiary_grenade")
+          );
+          if (!grenade) return;
+          grenade.object.unload();
+          break;
+        }
+
+        case "smokegrenade_expired":
+        case "hegrenade_detonate":
+        case "flashbang_detonate":
+        case "decoy_detonate": {
+          const data = e.data as GrenadeEvent;
+          const grenade = this.grenades.find(
+            (g) => g.entityid === data.entityid
+          );
+          if (!grenade) return;
+          grenade.object.unload();
           break;
         }
       }

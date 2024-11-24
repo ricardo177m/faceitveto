@@ -37,7 +37,7 @@ export class Tracer {
       "hegrenade",
       "flashbang",
       "decoy",
-      "ingrenade",
+      "incgrenade",
       "molotov",
     ];
     this.show = this.player.activeWeapon

@@ -16,7 +16,7 @@ export abstract class RadarObject {
 
   worldPos: Point2D | null = null;
 
-  readonly renderPriority: number = 0;
+  private _renderPriority: number = 0;
 
   constructor(
     radar: RadarCanvas,
@@ -33,7 +33,7 @@ export abstract class RadarObject {
     this._initialSize = size;
     this.spriteSrc = sprite;
     this.sprite = new Image();
-    this.renderPriority = renderPriority;
+    this._renderPriority = renderPriority;
     this.map = map;
   }
 
@@ -81,6 +81,11 @@ export abstract class RadarObject {
     this.pos = pos;
   }
 
+  setRenderPriority(priority: number): void {
+    this._renderPriority = priority;
+    this.radar.radarObjects.reorder(this);
+  }
+
   private _onLoad(): void {
     this.isLoaded = true;
   }
@@ -92,5 +97,9 @@ export abstract class RadarObject {
 
   get initialSize(): Point2D {
     return this._initialSize;
+  }
+
+  get renderPriority(): number {
+    return this._renderPriority;
   }
 }

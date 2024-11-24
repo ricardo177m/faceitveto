@@ -54,11 +54,6 @@ export class RadarCanvas {
     this.radarObjects.push(this.map);
 
     this.resize(size);
-
-    // const roundData = this.data.data.rounds.find((r) => r.round === this.round);
-    // if (!roundData) return;
-
-    // this.radarObjects.push(...buildObjects(roundData, this, this.map));
   }
 
   start() {
@@ -94,19 +89,6 @@ export class RadarCanvas {
     this.radarObjects.clear();
     this.animations = [];
     window.cancelAnimationFrame(this.requestId!);
-  }
-
-  setRound(round: number) {
-    // this.round = round;
-    // this.radarObjects.filter((o) => o instanceof RadarMap);
-    // this.animations = [];
-    //
-    // const { data } = this.data;
-    // const roundData = data.rounds.find((r) => r.round === round);
-    // if (!roundData) return;
-    //
-    // this.radarObjects.push(...buildObjects(roundData, this, this.map));
-    // this.radarObjects.forEach((o) => o.load());
   }
 
   resize(size: Point2D) {

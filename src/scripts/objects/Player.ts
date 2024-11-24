@@ -17,6 +17,9 @@ const color = {
 
 const size = 0.018;
 
+const aliveRenderPriority = 20;
+const deadRenderPriority = 19;
+
 export class Player extends RadarObject {
   isDisconnected: boolean;
   steamid: string;
@@ -25,6 +28,7 @@ export class Player extends RadarObject {
   color: { primary: string; secondary: string } | null;
 
   health: number;
+  isAlive: boolean;
   activeWeapon: string | null;
   yaw: number | null;
 
@@ -46,7 +50,7 @@ export class Player extends RadarObject {
       new Point2D(radar.map.size.x * size, radar.map.size.y * size),
       null,
       radar.map,
-      5
+      player.is_alive ? aliveRenderPriority : deadRenderPriority
     );
     const colors = color[player.team as "T" | "CT"];
     this.color = player.is_disconnected ? null : (colors ?? null);
@@ -55,6 +59,7 @@ export class Player extends RadarObject {
     this.health = player.health || 0;
     this.yaw = player.yaw;
     this.isDefusing = player.is_defusing || false;
+    this.isAlive = player.is_alive || false;
 
     this.hasDefuser = player.has_defuser || false;
     this.hasHelmet = player.has_helmet || false;
@@ -64,6 +69,11 @@ export class Player extends RadarObject {
     this.inventory = player.inventory;
     this.tracer = new Tracer(this);
     this.weapon = new ActiveWeapon(this);
+  }
+
+  setAlive(alive: boolean): void {
+    this.isAlive = alive;
+    this.setRenderPriority(alive ? aliveRenderPriority : deadRenderPriority);
   }
 
   update(): void {

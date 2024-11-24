@@ -121,6 +121,17 @@ export class SortedList<T> {
     this._arr = this._arr.filter(predicate);
   }
 
+  reorder(value: T): boolean {
+    const index = this._arr.indexOf(value);
+    if (index === -1) return false;
+
+    this._arr.splice(index, 1);
+
+    const newIndex = this.binarySearchInsertPosition(value);
+    this._arr.splice(newIndex, 0, value);
+    return true;
+  }
+
   /**
    * Performs a binary search to find the index at which to insert the element.
    *

@@ -172,6 +172,16 @@ export class Replay {
           break;
         }
 
+        case "player_death": {
+          const data = e.data as PlayerHurt;
+          const player = this.players.find(
+            (p) => p.steamid === data.user_steamid
+          );
+          if (!player) return;
+          player.playerObject.setAlive(false);
+          break;
+        }
+
         case "item_equip": {
           const data = e.data as ItemEquip;
           const player = this.players.find(
@@ -287,6 +297,11 @@ export class Replay {
           obj.load();
           break;
         }
+
+        // bomb_exploded
+        // bomb_defused
+        // player_blind
+        // round_end
       }
     });
   }

@@ -72,7 +72,12 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
         if (!matchId) return;
         const meta = JSON.parse(p1[1]) as MatchMeta;
         setMeta((prev) => new Map(prev.set(matchId, meta)));
-        if (meta.processed && !selectedMatch) setSelectedMatch(matchId);
+        if (meta.processed) {
+          setSelectedMatch((s) => {
+            if (s) return s;
+            return matchId;
+          });
+        }
       } catch (error) {
         console.error(error);
       }
@@ -84,8 +89,8 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
 
   useEffect(() => {
     if (!selectedMatch) return;
-    const round = meta.get(selectedMatch)?.rounds[selectedRound];
-    if (round) fetchMatchData(selectedMatch, round);
+    const round = meta.get(selectedMatch)?.rounds[selectedRound]!.round;
+    if (round) fetchMatchData(selectedMatch, round.toString());
   }, [selectedMatch, selectedRound]);
 
   const matchDetails = prematchPost?.teamstats.matches.find(

@@ -1,6 +1,5 @@
 interface ReplayEvent {
   game_time: number;
-  round_start_time: number;
 }
 
 interface ReplayPlayerEvent extends ReplayEvent {

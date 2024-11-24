@@ -8,7 +8,7 @@ interface PrematchPost {
 interface MatchMeta {
   map: string;
   processed: boolean;
-  rounds: string[];
+  rounds: RoundMeta[];
   progress: string;
   error: string | null;
   metrics: {
@@ -17,6 +17,18 @@ interface MatchMeta {
   } | null;
   createdAt: string;
   requestedBy: string | null;
+}
+
+interface RoundMeta {
+  round: number;
+  winner: "T" | "CT";
+  reason: string;
+  t_score: number;
+  ct_score: number;
+  teams: {
+    T: string[];
+    CT: string[];
+  };
 }
 
 interface Position {

@@ -11,12 +11,19 @@ interface MatchData {
 interface StartState {
   tick: number;
   frame: number;
+  round_start_time: number;
   data: PlayerInitialState[];
 }
 
 interface EndState {
   tick: number;
   frame: number;
+  end_game_time: number;
+  prestart_game_time: number;
+  winner: "T" | "CT";
+  reason: string;
+  t_score: number;
+  ct_score: number;
 }
 
 interface MatchEvent {

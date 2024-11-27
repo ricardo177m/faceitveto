@@ -10,6 +10,7 @@ import {
   fetchDemoUrl,
   fetchMatch,
   getCore,
+  mockFetchDemoUrl,
 } from "@/lib/match";
 import { coreMatchesMap } from "@/lib/prematch";
 import { env } from "@/env";
@@ -93,7 +94,10 @@ export async function POST(req: Request, props: MatchParams) {
       );
 
       if (res.status === 404) {
-        const demoUrl = await fetchDemoUrl(matchId);
+        const demoUrl =
+          env.NODE_ENV === "development"
+            ? await mockFetchDemoUrl(matchId)
+            : await fetchDemoUrl(matchId);
 
         if (!demoUrl) {
           const data = {

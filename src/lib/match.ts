@@ -98,6 +98,14 @@ export async function fetchDemocracy(
   else return undefined;
 }
 
+export async function mockFetchDemoUrl(
+  matchId: string
+): Promise<string | null> {
+  return new Promise((resolve) =>
+    resolve(`${env.NEXT_PUBLIC_PARSER_URL}/tmp/${matchId}.dem`)
+  );
+}
+
 export async function fetchDemoUrl(matchId: string): Promise<string | null> {
   const data = await fetch(faceit.match(matchId), {
     next: { revalidate: 5 },

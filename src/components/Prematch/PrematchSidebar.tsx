@@ -84,7 +84,7 @@ export default function PrematchSidebar({
           {prematchPost.premade.map((p) => (
             <RowItem
               key={p.id}
-              className="flex flex-row items-center gap-2 bg-transparent px-0 py-1 hover:bg-transparent"
+              className="flex flex-row items-center gap-2 bg-transparent !px-0 py-1 hover:bg-transparent"
             >
               <PlayerAvatar player={p} size={30} />
               <span className="truncate">{p.nickname}</span>
@@ -113,12 +113,8 @@ export default function PrematchSidebar({
         isChecked={selectedRound === 0}
         setIsChecked={() => setSelectedRound((r) => (r === 0 ? 1 : 0))}
         label="First Half"
-        className="my-2 inline-flex items-center gap-2"
+        className="mb-2 inline-flex items-center gap-2"
       />
-
-      <div className="mb-2">
-        <p className="font-bold"></p>
-      </div>
 
       {matchDetails && (
         <div className="mb-2">

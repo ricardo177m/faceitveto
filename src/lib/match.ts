@@ -102,7 +102,7 @@ export async function mockFetchDemoUrl(
   matchId: string
 ): Promise<string | null> {
   return new Promise((resolve) =>
-    resolve(`${env.NEXT_PUBLIC_PARSER_URL}/tmp/${matchId}.dem`)
+    resolve(`${env.NEXT_PUBLIC_PARSER_URL}/tmp/${matchId}.dem.gz`)
   );
 }
 

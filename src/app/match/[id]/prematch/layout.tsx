@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 
 interface LayoutProps {
@@ -5,6 +8,8 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const infoRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <div className="inline-flex items-center gap-4">
@@ -12,6 +17,13 @@ export default function Layout({ children }: LayoutProps) {
         <span className="rounded-full bg-primary px-3 py-1 text-sm font-semibold">
           BETA
         </span>
+        <button
+          onClick={() =>
+            infoRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          <FaInfoCircle />
+        </button>
       </div>
 
       <section className="my-4">{children}</section>
@@ -20,7 +32,7 @@ export default function Layout({ children }: LayoutProps) {
         <h2 className="mb-4 inline-flex items-center gap-3 text-2xl font-bold">
           <FaInfoCircle /> Information
         </h2>
-        <div className="text-justify text-gray-300">
+        <div className="text-justify text-gray-300" ref={infoRef}>
           <p>
             Prematch Analysis works by getting the enemy team&apos;s party that
             has at least 3 players in it. It then fetches the matches where the

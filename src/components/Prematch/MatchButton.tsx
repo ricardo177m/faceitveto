@@ -23,9 +23,9 @@ export default function MatchButton({
   const isError = !!(meta && meta.error);
   return (
     <button
-      className={`inline-flex items-center gap-2 truncate rounded-md px-2 ${
-        isSelected && "bg-dark-600"
-      }`}
+      className={`inline-flex items-center gap-2 rounded-md px-2 ${
+        (isLoading || isError) && "text-dark-900"
+      } ${isSelected && "bg-dark-600"}`}
       disabled={isLoading || isError}
       onClick={() => setSelected(match.match_id)}
     >

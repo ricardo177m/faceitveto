@@ -38,13 +38,10 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
       body: JSON.stringify({ faction }),
     });
     const data = await res.json();
-    if (res.status !== 200) {
-      setIsLoading(false);
-      return setError(data.error);
-    }
 
-    setPrematchPost(data);
     setIsLoading(false);
+    if (res.status !== 200) return setError(data.error);
+    else setPrematchPost(data);
   }, [matchId, faction]);
 
   const fetchMatchData = useCallback(async (matchId: string, round: string) => {
@@ -110,13 +107,13 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   const gameIds = prematchPost?.premade.map((p) => p.gameId) ?? [];
 
   return isLoading ? (
-    <p>Loading matches data...</p>
+    <p>Loading prematch data...</p>
   ) : error ? (
     <p>⚠️ Error: {error}</p>
   ) : (
     prematchPost && (
       <main>
-        <div className="mb-8 flex flex-col justify-between gap-2 md:flex-row md:gap-8">
+        <div className="mb-8 flex flex-col justify-between gap-2 md:flex-row md:gap-4">
           <PrematchSidebar
             className="md:w-1/6"
             prematchPost={prematchPost}
@@ -126,13 +123,19 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             selectedRoundState={[selectedRound, setSelectedRound]}
           />
           <div className="md:w-5/6">
-            {matchMeta && matchMeta.processed && matchAnalysis && (
-              <Radar
-                meta={matchMeta}
-                data={matchAnalysis}
-                coreIds={gameIds}
-                className={"aspect-square w-full border border-gray-600"}
-              />
+            {matchMeta && matchMeta.processed ? (
+              matchAnalysis && (
+                <Radar
+                  meta={matchMeta}
+                  data={matchAnalysis}
+                  coreIds={gameIds}
+                  className={"aspect-square w-full border border-gray-600"}
+                />
+              )
+            ) : (
+              <p className="my-16 text-center">
+                When a match is ready, it will be shown here.
+              </p>
             )}
           </div>
         </div>

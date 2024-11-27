@@ -41,4 +41,6 @@ export const equipmentMap = {
   Nova: "nova",
   M249: "m249",
   XM1014: "xm1014",
+
+  C4: "c4",
 };

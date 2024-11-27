@@ -4,12 +4,14 @@ import { RadarCanvas } from "@/scripts/RadarCanvas";
 
 import PlayerEquipment from "./PlayerEquipment";
 import ReplayControls from "./ReplayControls";
+import RoundSelector from "./RoundSelector";
 
 interface RadarProps {
   meta: MatchMeta;
   data: MatchData;
   coreIds: string[];
   showNicknames: boolean;
+  selectedRoundState: ReactState<number>;
   className?: string;
 }
 
@@ -18,6 +20,7 @@ const Radar: React.FC<RadarProps> = ({
   data,
   coreIds,
   showNicknames,
+  selectedRoundState,
   className,
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -55,10 +58,18 @@ const Radar: React.FC<RadarProps> = ({
       <div className="relative md:w-3/4">
         <canvas ref={canvasRef} className={className} />
         {radar && (
-          <ReplayControls
-            className="absolute bottom-0 p-2"
-            replay={radar.replay}
-          />
+          <>
+            <ReplayControls
+              className="absolute bottom-0 mb-2 px-2"
+              replay={radar.replay}
+            />
+            <RoundSelector
+              className="absolute left-1/2 top-0 mt-2 -translate-x-1/2"
+              meta={meta}
+              selectedRoundState={selectedRoundState}
+              coreIds={coreIds}
+            />
+          </>
         )}
       </div>
       <div className="md:w-1/4">

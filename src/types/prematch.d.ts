@@ -29,6 +29,7 @@ interface RoundMeta {
     T: string[];
     CT: string[];
   };
+  half_total: number;
 }
 
 interface Position {

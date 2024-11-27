@@ -72,6 +72,12 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             if (s) return s;
             return matchId;
           });
+
+          const coreIds = prematchPost.premade.map((p) => p.gameId);
+          const coreTRound = meta.rounds.findIndex((r) =>
+            r.teams.T.includes(coreIds[0])
+          );
+          if (coreTRound !== -1) setSelectedRound(coreTRound);
         }
       } catch (error) {
         console.error(error);
@@ -111,7 +117,6 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             meta={meta}
             matchDetails={matchDetails}
             selectedMatchState={[selectedMatch, setSelectedMatch]}
-            selectedRoundState={[selectedRound, setSelectedRound]}
             showNicknamesState={[showNicknames, setShowNicknames]}
           />
           <div className="md:w-5/6">
@@ -122,6 +127,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
                   data={matchAnalysis}
                   coreIds={gameIds}
                   showNicknames={showNicknames}
+                  selectedRoundState={[selectedRound, setSelectedRound]}
                   className={"aspect-square w-full border border-gray-600"}
                 />
               )

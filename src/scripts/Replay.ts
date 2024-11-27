@@ -1,3 +1,5 @@
+import EventEmitter from "eventemitter3";
+
 import { C4 } from "./objects/C4";
 import { Decoy } from "./objects/Decoy";
 import { Flashbang } from "./objects/Flashbang";
@@ -6,6 +8,7 @@ import { HEGrenade } from "./objects/HEGrenade";
 import { Incendiary } from "./objects/Incendiary";
 import { Molotov } from "./objects/Molotov";
 import { Player } from "./objects/Player";
+import { RadarObject } from "./objects/RadarObject";
 import { SmokeGrenade } from "./objects/SmokeGrenade";
 import { Point3D } from "./Point";
 import { RadarCanvas } from "./RadarCanvas";
@@ -41,6 +44,9 @@ export class Replay {
 
   players: ReplayPlayer[] = [];
   grenades: ReplayGrenade[] = [];
+  others: RadarObject[] = [];
+
+  emitter: EventEmitter;
 
   constructor(radar: RadarCanvas, data: MatchData) {
     this.radar = radar;
@@ -51,6 +57,7 @@ export class Replay {
     this.events = data.events;
     this.playerPositions = data.player_positions;
     this.grenadePositions = data.grenades;
+    this.emitter = new EventEmitter();
   }
 
   start() {
@@ -59,10 +66,19 @@ export class Replay {
       this.radar.radarObjects.push(obj);
       this.players.push({ steamid: p.steamid, playerObject: obj });
     });
-
     this.lastFrameTime = 0;
     this.currentFrame = this.startFrame;
     this.isPaused = false;
+    this.emitter.emit("pause", this.isPaused);
+  }
+
+  setInitialState() {
+    this.players.forEach((p) => p.playerObject.setInitial());
+    this.grenades.forEach((g) => g.object.unload(true));
+    this.others.forEach((o) => o.unload(true));
+
+    this.grenades = [];
+    this.others = [];
   }
 
   update(delta: number) {
@@ -77,9 +93,11 @@ export class Replay {
     while (this.lastFrameTime >= frameTime) {
       this.lastFrameTime -= frameTime;
       this.currentFrame += 1;
+      const progress = (this.currentFrame - this.startFrame) / this.endFrame;
+      this.emitter.emit("progress", progress);
 
       if (this.currentFrame >= this.endFrame) {
-        this.isPaused = true;
+        this.setPause(true);
         return;
       }
 
@@ -87,8 +105,37 @@ export class Replay {
     }
   }
 
+  seek(progress: number) {
+    if (progress < 0 || progress > 1) return;
+
+    const frame = Math.floor(this.startFrame + this.endFrame * progress);
+
+    if (frame < this.currentFrame) {
+      this.setInitialState();
+      this.lastFrameTime = 0;
+      this.currentFrame = this.startFrame;
+    }
+    while (this.currentFrame < frame) {
+      this.currentFrame += 1;
+      this.processFrame();
+    }
+
+    this.emitter.emit("progress", progress);
+  }
+
   togglePause() {
     this.isPaused = !this.isPaused;
+    this.emitter.emit("pause", this.isPaused);
+  }
+
+  setPause(val: boolean) {
+    this.isPaused = val;
+    this.emitter.emit("pause", this.isPaused);
+  }
+
+  setSpeed(speed: number) {
+    this.speed = speed;
+    this.emitter.emit("speed", speed);
   }
 
   processFrame() {
@@ -168,8 +215,8 @@ export class Replay {
             (p) => p.steamid === data.user_steamid
           );
           if (!player) return;
-          player.playerObject.health = data.health;
-          player.playerObject.armor = data.armor;
+          player.playerObject.setHealth(data.health);
+          player.playerObject.setArmor(data.armor);
           break;
         }
 
@@ -189,10 +236,13 @@ export class Replay {
             (p) => p.steamid === data.user_steamid
           );
           if (!player) return;
-          player.playerObject.activeWeapon =
+          const activeWeapon =
             data.item === "hkp2000" && data.issilenced
               ? "usp_silencer"
-              : data.item;
+              : data.item === "m4a1" && data.issilenced
+                ? "m4a1_silencer"
+                : data.item;
+          player.playerObject.setActiveWeapon(activeWeapon);
           break;
         }
 
@@ -234,7 +284,7 @@ export class Replay {
             (p) => p.steamid === data.user_steamid
           );
           if (!player) return;
-          player.playerObject.inventory = data.inventory;
+          player.playerObject.setInventory(data.inventory);
           break;
         }
 
@@ -244,8 +294,6 @@ export class Replay {
             (g) => g.entityid === data.entityid
           );
           if (!grenade) return;
-          console.log(e.event_name, grenade);
-
           grenade.object.setDetonated();
           break;
         }
@@ -273,7 +321,7 @@ export class Replay {
               (g.type === "molotov" || g.type === "incendiary_grenade")
           );
           if (!grenade) return;
-          grenade.object.unload();
+          grenade.object.unload(true);
           break;
         }
 
@@ -286,7 +334,7 @@ export class Replay {
             (g) => g.entityid === data.entityid
           );
           if (!grenade) return;
-          grenade.object.unload();
+          grenade.object.unload(true);
           break;
         }
 
@@ -296,6 +344,7 @@ export class Replay {
           const obj = new C4(this.radar, objpos, data.site, this.radar.map);
           this.radar.radarObjects.push(obj);
           obj.load();
+          this.others.push(obj);
           break;
         }
 

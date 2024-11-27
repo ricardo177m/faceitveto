@@ -196,7 +196,7 @@ export default function MatchHeader({
         {match.finishedAt && (
           <Tooltip
             text={formatDateTime(match.finishedAt)}
-            className="top-8 w-min"
+            className="top-8 max-md:min-w-36"
           >
             <div
               className="mx-2 inline-flex items-center gap-2"

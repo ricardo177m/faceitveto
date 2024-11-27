@@ -36,9 +36,13 @@ export default function MatchButton({
         ) : (
           <GrStatusGood className="h-6" />
         ))}
-      <Tooltip text={isError && meta.error} className="top-7 opacity-100">
+      <Tooltip text={isError && meta.error} className="top-7 min-w-min">
         <span className="text-sm">
-          {isLoading || isError ? meta?.progress : `Match ${i + 1}`}
+          {isLoading || isError
+            ? !meta
+              ? "Fetching"
+              : meta?.progress
+            : `Match ${i + 1}`}
         </span>
       </Tooltip>
     </button>

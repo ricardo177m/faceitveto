@@ -1,19 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import moment from "moment";
-import { FaClock } from "react-icons/fa";
 
 import { env } from "@/env";
-import { formatDateTime } from "@/utils/dateFormat";
 
-import LevelElo from "../LevelElo";
-import PlayerAvatar from "../PlayerAvatar";
-import Tooltip from "../Tooltip";
-import Checkbox from "../ui/Checkbox";
-import NextImageWithFallback from "../ui/NextImageWithFallback";
-import RowItem from "../ui/RowItem";
-import MatchButton from "./MatchButton";
 import PrematchSidebar from "./PrematchSidebar";
 import Radar from "./Radar";
 
@@ -27,6 +17,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
   const [selectedRound, setSelectedRound] = useState<number>(0);
+  const [showNicknames, setShowNicknames] = useState<boolean>(true);
 
   const [prematchPost, setPrematchPost] = useState<PrematchPost | null>(null);
   const [meta, setMeta] = useState<Map<string, MatchMeta>>(new Map());
@@ -121,6 +112,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             matchDetails={matchDetails}
             selectedMatchState={[selectedMatch, setSelectedMatch]}
             selectedRoundState={[selectedRound, setSelectedRound]}
+            showNicknamesState={[showNicknames, setShowNicknames]}
           />
           <div className="md:w-5/6">
             {matchMeta && matchMeta.processed ? (
@@ -129,6 +121,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
                   meta={matchMeta}
                   data={matchAnalysis}
                   coreIds={gameIds}
+                  showNicknames={showNicknames}
                   className={"aspect-square w-full border border-gray-600"}
                 />
               )

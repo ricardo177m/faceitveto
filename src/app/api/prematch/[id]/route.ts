@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { get } from "@vercel/edge-config";
 import { z } from "zod";
 
-import { config } from "@/config/config";
 import getServerSession from "@/lib/getServerSession";
 import {
   chosenMap,

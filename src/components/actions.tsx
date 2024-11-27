@@ -59,7 +59,7 @@ export function SignInWithFaceit() {
 
     const state = JSON.stringify({
       verifier: code_verifier, // workaround for faceit bug
-      redirectUri: window.location.href.replace(window.location.search, ""),
+      redirectUri: window.location.pathname + window.location.search,
     });
 
     const url = new URL("https://accounts.faceit.com/authorize");

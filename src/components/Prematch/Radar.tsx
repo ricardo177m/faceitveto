@@ -3,17 +3,25 @@ import React, { useEffect } from "react";
 import { RadarCanvas } from "@/scripts/RadarCanvas";
 
 import PlayerEquipment from "./PlayerEquipment";
+import ReplayControls from "./ReplayControls";
 
 interface RadarProps {
   meta: MatchMeta;
   data: MatchData;
   coreIds: string[];
+  showNicknames: boolean;
   className?: string;
 }
 
-const Radar: React.FC<RadarProps> = ({ meta, data, coreIds, className }) => {
+const Radar: React.FC<RadarProps> = ({
+  meta,
+  data,
+  coreIds,
+  showNicknames,
+  className,
+}) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const [radar, setRadar] = React.useState<RadarCanvas | null>(null);
+  const [radar, setRadar] = React.useState<RadarCanvas>();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,39 +43,56 @@ const Radar: React.FC<RadarProps> = ({ meta, data, coreIds, className }) => {
       radar.stop();
       window.removeEventListener("resize", handleResize);
     };
-  }, [data]);
+  }, [data, meta.map]);
 
-  // useEffect(() => {
-  //   if (radar) radar.setRound(round);
-  // }, [radar, round]);
+  useEffect(() => {
+    if (!radar) return;
+    radar.showNicknames = showNicknames;
+  }, [showNicknames, radar]);
 
   return (
     <div className="flex flex-col gap-2 md:flex-row">
-      <div className="md:w-3/4">
+      <div className="relative md:w-3/4">
         <canvas ref={canvasRef} className={className} />
+        {radar && (
+          <ReplayControls
+            className="absolute bottom-0 p-2"
+            replay={radar.replay}
+          />
+        )}
       </div>
       <div className="md:w-1/4">
         <div className="mb-4 flex flex-col gap-1">
-          {radar?.replay.players
-            .filter((p) => p.playerObject.team === "T")
-            .map((p) => (
-              <PlayerEquipment
-                key={p.steamid}
-                player={p.playerObject}
-                isCore={coreIds.includes(p.steamid)}
-              />
-            ))}
+          {radar &&
+            radar.replay.players
+              .filter((p) => p.playerObject.team === "T")
+              .map((p) => (
+                <PlayerEquipment
+                  key={p.steamid}
+                  nickname={p.playerObject.name}
+                  team={p.playerObject.team}
+                  steamid={p.steamid}
+                  isCore={coreIds.includes(p.steamid)}
+                  emitter={radar.replay.emitter}
+                  initialState={p.playerObject._initialState}
+                />
+              ))}
         </div>
         <div className="mb-4 flex flex-col gap-1">
-          {radar?.replay.players
-            .filter((p) => p.playerObject.team === "CT")
-            .map((p) => (
-              <PlayerEquipment
-                key={p.steamid}
-                player={p.playerObject}
-                isCore={coreIds.includes(p.steamid)}
-              />
-            ))}
+          {radar &&
+            radar.replay.players
+              .filter((p) => p.playerObject.team === "CT")
+              .map((p) => (
+                <PlayerEquipment
+                  key={p.steamid}
+                  nickname={p.playerObject.name}
+                  team={p.playerObject.team}
+                  steamid={p.steamid}
+                  isCore={coreIds.includes(p.steamid)}
+                  emitter={radar.replay.emitter}
+                  initialState={p.playerObject._initialState}
+                />
+              ))}
         </div>
       </div>
     </div>

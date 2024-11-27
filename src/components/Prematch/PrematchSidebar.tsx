@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { FaClock } from "react-icons/fa";
 
 import { formatDateTime } from "@/utils/dateFormat";
 
-import LevelElo from "../LevelElo";
 import PlayerAvatar from "../PlayerAvatar";
 import Tooltip from "../Tooltip";
 import Checkbox from "../ui/Checkbox";
@@ -12,15 +11,15 @@ import NextImageWithFallback from "../ui/NextImageWithFallback";
 import RowItem from "../ui/RowItem";
 import MatchButton from "./MatchButton";
 
+type ReactState<T> = [T, React.Dispatch<React.SetStateAction<T>>];
+
 interface PrematchSidebarProps {
   prematchPost: PrematchPost;
   meta: Map<string, MatchMeta>;
   matchDetails: DetailedMatch | null;
-  selectedMatchState: [
-    string | null,
-    React.Dispatch<React.SetStateAction<string | null>>,
-  ];
-  selectedRoundState: [number, React.Dispatch<React.SetStateAction<number>>];
+  selectedMatchState: ReactState<string | null>;
+  selectedRoundState: ReactState<number>;
+  showNicknamesState: ReactState<boolean>;
   className?: string;
 }
 
@@ -30,10 +29,12 @@ export default function PrematchSidebar({
   matchDetails,
   selectedMatchState,
   selectedRoundState,
+  showNicknamesState,
   className,
 }: PrematchSidebarProps) {
   const [selectedMatch, setSelectedMatch] = selectedMatchState;
   const [selectedRound, setSelectedRound] = selectedRoundState;
+  const [showNicknames, setShowNicknames] = showNicknamesState;
 
   const winrate =
     prematchPost &&
@@ -113,6 +114,13 @@ export default function PrematchSidebar({
         isChecked={selectedRound === 0}
         setIsChecked={() => setSelectedRound((r) => (r === 0 ? 1 : 0))}
         label="First Half"
+        className="mb-2 inline-flex items-center gap-2"
+      />
+
+      <Checkbox
+        isChecked={showNicknames}
+        setIsChecked={() => setShowNicknames((s) => !s)}
+        label="Show Nicknames"
         className="mb-2 inline-flex items-center gap-2"
       />
 

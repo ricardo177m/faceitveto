@@ -44,14 +44,20 @@ export class MouseHandler extends InputHandler {
       }
     };
 
-    // const handleTouch = (e) => {
-    //   if (e.type == "touchmove" && this.isDragging) {
-    //     target.move({ x: e.touches[0].movementX, y: e.touches[0].movementY });
-    //   } else if (e.type == "touchmove" && e.touches.length == 2) {
-    //     this.isDragging = false;
-    //     // handlePinch(e);
-    //   }
-    // };
+    const handleTouch = (e: TouchEvent) => {
+      if (e.touches.length == 1) {
+        if (this.isDragging) {
+          // target.move({
+          //   x: -e.touches[0].clientX / target.zoom,
+          //   y: -e.touches[0].clientY / target.zoom,
+          // });
+        }
+      }
+      // } else if (e.type == "touchmove" && e.touches.length == 2) {
+      //   isDragging = false;
+      //   zoom
+      // }
+    };
 
     this.onWheelHandle = (e) => handleWheel(e);
 
@@ -63,12 +69,20 @@ export class MouseHandler extends InputHandler {
     canvas.addEventListener("mousemove", onPointerMove);
     canvas.addEventListener("mouseleave", onPointerUp);
 
+    // canvas.addEventListener("touchstart", onPointerDown);
+    // canvas.addEventListener("touchmove", handleTouch);
+    // canvas.addEventListener("touchend", onPointerUp);
+
     this._unregister = () => {
       canvas.removeEventListener("wheel", this.onWheelHandle);
       canvas.removeEventListener("mousedown", onPointerDown);
       canvas.removeEventListener("mouseup", onPointerUp);
       canvas.removeEventListener("mousemove", onPointerMove);
       canvas.removeEventListener("mouseleave", onPointerUp);
+
+      // canvas.removeEventListener("touchstart", onPointerDown);
+      // canvas.removeEventListener("touchmove", handleTouch);
+      // canvas.removeEventListener("touchend", onPointerUp);
     };
   }
 

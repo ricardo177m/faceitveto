@@ -2,7 +2,7 @@ import { SortedList } from "@/utils/SortedList";
 
 import { Animation } from "./animations/Animation";
 import { Camera } from "./Camera";
-import { clearCanvas, drawDebugInfo } from "./Helper";
+import { clearCanvas, drawDebugInfo, fixDpi } from "./Helper";
 import { KeyboardHandler } from "./input/KeyboardHandler";
 import { MouseHandler } from "./input/MouseHandler";
 import { RadarObject } from "./objects/RadarObject";
@@ -26,9 +26,10 @@ export class RadarCanvas {
   showDebugInfo: boolean = false;
 
   replay: Replay;
+  showNicknames: boolean = true;
 
   private _lastframe: number = 0;
-  private requestId: number | null = null;
+  private _requestId: number | null = null;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -60,7 +61,7 @@ export class RadarCanvas {
     this.replay.start();
     this.camera.start();
     this.radarObjects.forEach((o) => o.load());
-    this.requestId = window.requestAnimationFrame(this._startLoop);
+    this._requestId = window.requestAnimationFrame(this._startLoop);
   }
 
   update(delta: number) {
@@ -88,7 +89,7 @@ export class RadarCanvas {
     this.radarObjects.forEach((o) => o.unload());
     this.radarObjects.clear();
     this.animations = [];
-    window.cancelAnimationFrame(this.requestId!);
+    window.cancelAnimationFrame(this._requestId!);
   }
 
   resize(size: Point2D) {
@@ -104,12 +105,12 @@ export class RadarCanvas {
 
     this.update(delta);
     this.render();
-    this.requestId = window.requestAnimationFrame(this._loop);
+    this._requestId = window.requestAnimationFrame(this._loop);
   };
 
   // skip first frame to avoid large deltas
   private _startLoop = (current: number) => {
     this._lastframe = current;
-    this.requestId = window.requestAnimationFrame(this._loop);
+    this._requestId = window.requestAnimationFrame(this._loop);
   };
 }

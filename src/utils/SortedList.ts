@@ -25,15 +25,10 @@ export class SortedList<T> {
    * @returns `true` if the element was removed, `false` if not found.
    */
   remove(value: T): boolean {
-    const index = this.binarySearchInsertPosition(value);
-    if (
-      index < this._arr.length &&
-      this._comparator(this._arr[index], value) === 0
-    ) {
-      this._arr.splice(index, 1);
-      return true;
-    }
-    return false;
+    const index = this._arr.indexOf(value);
+    if (index === -1) return false;
+    this._arr.splice(index, 1);
+    return true;
   }
 
   /**

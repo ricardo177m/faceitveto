@@ -23,7 +23,7 @@ export default function PlayerAvatar({
       src={player.avatar || config.defaultAvatarAsset}
       fallbackSrc={config.defaultAvatarAsset}
       alt={`${player.nickname}'s avatar`}
-      placeholder="blur"
+      // placeholder={"blur"}
       blurDataURL={`data:image/svg+xml;base64,${toBase64(defaultAvatar())}`}
       width={size || 36}
       height={size || 36}

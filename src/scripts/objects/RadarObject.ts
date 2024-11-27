@@ -53,13 +53,14 @@ export abstract class RadarObject {
     this.start();
   }
 
-  unload(): void {
+  unload(filter?: boolean): void {
     if (this.spriteSrc) {
       this.sprite.src = "";
       this.sprite.removeEventListener("load", this._onLoad.bind(this));
     }
     this.isLoaded = false;
     this.stop();
+    if (filter) this.radar.radarObjects.remove(this);
   }
 
   isInViewRect(coords: Point2D) {

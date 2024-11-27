@@ -18,9 +18,8 @@ export class ActiveWeapon {
     if (this.currentActiveWeapon === this.player.activeWeapon) return;
     this.currentActiveWeapon = this.player.activeWeapon;
 
-    let asset =
-      equipmentMap[this.currentActiveWeapon as keyof typeof equipmentMap] ||
-      this.currentActiveWeapon?.toLowerCase();
+    let asset = this.currentActiveWeapon;
+
     if (asset === "knife" && this.player.team === "T") asset = "knife_t";
     this.sprite.src = `/assets/equipment/${asset}.svg`;
     this.isLoaded = false;

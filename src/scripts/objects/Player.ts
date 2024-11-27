@@ -1,3 +1,7 @@
+import EventEmitter from "eventemitter3";
+
+import { equipmentMap } from "@/config/equipment";
+
 import { ActiveWeapon } from "../ActiveWeapon";
 import { Point2D, Point3D } from "../Point";
 import type { RadarCanvas } from "../RadarCanvas";
@@ -21,17 +25,17 @@ const aliveRenderPriority = 20;
 const deadRenderPriority = 19;
 
 export class Player extends RadarObject {
-  isDisconnected: boolean;
-  steamid: string;
-  name: string;
-  team: string | null;
-  color: { primary: string; secondary: string } | null;
+  isDisconnected: boolean = false;
+  steamid: string = "";
+  name: string = "";
+  team: string | null = null;
+  color: { primary: string; secondary: string } | null = null;
 
-  health: number;
-  armor: number;
-  isAlive: boolean;
-  activeWeapon: string | null;
-  yaw: number | null;
+  health: number = 0;
+  armor: number = 0;
+  isAlive: boolean = false;
+  activeWeapon: string | null = null;
+  yaw: number | null = 0;
 
   isDefusing: boolean = false;
   hasDefuser: boolean = false;
@@ -40,6 +44,9 @@ export class Player extends RadarObject {
 
   tracer: Tracer;
   weapon: ActiveWeapon;
+
+  readonly _initialState: PlayerInitialState;
+  private _emitter: EventEmitter;
 
   constructor(radar: RadarCanvas, player: PlayerInitialState) {
     const pos = player.is_disconnected
@@ -53,29 +60,45 @@ export class Player extends RadarObject {
       radar.map,
       player.is_alive ? aliveRenderPriority : deadRenderPriority
     );
-    const colors = color[player.team as "T" | "CT"];
-    this.color = player.is_disconnected ? null : (colors ?? null);
-    this.isDisconnected = player.is_disconnected;
-    this.activeWeapon = player.active_weapon_name;
-    this.health = player.health || 0;
-    this.armor = player.armor_value || 0;
-    this.yaw = player.yaw;
-    this.isDefusing = player.is_defusing || false;
-    this.isAlive = player.is_alive || false;
-
-    this.hasDefuser = player.has_defuser || false;
-    this.hasHelmet = player.has_helmet || false;
-    this.steamid = player.steamid;
-    this.name = player.name;
-    this.team = player.team;
-    this.inventory = player.inventory;
+    this._initialState = player;
     this.tracer = new Tracer(this);
     this.weapon = new ActiveWeapon(this);
+    this._emitter = radar.replay.emitter;
+    this.setInitial();
   }
 
-  setAlive(alive: boolean): void {
-    this.isAlive = alive;
-    this.setRenderPriority(alive ? aliveRenderPriority : deadRenderPriority);
+  setInitial() {
+    const colors = color[this._initialState.team as "T" | "CT"];
+    this.color = this._initialState.is_disconnected ? null : (colors ?? null);
+    this.isDisconnected = this._initialState.is_disconnected;
+    const activeWeapon =
+      equipmentMap[
+        this._initialState.active_weapon_name as keyof typeof equipmentMap
+      ] ?? this._initialState.active_weapon_name?.toLowerCase();
+    this.setActiveWeapon(activeWeapon);
+    this.setHealth(this._initialState.health || 0);
+    this.setArmor(this._initialState.armor_value || 0);
+    this.yaw = this._initialState.yaw;
+    this.isDefusing = this._initialState.is_defusing || false;
+
+    this.setDefuser(this._initialState.has_defuser || false);
+    this.setHelmet(this._initialState.has_helmet || false);
+    this.setInventory(this._initialState.inventory);
+    this.steamid = this._initialState.steamid;
+    this.name = this._initialState.name;
+    this.team = this._initialState.team;
+    this.tracer = new Tracer(this);
+    this.weapon = new ActiveWeapon(this);
+
+    this.setAlive(this._initialState.is_alive);
+    const pos = this._initialState.is_disconnected
+      ? new Point3D(-9999, -9999, -9999)
+      : new Point3D(
+          this._initialState.X,
+          this._initialState.Y,
+          this._initialState.Z
+        );
+    this.setPos(pos);
   }
 
   update(): void {
@@ -112,11 +135,12 @@ export class Player extends RadarObject {
 
     this.weapon.draw(ctx);
 
-    // name
-    ctx.font = "bold 10px Arial";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText(this.name, this.worldPos.x, this.worldPos.y - this.size.y);
+    if (this.radar.showNicknames) {
+      ctx.font = "bold 10px Arial";
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.fillText(this.name, this.worldPos.x, this.worldPos.y - this.size.y);
+    }
 
     ctx.restore();
   }
@@ -181,5 +205,42 @@ export class Player extends RadarObject {
 
   stop(): void {
     this.weapon.stop();
+  }
+
+  setAlive(alive: boolean): void {
+    this.isAlive = alive;
+    this.setRenderPriority(alive ? aliveRenderPriority : deadRenderPriority);
+    this._emitter.emit(`player:${this.steamid}:isAlive`, alive);
+  }
+
+  setHealth(health: number): void {
+    this.health = health;
+    this._emitter.emit(`player:${this.steamid}:health`, health);
+  }
+
+  setArmor(armor: number): void {
+    this.armor = armor;
+    this._emitter.emit(`player:${this.steamid}:armor`, armor);
+  }
+
+  setHelmet(helmet: boolean): void {
+    this.hasHelmet = helmet;
+    this._emitter.emit(`player:${this.steamid}:helmet`, helmet);
+  }
+
+  // TODO defuser emit on pickup
+  setDefuser(defuser: boolean): void {
+    this.hasDefuser = defuser;
+    this._emitter.emit(`player:${this.steamid}:defuser`, defuser);
+  }
+
+  setInventory(inventory: string[]): void {
+    this.inventory = inventory;
+    this._emitter.emit(`player:${this.steamid}:inventory`, inventory);
+  }
+
+  setActiveWeapon(weapon: string): void {
+    this.activeWeapon = weapon;
+    this._emitter.emit(`player:${this.steamid}:activeweapon`, weapon);
   }
 }

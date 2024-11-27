@@ -7,7 +7,13 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <h1 className="text-3xl font-bold">Prematch Analysis</h1>
+      <div className="inline-flex items-center gap-4">
+        <h1 className="text-3xl font-bold">Prematch Analysis</h1>
+        <span className="rounded-full bg-primary px-3 py-1 text-sm font-semibold">
+          BETA
+        </span>
+      </div>
+
       <section className="my-4">{children}</section>
       <hr className="mt-16 border-slate-700" />
       <div className="my-8">
@@ -25,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
           </p>
           <p>
             The demos of the latest 2 matches are then downloaded and parsed.
-            Currently, it only shows the pistol round bombsite and utility used.
+            Currently, the pistol rounds can be visualized in a 2D replay.
           </p>
         </div>
       </div>

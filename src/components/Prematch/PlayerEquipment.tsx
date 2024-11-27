@@ -1,24 +1,25 @@
 import Image from "next/image";
 
 import { equipmentMap } from "@/config/equipment";
+import { Player } from "@/scripts/objects/Player";
 
 import Tooltip from "../Tooltip";
 
 interface PlayerEquipmentProps {
-  equipment: MatchAnalysisEquipment;
+  player: Player;
   isCore: boolean;
 }
 
 export default function PlayerEquipment({
-  equipment,
+  player,
   isCore,
 }: PlayerEquipmentProps) {
-  const eq = equipment.equipment as Array<keyof typeof equipmentMap>;
+  const eq = player.inventory as Array<keyof typeof equipmentMap>;
   const ignore = ["C4", "bayonet"];
 
   return (
     <div
-      className={`flex flex-col border-l-2 bg-dark-400 px-4 py-2 ${equipment.team === "T" ? "border-l-yellow-600" : "border-l-blue-600"}`}
+      className={`flex flex-col border-l-2 bg-dark-400 px-4 py-2 ${player.team === "T" ? "border-l-yellow-600" : "border-l-blue-600"}`}
     >
       <div className="inline-flex items-center gap-2">
         {isCore && (
@@ -29,10 +30,10 @@ export default function PlayerEquipment({
             ></div>
           </Tooltip>
         )}
-        <p>{equipment.name}</p>
+        <p>{player.name}</p>
       </div>
       <div className="inline-flex items-center gap-2">
-        {!!equipment.armor && (
+        {!!player.armor && (
           <Tooltip text="Kevlar" className="top-7">
             <Image
               width={4}
@@ -44,7 +45,7 @@ export default function PlayerEquipment({
             />
           </Tooltip>
         )}
-        {equipment.hasHelmet && (
+        {player.hasHelmet && (
           <Tooltip className="top-7" text="Helmet">
             <Image
               width={4}
@@ -73,7 +74,7 @@ export default function PlayerEquipment({
             </Tooltip>
           );
         })}
-        {equipment.hasDefuser && (
+        {player.hasDefuser && (
           <Tooltip className="top-7" text="Defuser">
             <Image
               width={4}

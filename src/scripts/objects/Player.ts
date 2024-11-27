@@ -28,6 +28,7 @@ export class Player extends RadarObject {
   color: { primary: string; secondary: string } | null;
 
   health: number;
+  armor: number;
   isAlive: boolean;
   activeWeapon: string | null;
   yaw: number | null;
@@ -57,6 +58,7 @@ export class Player extends RadarObject {
     this.isDisconnected = player.is_disconnected;
     this.activeWeapon = player.active_weapon_name;
     this.health = player.health || 0;
+    this.armor = player.armor_value || 0;
     this.yaw = player.yaw;
     this.isDefusing = player.is_defusing || false;
     this.isAlive = player.is_alive || false;

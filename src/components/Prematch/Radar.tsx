@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 
 import { RadarCanvas } from "@/scripts/RadarCanvas";
 
+import PlayerEquipment from "./PlayerEquipment";
+
 interface RadarProps {
   meta: MatchMeta;
   data: MatchData;
+  coreIds: string[];
   className?: string;
 }
 
-const Radar: React.FC<RadarProps> = ({ meta, data, className }) => {
+const Radar: React.FC<RadarProps> = ({ meta, data, coreIds, className }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [radar, setRadar] = React.useState<RadarCanvas | null>(null);
 
@@ -38,7 +41,37 @@ const Radar: React.FC<RadarProps> = ({ meta, data, className }) => {
   //   if (radar) radar.setRound(round);
   // }, [radar, round]);
 
-  return <canvas ref={canvasRef} className={className} />;
+  return (
+    <div className="flex flex-col gap-2 md:flex-row">
+      <div className="md:w-3/4">
+        <canvas ref={canvasRef} className={className} />
+      </div>
+      <div className="md:w-1/4">
+        <div className="mb-4 flex flex-col gap-1">
+          {radar?.replay.players
+            .filter((p) => p.playerObject.team === "T")
+            .map((p) => (
+              <PlayerEquipment
+                key={p.steamid}
+                player={p.playerObject}
+                isCore={coreIds.includes(p.steamid)}
+              />
+            ))}
+        </div>
+        <div className="mb-4 flex flex-col gap-1">
+          {radar?.replay.players
+            .filter((p) => p.playerObject.team === "CT")
+            .map((p) => (
+              <PlayerEquipment
+                key={p.steamid}
+                player={p.playerObject}
+                isCore={coreIds.includes(p.steamid)}
+              />
+            ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Radar;

@@ -8,6 +8,7 @@ interface ReplayPlayerEvent extends ReplayEvent {
 
 interface PlayerHurt extends ReplayPlayerEvent {
   health: number;
+  armor: number;
 }
 
 interface ItemEquip extends ReplayPlayerEvent {

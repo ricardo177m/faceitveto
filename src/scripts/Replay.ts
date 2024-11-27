@@ -169,6 +169,7 @@ export class Replay {
           );
           if (!player) return;
           player.playerObject.health = data.health;
+          player.playerObject.armor = data.armor;
           break;
         }
 

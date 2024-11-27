@@ -17,7 +17,7 @@ const getServerSession = async () => {
   try {
     const decoded = jwt.verify(token, jwtSecret);
     return decoded as Session;
-  } catch (error) {
+  } catch (_) {
     return null;
   }
 };

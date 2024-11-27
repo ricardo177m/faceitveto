@@ -1,5 +1,3 @@
-import { equipmentMap } from "@/config/equipment";
-
 import { Player } from "./objects/Player";
 
 export class ActiveWeapon {

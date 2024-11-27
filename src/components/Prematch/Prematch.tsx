@@ -72,12 +72,6 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             if (s) return s;
             return matchId;
           });
-
-          const coreIds = prematchPost.premade.map((p) => p.gameId);
-          const coreTRound = meta.rounds.findIndex((r) =>
-            r.teams.T.includes(coreIds[0])
-          );
-          if (coreTRound !== -1) setSelectedRound(coreTRound);
         }
       } catch (error) {
         console.error(error);
@@ -93,6 +87,16 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
     const round = meta.get(selectedMatch)?.rounds[selectedRound]!.round;
     if (round) fetchMatchData(selectedMatch, round.toString());
   }, [selectedMatch, selectedRound]);
+
+  useEffect(() => {
+    if (!selectedMatch) return;
+    const coreIds = prematchPost?.premade.map((p) => p.gameId) ?? [];
+    const coreTRound = meta
+      .get(selectedMatch)
+      ?.rounds.findIndex((r) => r.teams.T.includes(coreIds[0]));
+    if (coreTRound && coreTRound !== -1) setSelectedRound(coreTRound);
+    else setSelectedRound(0);
+  }, [selectedMatch]);
 
   const matchDetails =
     prematchPost?.teamstats.matches.find((m) => m.match_id === selectedMatch) ??

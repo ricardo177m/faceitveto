@@ -13,8 +13,8 @@ interface RadarProps {
   coreIds: string[];
   showNicknames: boolean;
   selectedRoundState: ReactState<number>;
+  selectedMatchState: ReactState<string | null>;
   className?: string;
-  key?: string;
 }
 
 const Radar: React.FC<RadarProps> = ({
@@ -23,11 +23,13 @@ const Radar: React.FC<RadarProps> = ({
   coreIds,
   showNicknames,
   selectedRoundState,
+  selectedMatchState,
   className,
-  key,
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [radar, setRadar] = React.useState<RadarCanvas>();
+  const [selectedMatch] = selectedMatchState;
+  const [selectedRound] = selectedRoundState;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -86,7 +88,7 @@ const Radar: React.FC<RadarProps> = ({
               .filter((p) => p.playerObject.team === "T")
               .map((p) => (
                 <PlayerEquipment
-                  key={`${key}-${p.steamid}`}
+                  key={`${selectedMatch}-${selectedRound}-${p.steamid}`}
                   nickname={p.playerObject.name}
                   team={p.playerObject.team}
                   steamid={p.steamid}
@@ -102,7 +104,7 @@ const Radar: React.FC<RadarProps> = ({
               .filter((p) => p.playerObject.team === "CT")
               .map((p) => (
                 <PlayerEquipment
-                  key={`${key}-${p.steamid}`}
+                  key={`${selectedMatch}-${selectedRound}-${p.steamid}`}
                   nickname={p.playerObject.name}
                   team={p.playerObject.team}
                   steamid={p.steamid}

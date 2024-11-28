@@ -16,7 +16,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
-  const [selectedRound, setSelectedRound] = useState<number>(0);
+  const [selectedRound, setSelectedRound] = useState<number>(-1);
   const [showNicknames, setShowNicknames] = useState<boolean>(true);
 
   const [prematchPost, setPrematchPost] = useState<PrematchPost | null>(null);
@@ -83,7 +83,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   }, [prematchPost]);
 
   useEffect(() => {
-    if (!selectedMatch) return;
+    if (!selectedMatch || selectedRound === -1) return;
     const round = meta.get(selectedMatch)?.rounds[selectedRound]!.round;
     if (round) fetchMatchData(selectedMatch, round.toString());
   }, [selectedMatch, selectedRound]);
@@ -121,6 +121,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             meta={meta}
             matchDetails={matchDetails}
             selectedMatchState={[selectedMatch, setSelectedMatch]}
+            setSelectedRound={setSelectedRound}
             showNicknamesState={[showNicknames, setShowNicknames]}
           />
           <div className="md:w-5/6">

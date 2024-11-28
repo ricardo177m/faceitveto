@@ -16,6 +16,7 @@ interface PrematchSidebarProps {
   meta: Map<string, MatchMeta>;
   matchDetails: DetailedMatch | null;
   selectedMatchState: ReactState<string | null>;
+  setSelectedRound: React.Dispatch<React.SetStateAction<number>>;
   showNicknamesState: ReactState<boolean>;
   className?: string;
 }
@@ -25,6 +26,7 @@ export default function PrematchSidebar({
   meta,
   matchDetails,
   selectedMatchState,
+  setSelectedRound,
   showNicknamesState,
   className,
 }: PrematchSidebarProps) {
@@ -65,7 +67,10 @@ export default function PrematchSidebar({
                 match={m}
                 meta={meta.get(m.match_id)}
                 isSelected={selectedMatch === m.match_id}
-                setSelected={setSelectedMatch}
+                setSelected={(m) => {
+                  setSelectedMatch(m);
+                  setSelectedRound(-1);
+                }}
                 i={i}
               />
             );

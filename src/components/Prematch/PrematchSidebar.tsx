@@ -44,6 +44,7 @@ export default function PrematchSidebar({
         ) / 10);
 
   const mapName = prematchPost.map.split("_")[1] || prematchPost.map;
+  const gameIds = prematchPost.premade.map((p) => p.gameId);
 
   return (
     <div className={`flex w-full flex-col ${className}`}>
@@ -67,9 +68,14 @@ export default function PrematchSidebar({
                 match={m}
                 meta={meta.get(m.match_id)}
                 isSelected={selectedMatch === m.match_id}
-                setSelected={(m) => {
-                  setSelectedMatch(m);
-                  setSelectedRound(-1);
+                setSelected={() => {
+                  setSelectedMatch(m.match_id);
+                  const coreTRound = meta
+                    .get(m.match_id)
+                    ?.rounds.findIndex((r) => r.teams.T.includes(gameIds[0]));
+                  setSelectedRound(
+                    coreTRound && coreTRound !== -1 ? coreTRound : 0
+                  );
                 }}
                 i={i}
               />

@@ -16,7 +16,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
-  const [selectedRound, setSelectedRound] = useState<number>(-1);
+  const [selectedRound, setSelectedRound] = useState<number>(0);
   const [showNicknames, setShowNicknames] = useState<boolean>(true);
 
   const [prematchPost, setPrematchPost] = useState<PrematchPost | null>(null);
@@ -72,6 +72,11 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
             if (s) return s;
             return matchId;
           });
+          const coreIds = prematchPost.premade.map((p) => p.gameId);
+          const coreTRound = meta.rounds.findIndex((r) =>
+            r.teams.T.includes(coreIds[0])
+          );
+          setSelectedRound(coreTRound && coreTRound !== -1 ? coreTRound : 0);
         }
       } catch (error) {
         console.error(error);
@@ -90,12 +95,6 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
 
   useEffect(() => {
     if (!selectedMatch) return;
-    const coreIds = prematchPost?.premade.map((p) => p.gameId) ?? [];
-    const coreTRound = meta
-      .get(selectedMatch)
-      ?.rounds.findIndex((r) => r.teams.T.includes(coreIds[0]));
-    if (coreTRound && coreTRound !== -1) setSelectedRound(coreTRound);
-    else setSelectedRound(0);
   }, [selectedMatch]);
 
   const matchDetails =

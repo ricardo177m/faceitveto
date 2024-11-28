@@ -42,3 +42,7 @@ interface BombEvent extends ReplayPlayerEvent {
   Y: number;
   Z: number;
 }
+
+interface PlayerBlind extends ReplayPlayerEvent {
+  blind_duration: number;
+}

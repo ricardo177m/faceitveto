@@ -37,6 +37,10 @@ export class Player extends RadarObject {
   activeWeapon: string | null = null;
   yaw: number | null = 0;
 
+  lastBlindStart: number = 0;
+  blindDuration: number = 0;
+  blind: number = 0;
+
   isDefusing: boolean = false;
   hasDefuser: boolean = false;
   hasHelmet: boolean = false;
@@ -80,6 +84,9 @@ export class Player extends RadarObject {
     this.setArmor(this._initialState.armor_value || 0);
     this.yaw = this._initialState.yaw;
     this.isDefusing = this._initialState.is_defusing || false;
+    this.lastBlindStart = 0;
+    this.blindDuration = 0;
+    this.blind = 0;
 
     this.setDefuser(this._initialState.has_defuser || false);
     this.setHelmet(this._initialState.has_helmet || false);
@@ -117,7 +124,7 @@ export class Player extends RadarObject {
         `Player ${this.name}(${this.worldPos.x.toFixed(1)},${this.worldPos.y.toFixed(1)}) size(${this.size.x.toFixed(1)},${this.size.y.toFixed(1)})`
       );
       debug.push(
-        ` > health(${this.health}) weapon(${this.activeWeapon}) defusing(${this.isDefusing})`
+        ` > health(${this.health}) weapon(${this.activeWeapon}) defusing(${this.isDefusing}) blind(${this.blind})`
       );
     }
   }
@@ -154,6 +161,7 @@ export class Player extends RadarObject {
     ctx.stroke();
     ctx.fill();
 
+    // health
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
     ctx.arc(
@@ -166,7 +174,22 @@ export class Player extends RadarObject {
     ctx.fillStyle = this.color ? this.color.primary : "rgb(128, 128, 128)";
     ctx.fill();
 
-    // 90º -> top
+    // blind
+    if (this.blind > 0) {
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      ctx.arc(
+        pos.x,
+        pos.y,
+        this.size.x,
+        -Math.PI / 2,
+        (this.blind / this.blindDuration) * 2 * Math.PI - Math.PI / 2
+      );
+      ctx.fillStyle = "rgba(255, 255, 255, .75)";
+      ctx.fill();
+    }
+
+    // yaw: 90º -> top
     const yawRads = -this.yaw! * (Math.PI / 180);
     const circleRadius = (this.size.x / 2) * 1.75;
     const circleX = pos.x + Math.cos(yawRads) * circleRadius;

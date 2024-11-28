@@ -112,8 +112,6 @@ export class Replay {
 
       this.processFrame();
     }
-
-    this.updateRoundTime(this.currentFrame / this.framerate);
   }
 
   seek(progress: number) {
@@ -132,7 +130,6 @@ export class Replay {
     }
 
     this.emitter.emit("progress", progress);
-    this.updateRoundTime(this.currentFrame / this.framerate);
   }
 
   togglePause() {
@@ -154,11 +151,13 @@ export class Replay {
     this.roundTime = this.bombPlantTime
       ? config.bombTime - (timeElapsed - this.bombPlantTime)
       : config.roundTime - timeElapsed;
-    // if (this.roundTime < 0) this.roundTime = 0;
+    if (this.roundTime < 0) this.roundTime = 0;
     this.emitter.emit("timer", this.roundTime);
   }
 
   processFrame() {
+    this.updateRoundTime(this.currentFrame / this.framerate);
+
     const events = this.events.filter((e) => e.frame === this.currentFrame);
     const frameGrenades = this.grenadePositions.filter(
       (g) =>
@@ -189,6 +188,14 @@ export class Replay {
       }
 
       obj.yaw = position.yaw[frameIndex];
+
+      if (obj.blindDuration > 0) {
+        obj.blind = obj.blindDuration - (obj.lastBlindStart - this.roundTime);
+        if (obj.blind <= 0) {
+          obj.blind = 0;
+          obj.blindDuration = 0;
+        }
+      }
     });
 
     const objMap = {
@@ -369,9 +376,19 @@ export class Replay {
           break;
         }
 
+        case "player_blind": {
+          const data = e.data as PlayerBlind;
+          const player = this.players.find(
+            (p) => p.steamid === data.user_steamid
+          );
+          if (!player) return;
+          player.playerObject.lastBlindStart = this.roundTime;
+          player.playerObject.blindDuration = data.blind_duration;
+          break;
+        }
+
         // bomb_exploded
         // bomb_defused
-        // player_blind
         // round_end
       }
     });

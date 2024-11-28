@@ -133,6 +133,7 @@ export default function Prematch({ matchId, faction }: PrematchProps) {
                   showNicknames={showNicknames}
                   selectedRoundState={[selectedRound, setSelectedRound]}
                   className={"aspect-square w-full border border-gray-600"}
+                  key={`${selectedMatch}-${selectedRound}`}
                 />
               )
             ) : (

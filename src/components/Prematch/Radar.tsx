@@ -14,6 +14,7 @@ interface RadarProps {
   showNicknames: boolean;
   selectedRoundState: ReactState<number>;
   className?: string;
+  key?: string;
 }
 
 const Radar: React.FC<RadarProps> = ({
@@ -23,6 +24,7 @@ const Radar: React.FC<RadarProps> = ({
   showNicknames,
   selectedRoundState,
   className,
+  key,
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [radar, setRadar] = React.useState<RadarCanvas>();
@@ -84,7 +86,7 @@ const Radar: React.FC<RadarProps> = ({
               .filter((p) => p.playerObject.team === "T")
               .map((p) => (
                 <PlayerEquipment
-                  key={p.steamid}
+                  key={`${key}-${p.steamid}`}
                   nickname={p.playerObject.name}
                   team={p.playerObject.team}
                   steamid={p.steamid}
@@ -100,7 +102,7 @@ const Radar: React.FC<RadarProps> = ({
               .filter((p) => p.playerObject.team === "CT")
               .map((p) => (
                 <PlayerEquipment
-                  key={p.steamid}
+                  key={`${key}-${p.steamid}`}
                   nickname={p.playerObject.name}
                   team={p.playerObject.team}
                   steamid={p.steamid}

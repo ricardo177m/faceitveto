@@ -5,6 +5,7 @@ import { RadarCanvas } from "@/scripts/RadarCanvas";
 import PlayerEquipment from "./PlayerEquipment";
 import ReplayControls from "./ReplayControls";
 import RoundSelector from "./RoundSelector";
+import RoundTimer from "./RoundTimer";
 
 interface RadarProps {
   meta: MatchMeta;
@@ -68,6 +69,10 @@ const Radar: React.FC<RadarProps> = ({
               meta={meta}
               selectedRoundState={selectedRoundState}
               coreIds={coreIds}
+            />
+            <RoundTimer
+              className="absolute left-0 top-0 mt-2 px-2"
+              replay={radar.replay}
             />
           </>
         )}

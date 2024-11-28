@@ -1,5 +1,7 @@
 import EventEmitter from "eventemitter3";
 
+import { config } from "@/config/config";
+
 import { C4 } from "./objects/C4";
 import { Decoy } from "./objects/Decoy";
 import { Flashbang } from "./objects/Flashbang";
@@ -41,6 +43,8 @@ export class Replay {
   lastFrameTime: number = 0;
   speed: number = 1;
   isPaused: boolean = false;
+  roundTime: number = 0;
+  bombPlantTime: number | null = null;
 
   players: ReplayPlayer[] = [];
   grenades: ReplayGrenade[] = [];
@@ -68,14 +72,17 @@ export class Replay {
     });
     this.lastFrameTime = 0;
     this.currentFrame = this.startFrame;
-    this.isPaused = false;
-    this.emitter.emit("pause", this.isPaused);
+    this.roundTime = config.roundTime;
+    this.bombPlantTime = null;
+    this.setPause(false);
   }
 
   setInitialState() {
     this.players.forEach((p) => p.playerObject.setInitial());
     this.grenades.forEach((g) => g.object.unload(true));
     this.others.forEach((o) => o.unload(true));
+    this.roundTime = config.roundTime;
+    this.bombPlantTime = null;
 
     this.grenades = [];
     this.others = [];
@@ -84,6 +91,7 @@ export class Replay {
   update(delta: number) {
     const { debug } = this.radar;
     debug.push(`frame: ${this.currentFrame}`);
+    debug.push(`roundTime: ${this.roundTime}`);
 
     if (this.isPaused) return;
 
@@ -91,18 +99,21 @@ export class Replay {
     this.lastFrameTime += delta;
 
     while (this.lastFrameTime >= frameTime) {
-      this.lastFrameTime -= frameTime;
-      this.currentFrame += 1;
-      const progress = (this.currentFrame - this.startFrame) / this.endFrame;
-      this.emitter.emit("progress", progress);
-
       if (this.currentFrame >= this.endFrame) {
         this.setPause(true);
         return;
       }
 
+      this.lastFrameTime -= frameTime;
+      this.currentFrame += 1;
+
+      const progress = (this.currentFrame - this.startFrame) / this.endFrame;
+      this.emitter.emit("progress", progress);
+
       this.processFrame();
     }
+
+    this.updateRoundTime(this.currentFrame / this.framerate);
   }
 
   seek(progress: number) {
@@ -121,6 +132,7 @@ export class Replay {
     }
 
     this.emitter.emit("progress", progress);
+    this.updateRoundTime(this.currentFrame / this.framerate);
   }
 
   togglePause() {
@@ -136,6 +148,14 @@ export class Replay {
   setSpeed(speed: number) {
     this.speed = speed;
     this.emitter.emit("speed", speed);
+  }
+
+  updateRoundTime(timeElapsed: number) {
+    this.roundTime = this.bombPlantTime
+      ? config.bombTime - (timeElapsed - this.bombPlantTime)
+      : config.roundTime - timeElapsed;
+    // if (this.roundTime < 0) this.roundTime = 0;
+    this.emitter.emit("timer", this.roundTime);
   }
 
   processFrame() {
@@ -345,6 +365,7 @@ export class Replay {
           this.radar.radarObjects.push(obj);
           obj.load();
           this.others.push(obj);
+          this.bombPlantTime = this.currentFrame / this.framerate;
           break;
         }
 

@@ -122,7 +122,7 @@ export async function fetchPlayerStatsLastMatches(
       result.maps[map] = {
         matches: 0,
         wins: 0,
-        kdr,
+        kdr: 0,
       };
     }
 

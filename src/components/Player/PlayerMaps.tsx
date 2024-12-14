@@ -9,6 +9,7 @@ import { env } from "@/env";
 
 import MapIcon from "../MapIcon";
 import Checkbox from "../ui/Checkbox";
+import Tooltip from "../Tooltip";
 
 interface PlayerMapsProps {
   player: {
@@ -77,6 +78,7 @@ export default function PlayerMaps({ player, self }: PlayerMapsProps) {
                     const winrate = Math.round(
                       (stats.wins / stats.matches) * 100
                     );
+                    const diff = stats.wins - (stats.matches - stats.wins);
 
                     return (
                       <tr
@@ -93,11 +95,16 @@ export default function PlayerMaps({ player, self }: PlayerMapsProps) {
                           <span className="my-auto">{stats.matches}</span>
                         </td>
                         <td className="text-center">
-                          <span
-                            className={`${winrate < 50 ? "text-red-600" : "text-green-500"} my-auto`}
+                          <Tooltip
+                            text={
+                              <span className={diff > 0 ? "text-green-500" : diff < 0 ? "text-red-600" : ""}>
+                                {diff > 0 ? "+" : ""}
+                                {diff}
+                              </span>
+                            }
                           >
-                            {winrate}%
-                          </span>
+                            <span className={`${winrate < 50 ? "text-red-600" : "text-green-500"} my-auto`}>{winrate}%</span>
+                          </Tooltip>
                         </td>
                         <td className="pl-4 pr-6 text-center">
                           <span className="my-auto">{stats.kdr}</span>

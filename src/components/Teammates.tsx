@@ -12,6 +12,7 @@ import LevelElo from "./LevelElo";
 import PlayerAvatar from "./PlayerAvatar";
 import Pagination from "./table/Pagination";
 import Checkbox from "./ui/Checkbox";
+import Tooltip from "./Tooltip";
 
 interface TeammatesProps {
   player: Player | null;
@@ -154,6 +155,7 @@ export default function Teammates({ player, self }: TeammatesProps) {
                   );
                 const cs2 = player.games.find((g) => g.game === "cs2");
                 const winrate = Math.round((p.wins / p.matches) * 100);
+                const diff = p.wins - (p.matches - p.wins);
 
                 return (
                   <tr
@@ -184,11 +186,16 @@ export default function Teammates({ player, self }: TeammatesProps) {
                       <span className="my-auto">{p.wins}</span>
                     </td>
                     <td className="pl-4 pr-6 text-center">
-                      <span
-                        className={`${winrate < 50 ? "text-red-600" : "text-green-500"} my-auto`}
+                      <Tooltip
+                        text={
+                          <span className={diff > 0 ? "text-green-500" : diff < 0 ? "text-red-600" : ""}>
+                            {diff > 0 ? "+" : ""}
+                            {diff}
+                          </span>
+                        }
                       >
-                        {winrate}%
-                      </span>
+                        <span className={`${winrate < 50 ? "text-red-600" : "text-green-500"} my-auto`}>{winrate}%</span>
+                      </Tooltip>
                     </td>
                   </tr>
                 );

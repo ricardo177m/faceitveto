@@ -61,7 +61,7 @@ export default function PlayerEquipment({
     <div
       className={`flex flex-row items-center gap-2 border-l-2 bg-dark-400 px-4 py-2 ${team === "T" ? "border-l-yellow-600" : "border-l-blue-600"}`}
     >
-      <div className="relative h-11 w-11">
+      <div className="relative size-11">
         <svg viewBox="0 0 36 36" className="absolute inset-0">
           <path
             className="text-gray-700"

@@ -16,7 +16,8 @@ export const faceit = {
   detailedMatches: (playerId: string) =>
     `https://api.faceit.com/match-history/v5/players/${playerId}/history/`, // user token
 
-  search: "https://api.faceit.com/search/v1",
+  searchAll: "https://api.faceit.com/searcher/v1/all",
+  searchPlayers: "https://api.faceit.com/searcher/v1/players",
   matchStatsCfg: "https://api.faceit.com/stats/v1/stats/configuration/cs2", // has map covers
   state: "https://api.faceit.com/match/v1/matches/groupByState",
   list: "https://api.faceit.com/user-summary/v2/list",

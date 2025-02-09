@@ -1,21 +1,22 @@
 interface Game {
   name: string;
+  region: string;
   skill_level: number;
 }
 
 interface PlayerSearch {
   id: string;
-  guid: string;
   nickname: string;
-  status?: string;
-  games: Game[];
   country: string;
   avatar?: string;
-  verified: boolean;
-  verification_level?: number;
+  verification_level: number;
+  games: Game[];
 }
 
 interface PlayerSearchResult {
-  total_count: number;
-  results: PlayerSearch[];
+  payload: PlayerSearch[];
+  offset: number;
+  limit: number;
+  total: number;
+  has_more: boolean;
 }

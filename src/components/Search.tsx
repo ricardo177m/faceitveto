@@ -77,9 +77,9 @@ export default function Search({
             Array(3)
               .fill(1)
               .map((_, i) => <SearchResultSkeleton key={i} />)
-          ) : searchres!.total_count > 0 ? (
+          ) : searchres!.total > 0 ? (
             <>
-              {searchres!.results.map((p) => (
+              {searchres!.payload.map((p) => (
                 <SearchResult
                   key={p.id}
                   player={p}
@@ -88,8 +88,8 @@ export default function Search({
                 />
               ))}
               <span className="text-xs text-dark-900">
-                {searchres!.total_count} player
-                {searchres!.total_count !== 1 && "s"} found
+                {searchres!.total} player
+                {searchres!.total !== 1 && "s"} found
               </span>
             </>
           ) : (

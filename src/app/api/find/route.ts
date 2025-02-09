@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
       search.join(" "),
       maxQueryLength * 2
     );
-    const ids = searchres.results
+    const ids = searchres.payload
       .filter((p) => p.games.find((g) => g.name === "cs2"))
       .map((p) => p.id);
 

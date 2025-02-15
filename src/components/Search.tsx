@@ -13,7 +13,7 @@ const minQueryLength = 2;
 interface SearchProps {
   className?: string;
   placeholder?: string;
-  onClick?: (player: PlayerSearch) => void;
+  onClick?: (player: PlayerSearchOpen) => void;
 }
 
 export default function Search({
@@ -37,7 +37,7 @@ export default function Search({
     { keepPreviousData: true }
   );
 
-  const searchres: PlayerSearchResult | null =
+  const searchres: PlayerSearchResultOpen | null =
     data && !!query.length ? data : null;
 
   const handleClick = useCallback((e: MouseEvent) => {
@@ -77,20 +77,20 @@ export default function Search({
             Array(3)
               .fill(1)
               .map((_, i) => <SearchResultSkeleton key={i} />)
-          ) : searchres!.total > 0 ? (
+          ) : searchres && searchres.items.length > 0 ? (
             <>
-              {searchres!.payload.map((p) => (
+              {searchres.items.map((p) => (
                 <SearchResult
-                  key={p.id}
+                  key={p.player_id}
                   player={p}
                   onClick={onClick}
                   setQuery={setQuery}
                 />
               ))}
-              <span className="text-xs text-dark-900">
-                {searchres!.total} player
-                {searchres!.total !== 1 && "s"} found
-              </span>
+              {/* <span className="text-xs text-dark-900">
+                {searchres.total} player
+                {searchres.total !== 1 && "s"} found
+              </span> */}
             </>
           ) : (
             <p className="">No results found.</p>

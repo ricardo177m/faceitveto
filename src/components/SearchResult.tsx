@@ -5,8 +5,8 @@ import Level from "./Level";
 import PlayerAvatar from "./PlayerAvatar";
 
 interface SearchResultProps {
-  player: PlayerSearch;
-  onClick?: (player: PlayerSearch) => void;
+  player: PlayerSearchOpen;
+  onClick?: (player: PlayerSearchOpen) => void;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 

@@ -23,7 +23,7 @@ export default function HaveWeMet({ className }: TogetherProps) {
 
   const session = useSession();
 
-  const handleClick = (player: PlayerSearch) => fetchPlayer(player.id);
+  const handleClick = (player: PlayerSearchOpen) => fetchPlayer(player.player_id);
 
   const fetchPlayer = useCallback(
     async (playerid: string) => {

@@ -32,6 +32,8 @@ export const faceitopen = {
   history: (playerId: string) =>
     `https://open.faceit.com/data/v4/players/${playerId}/history`,
   demos: "https://open.faceit.com/download/v2/demos/download",
+  player: "https://open.faceit.com/data/v4/players",
+  search: "https://open.faceit.com/data/v4/search/players",
 };
 
 export const steam = {

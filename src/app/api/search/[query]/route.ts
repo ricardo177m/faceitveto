@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { fetchPlayerSearch } from "@/lib/search";
+import { fetchPlayerSearchOpen } from "@/lib/search";
 
 interface RouteParams {
   params: Promise<{
@@ -19,7 +19,7 @@ export async function GET(_: Request, props: RouteParams) {
       throw new Error(
         `Query must be at least ${minQueryLength} characters long`
       );
-    const data = await fetchPlayerSearch(query);
+    const data = await fetchPlayerSearchOpen(query);
     return NextResponse.json(data);
   } catch (error) {
     if (error instanceof Error)

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { fetchPlayerList } from "@/lib/player";
-import { fetchPlayerSearch } from "@/lib/search";
+import { fetchPlayerSearchGameId } from "@/lib/search";
 import { resolveVanityUrl } from "@/lib/steam";
 import { isUInteger } from "@/utils/math";
 
@@ -44,13 +44,13 @@ export async function GET(req: NextRequest) {
     const search = Array.from(new Set(steamids));
     if (!search.length) return NextResponse.json([]);
 
-    const searchres = await fetchPlayerSearch(
-      search.join(" "),
-      maxQueryLength * 2
-    );
-    const ids = searchres.payload
-      .filter((p) => p.games.find((g) => g.name === "cs2"))
-      .map((p) => p.id);
+    const promises = search.map(s => fetchPlayerSearchGameId(s, 1));
+    const results = await Promise.all(promises);
+    const searchres = results.filter(r => r !== null);
+   
+    const ids = searchres
+      .filter((p) => p.payload.length && p.payload[0].games.find((g) => g.name === "cs2"))
+      .map((p) => p.payload[0].id);
 
     if (!ids.length) return NextResponse.json([]);
 

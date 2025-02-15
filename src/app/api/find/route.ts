@@ -44,12 +44,15 @@ export async function GET(req: NextRequest) {
     const search = Array.from(new Set(steamids));
     if (!search.length) return NextResponse.json([]);
 
-    const promises = search.map(s => fetchPlayerSearchGameId(s, 1));
+    const promises = search.map((s) => fetchPlayerSearchGameId(s, 1));
     const results = await Promise.all(promises);
-    const searchres = results.filter(r => r !== null);
-   
+    const searchres = results.filter((r) => r !== null);
+
     const ids = searchres
-      .filter((p) => p.payload.length && p.payload[0].games.find((g) => g.name === "cs2"))
+      .filter(
+        (p) =>
+          p.payload.length && p.payload[0].games.find((g) => g.name === "cs2")
+      )
       .map((p) => p.payload[0].id);
 
     if (!ids.length) return NextResponse.json([]);

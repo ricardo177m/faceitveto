@@ -13,7 +13,7 @@ export async function fetchPlayerSearch(
     next: { revalidate: 60 * 60 * 3 },
   });
 
-  console.log(response)
+  console.log(response);
   const data = await response.json();
   if (response.status === 200) return data;
   else throw new Error(data.errors[0].message);

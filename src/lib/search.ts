@@ -23,7 +23,7 @@ export async function fetchPlayerSearch(
 export async function fetchPlayerSearchOpen(
   query: string,
   limit = 3
-): Promise<PlayerSearchResult> {
+): Promise<PlayerSearchResultOpen> {
   const url = new URL(faceitopen.search);
   url.searchParams.append("nickname", query);
   url.searchParams.append("limit", limit.toString());
@@ -32,7 +32,7 @@ export async function fetchPlayerSearchOpen(
   const response = await fetch(url, {
     next: { revalidate: 60 * 60 * 3 },
     headers: {
-      Authorization: `Bearer ${env.FACEIT_OPEN_API_TOKEN}`,
+      Authorization: `Bearer ${env.NEXT_PUBLIC_FACEIT_OPEN_API_CLIENT_TOKEN}`,
     },
   });
 
@@ -64,7 +64,7 @@ export async function fetchPlayerByGameIdOpen(
   const url = new URL(faceitopen.player);
   url.searchParams.append("game_player_id", query);
   url.searchParams.append("game", "cs2");
-  
+
   const response = await fetch(url, {
     next: { revalidate: 60 * 60 * 3 },
     headers: {

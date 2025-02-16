@@ -7,6 +7,7 @@ import { env } from "@/env";
 
 import SearchResult from "./SearchResult";
 import SearchResultSkeleton from "./SearchResultSkeleton";
+import { fetchPlayerSearchOpen } from "@/lib/search";
 
 const minQueryLength = 2;
 
@@ -32,8 +33,8 @@ export default function Search({
   };
 
   const { data, isLoading } = useSWR(
-    `${env.NEXT_PUBLIC_API_URL}/search/${query}`,
-    fetcher,
+    query,
+    fetchPlayerSearchOpen,
     { keepPreviousData: true }
   );
 

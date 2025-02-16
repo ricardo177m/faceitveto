@@ -17,10 +17,13 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: z.string().url().default("/api"),
     NEXT_PUBLIC_FACEIT_CLIENT_ID: z.string().uuid(),
     NEXT_PUBLIC_PARSER_URL: z.string().url(),
+    NEXT_PUBLIC_FACEIT_OPEN_API_CLIENT_TOKEN: z.string().min(1),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_FACEIT_CLIENT_ID: process.env.NEXT_PUBLIC_FACEIT_CLIENT_ID,
     NEXT_PUBLIC_PARSER_URL: process.env.NEXT_PUBLIC_PARSER_URL,
+    NEXT_PUBLIC_FACEIT_OPEN_API_CLIENT_TOKEN:
+      process.env.NEXT_PUBLIC_FACEIT_OPEN_API_CLIENT_TOKEN,
   },
 });

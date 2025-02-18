@@ -53,7 +53,9 @@ export async function GET(req: NextRequest) {
     if (!ids.length) return NextResponse.json([]);
 
     const data = await fetchPlayerList(ids);
-    return NextResponse.json(Object.values(data));
+    return NextResponse.json(
+      Object.values(data).sort((a, b) => a.nickname.localeCompare(b.nickname))
+    );
   } catch (error) {
     if (error instanceof z.ZodError)
       return NextResponse.json({ error: error.errors }, { status: 400 });

@@ -3,11 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 
-import { env } from "@/env";
+import { fetchPlayerSearchOpen } from "@/lib/search";
 
 import SearchResult from "./SearchResult";
 import SearchResultSkeleton from "./SearchResultSkeleton";
-import { fetchPlayerSearchOpen } from "@/lib/search";
 
 const minQueryLength = 2;
 
@@ -32,11 +31,9 @@ export default function Search({
     return fetch(url).then((res) => res.json());
   };
 
-  const { data, isLoading } = useSWR(
-    query,
-    fetchPlayerSearchOpen,
-    { keepPreviousData: true }
-  );
+  const { data, isLoading } = useSWR(query, fetchPlayerSearchOpen, {
+    keepPreviousData: true,
+  });
 
   const searchres: PlayerSearchResultOpen | null =
     data && !!query.length ? data : null;

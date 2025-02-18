@@ -14,7 +14,6 @@ export async function fetchPlayerSearch(
     next: { revalidate: 60 * 60 * 3 },
   });
 
-  console.log(response);
   const data = await response.json();
   if (response.status === 200) return data;
   else throw new Error(data.errors[0].message);
@@ -60,7 +59,7 @@ export async function fetchPlayerSearchGameId(
 
 export async function fetchPlayerByGameIdOpen(
   query: string
-): Promise<PlayerOpen> {
+): Promise<PlayerOpen | null> {
   const url = new URL(faceitopen.player);
   url.searchParams.append("game_player_id", query);
   url.searchParams.append("game", "cs2");
@@ -73,5 +72,6 @@ export async function fetchPlayerByGameIdOpen(
   });
   const data = await response.json();
   if (response.status === 200) return data;
+  else if (response.status === 404) return null;
   else throw new Error(data.errors[0].message);
 }

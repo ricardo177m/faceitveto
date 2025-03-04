@@ -32,6 +32,7 @@ enum MatchStates {
 type CuratedMap = {
   name: string;
   id: string;
+  className
   image: string;
 };
 

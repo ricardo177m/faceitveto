@@ -94,8 +94,17 @@ export default function MapsPlayerRow({
             </td>
           );
 
-        const mapStats = stats.maps[map.id];
-        const drop = drops.find((m) => m === map.id);
+        const className = map.className.toLowerCase();
+        const deClassName = "de_" + className;
+
+        const mapStats =
+          stats.maps[map.id] ||
+          stats.maps[className] ||
+          stats.maps[deClassName];
+
+        const drop = drops.find((m) =>
+          [map.id, className, deClassName].includes(m.toLowerCase())
+        );
 
         if (!mapStats) {
           return (

@@ -1,4 +1,10 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Link from "next/link";
 import moment from "moment";
 import Countdown from "react-countdown";
@@ -23,7 +29,13 @@ interface MatchHeaderProps {
   setShowMostRecent: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function MatchHeader({ match, stats, democracy, showMostRecent, setShowMostRecent }: MatchHeaderProps) {
+export default function MatchHeader({
+  match,
+  stats,
+  democracy,
+  showMostRecent,
+  setShowMostRecent,
+}: MatchHeaderProps) {
   const [countdown, setCountdown] = useState<number | undefined>();
   const [matchState, setMatchState] = useState<string>(match.state.toString());
 
@@ -34,16 +46,20 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
   const userFaction = !session.user
     ? null
     : isPlayerFaction(match.teams.faction1, session.user.id)
-    ? "faction1"
-    : isPlayerFaction(match.teams.faction2, session.user.id)
-    ? "faction2"
-    : null;
+      ? "faction1"
+      : isPlayerFaction(match.teams.faction2, session.user.id)
+        ? "faction2"
+        : null;
 
   const userVoting = democracy?.conditions?.turn_to_vote === userFaction;
 
-  const isVotingTime = democracy && democracy.conditions && democracy.conditions.round !== 0;
+  const isVotingTime =
+    democracy && democracy.conditions && democracy.conditions.round !== 0;
 
-  const isMapVoting = democracy && democracy.conditions && democracy.tickets[democracy.conditions.ticket].entity_type === "map";
+  const isMapVoting =
+    democracy &&
+    democracy.conditions &&
+    democracy.tickets[democracy.conditions.ticket].entity_type === "map";
 
   const teamNames = {
     faction1: match.teams.faction1.name,
@@ -51,16 +67,22 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
   };
 
   useEffect(() => {
-    if (democracy?.conditions?.time_left_to_vote) setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
-    if (democracy?.vote_complete && match.state.toString() === "VOTING") setMatchState("CONFIGURING");
+    if (democracy?.conditions?.time_left_to_vote)
+      setCountdown(Date.now() + democracy.conditions.time_left_to_vote);
+    if (democracy?.vote_complete && match.state.toString() === "VOTING")
+      setMatchState("CONFIGURING");
   }, [democracy]);
 
   const enemyFaction = userFaction === "faction1" ? 2 : 1;
   const prematchUrl = `/match/${match.id}/prematch?faction=${enemyFaction}`;
 
-  const showPrematch = ["CONFIGURING", "READY", "ONGOING", "FINISHED", "SCHEDULED"].includes(matchState);
-
-  const mapIconAsset = match.mapPicks !== undefined && match.mapPicks?.[0].id;
+  const showPrematch = [
+    "CONFIGURING",
+    "READY",
+    "ONGOING",
+    "FINISHED",
+    "SCHEDULED",
+  ].includes(matchState);
 
   return (
     <div className="flex flex-col">
@@ -69,9 +91,25 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
           <span>{match.teams.faction1.name}</span>
           {stats.length > 0 && match.bestOf === 1 ? (
             <span className="mx-3">
-              <span className={stats[0].teams[0].i17 === "1" ? "text-green-500" : "text-dark-800"}>{stats[0].teams[0].c5}</span>
+              <span
+                className={
+                  stats[0].teams[0].i17 === "1"
+                    ? "text-green-500"
+                    : "text-dark-800"
+                }
+              >
+                {stats[0].teams[0].c5}
+              </span>
               <span className="text-dark-700"> / </span>
-              <span className={stats[0].teams[1].i17 === "1" ? "text-green-500" : "text-dark-800"}>{stats[0].teams[1].c5}</span>
+              <span
+                className={
+                  stats[0].teams[1].i17 === "1"
+                    ? "text-green-500"
+                    : "text-dark-800"
+                }
+              >
+                {stats[0].teams[1].c5}
+              </span>
             </span>
           ) : (
             <span className="mx-2 text-dark-700"> / </span>
@@ -104,16 +142,29 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
         <div className="inline-flex items-center gap-4">
           <span
             className={`size-3 rounded-full ${
-              ["VOTING", "CONFIGURING"].includes(matchState) ? "bg-yellow-400" : ["READY", "ONGOING"].includes(matchState) ? "bg-green-500" : "bg-gray-600"
+              ["VOTING", "CONFIGURING"].includes(matchState)
+                ? "bg-yellow-400"
+                : ["READY", "ONGOING"].includes(matchState)
+                  ? "bg-green-500"
+                  : "bg-gray-600"
             } ${["FINISHED", "CANCELLED"].includes(matchState) ? "" : "blinking"}`}
           ></span>
           {matchState === "VOTING" ? (
             democracy && democracy.conditions && isVotingTime && isMapVoting ? (
               <div className="inline-flex items-center gap-4">
                 <p className={userVoting ? "text-yellow-500" : ""}>
-                  {userVoting ? "Your turn to vote" : `${teamNames[democracy?.conditions?.turn_to_vote]} is voting`}
+                  {userVoting
+                    ? "Your turn to vote"
+                    : `${teamNames[democracy?.conditions?.turn_to_vote]} is voting`}
                 </p>
-                <p className="text-dark-900">{countdown && <Countdown date={countdown} renderer={(p) => <span>{p.seconds}</span>} />}</p>
+                <p className="text-dark-900">
+                  {countdown && (
+                    <Countdown
+                      date={countdown}
+                      renderer={(p) => <span>{p.seconds}</span>}
+                    />
+                  )}
+                </p>
               </div>
             ) : (
               <div className="inline-flex items-center gap-4">
@@ -126,8 +177,13 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
         </div>
         {showPrematch && (
           <div className="inline-flex items-center gap-4">
-            <span className="rounded-full bg-primary px-2 py-[2px] text-xs font-bold uppercase">New</span>
-            <Link href={prematchUrl} className="inline-flex items-center gap-1 underline">
+            <span className="rounded-full bg-primary px-2 py-[2px] text-xs font-bold uppercase">
+              New
+            </span>
+            <Link
+              href={prematchUrl}
+              className="inline-flex items-center gap-1 underline"
+            >
               Prematch Analysis
               <GrFormNextLink />
             </Link>
@@ -136,7 +192,10 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
       </div>
       <div className="flex flex-wrap items-center gap-y-2 text-sm">
         {match.finishedAt && (
-          <Tooltip text={formatDateTime(match.finishedAt)} className="top-8 max-md:min-w-36">
+          <Tooltip
+            text={formatDateTime(match.finishedAt)}
+            className="top-8 max-md:min-w-36"
+          >
             <div
               className="mx-2 inline-flex items-center gap-2"
               suppressHydrationWarning // client & server timezones may differ
@@ -154,7 +213,12 @@ export default function MatchHeader({ match, stats, democracy, showMostRecent, s
             </div>
           </Tooltip>
         )}
-        <Checkbox isChecked={showMostRecent} setIsChecked={setShowMostRecent} label="Most Recent Matches" className="mx-2 inline-flex items-center gap-2" />
+        <Checkbox
+          isChecked={showMostRecent}
+          setIsChecked={setShowMostRecent}
+          label="Most Recent Matches"
+          className="mx-2 inline-flex items-center gap-2"
+        />
         <span className="ml-auto text-xs text-dark-600">{version}</span>
       </div>
     </div>

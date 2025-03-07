@@ -5,7 +5,7 @@ import { env } from "@/env";
 
 export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   const response = await fetch(faceit.match(matchId), {
-    next: { revalidate: 5 },
+    cache: "no-store",
   });
 
   const data = await response.json();
@@ -13,6 +13,9 @@ export async function fetchMatch(matchId: string): Promise<CuratedMatch> {
   if (data.payload === undefined) throw new NotFoundError(data.message);
 
   const match: Match = data.payload;
+
+  if (["CHECK_IN", "CANCELLED"].includes(match.state.toString()))
+    throw new NotFoundError("Match not found");
 
   const partyIds: string[] = [];
 

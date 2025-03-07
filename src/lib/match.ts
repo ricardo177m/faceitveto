@@ -141,9 +141,16 @@ export function isPlayerFaction(faction: CuratedFaction, playerId: string) {
 export function chosenMap(democracy: Democracy) {
   const mapTickets =
     democracy && democracy.tickets.find((t) => t.entity_type === "map");
-  if (!mapTickets) return;
+  if (!mapTickets) return null;
   const map = mapTickets.entities.find((e) => e.status === "pick");
-  return map ? map.properties.game_map_id : undefined;
+  return map
+    ? {
+        name: map.name,
+        id: map.properties.guid,
+        className: map.properties.class_name,
+        image: map.properties.image_sm,
+      }
+    : null;
 }
 
 export function getCore(faction: CuratedFaction) {

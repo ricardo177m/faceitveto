@@ -69,8 +69,8 @@ export async function POST(req: Request, props: MatchParams) {
         { status: 400 }
       );
 
-    let map = null;
-    if (curatedMatch.mapPicks) map = curatedMatch.mapPicks[0]?.id;
+    let map: CuratedMap | null = null;
+    if (curatedMatch.mapPicks) map = curatedMatch.mapPicks[0];
     else {
       const democracy = await fetchDemocracy(id);
       if (democracy) map = chosenMap(democracy);
@@ -100,7 +100,7 @@ export async function POST(req: Request, props: MatchParams) {
 
         if (!demoUrl) {
           const data = {
-            map,
+            map: map.name,
             processed: false,
             rounds: [],
             progress: "Error",

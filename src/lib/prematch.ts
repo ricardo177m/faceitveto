@@ -4,7 +4,11 @@ import {
   fetchPlayerStats,
 } from "./player";
 
-export async function coreMatchesMap(ids: string[], map?: string, limit = 2) {
+export async function coreMatchesMap(
+  ids: string[],
+  map?: CuratedMap,
+  limit = 2
+) {
   const playerPromises = ids.map((id) => fetchPlayerStats(id));
   const players = await Promise.all(playerPromises);
 
@@ -62,7 +66,11 @@ export async function coreMatchesMap(ids: string[], map?: string, limit = 2) {
       );
       if (!stats) return;
 
-      if (stats.i1 !== map) return;
+      const className = map ? map.className.toLowerCase() : "";
+      const deClassName = "de_" + className;
+
+      if (![map?.id, className, deClassName].includes(stats.i1.toLowerCase()))
+        return;
 
       match.stats = {
         isWin: stats.i10 === "1",

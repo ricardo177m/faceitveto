@@ -1,7 +1,7 @@
 interface PrematchPost {
   teamstats: TeamStatsData;
   premade: CuratedPlayer[];
-  map: string;
+  map: CuratedMap;
   matchIds: string[];
 }
 

@@ -13,7 +13,7 @@ interface MapsPlayerRowProps {
   stats: IntervalPlayerStats | undefined;
   maps: CuratedMap[];
   captain: string;
-  drops: string[];
+  drops: MatchElement[];
   fromCache?: PlayerListResult;
 }
 
@@ -102,9 +102,7 @@ export default function MapsPlayerRow({
           stats.maps[className] ||
           stats.maps[deClassName];
 
-        const drop = drops.find((m) =>
-          [map.id, className, deClassName].includes(m.toLowerCase())
-        );
+        const drop = drops.find((m) => m.class_name === map.className);
 
         if (!mapStats) {
           return (

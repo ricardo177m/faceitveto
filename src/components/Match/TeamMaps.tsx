@@ -21,7 +21,7 @@ export default function TeamMaps({
     ? []
     : democracyMapEntities.entities
         .filter((e) => e.status === "drop")
-        .map((e) => e.properties.class_name	as string);
+        .map((e) => e.properties);
 
   return (
     <div className="py-1">
@@ -36,7 +36,7 @@ export default function TeamMaps({
             {maps.map((map) => (
               <th
                 key={map.id}
-                className={`relative text-sm font-normal transition-opacity ${playerStats && drops.find((m) => m === map.id) ? "opacity-30" : ""}`}
+                className={`relative text-sm font-normal transition-opacity ${playerStats && drops.find((m) => m.class_name === map.className) ? "opacity-30" : ""}`}
               >
                 <Image
                   src={map.image}

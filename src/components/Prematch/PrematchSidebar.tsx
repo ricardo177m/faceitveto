@@ -43,14 +43,14 @@ export default function PrematchSidebar({
             1000
         ) / 10);
 
-  const mapName = prematchPost.map.split("_")[1] || prematchPost.map;
+  const mapName = prematchPost.map.name.split("_")[1] || prematchPost.map.name;
   const gameIds = prematchPost.premade.map((p) => p.gameId);
 
   return (
     <div className={`flex w-full flex-col ${className}`}>
       <div className="mb-6 inline-flex items-center gap-4">
         <NextImageWithFallback
-          src={`/assets/map-icons/${prematchPost.map}.svg`}
+          src={`/assets/map-icons/${prematchPost.map.id}.svg`}
           fallbackSrc="/assets/map-icons/unknown.svg"
           width="36"
           height="36"

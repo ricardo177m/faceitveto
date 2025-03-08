@@ -55,13 +55,14 @@ export class RadarMap extends RadarObject {
         : offsets.upper.y
       : 0;
     const offsetZoom = offsets ? offsets.zoom : 1;
+    const radarZoom = this.overview.radar_zoom ?? 1;
 
     return new Point2D(
       ((pos.x - this.overview.pos_x) / this.overview.scale + offsetX) *
-        ((this.size.x / 1024) * offsetZoom) +
+        ((this.size.x / 1024) * offsetZoom * radarZoom) +
         this.pos.x,
       ((this.overview.pos_y - pos.y) / this.overview.scale + offsetY) *
-        ((this.size.y / 1024) * offsetZoom) +
+        ((this.size.y / 1024) * offsetZoom * radarZoom) +
         this.pos.y
     );
   }

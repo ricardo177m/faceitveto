@@ -18,4 +18,5 @@ interface Overview {
       y: number;
     };
   };
+  radar_zoom?: number;
 }

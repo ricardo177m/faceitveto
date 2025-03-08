@@ -124,7 +124,12 @@ export async function POST(req: Request, props: MatchParams) {
           return;
         }
 
-        const enqueueReq = { map, matchId, demoUrl, requestedBy: session.id };
+        const enqueueReq = {
+          map: map.id,
+          matchId,
+          demoUrl,
+          requestedBy: session.id,
+        };
         await fetch(`${env.NEXT_PUBLIC_PARSER_URL}/enqueue`, {
           method: "POST",
           headers: {

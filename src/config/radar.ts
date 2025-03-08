@@ -76,4 +76,9 @@ export const overviews: Overviews = {
     pos_y: 3094.7388,
     scale: 2.644154,
   },
+  3437809122: {
+    pos_x: -1953.4181,
+    pos_y: 3094.7388,
+    scale: 2.644154,
+  },
 };
